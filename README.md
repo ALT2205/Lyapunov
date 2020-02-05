@@ -5,7 +5,7 @@
 - Commenter le code lorsque c'est nécessaire
 - Autodocumentation (noms des variables et fonctions explicites)
 
-## Étapes du projets
+## Étapes du projet
 - Afficher des fractales entre 0 et 4
 - Zoom et déplacement
 - Images animées (zoom), représentation 3D, parallélisation
