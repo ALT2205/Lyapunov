@@ -111,7 +111,7 @@ int main(){ // Revoir l'implémentation graphique de Lyapu mais semble fonctionn
       else if(arrayOfLyapu[i][j] >= -1 && arrayOfLyapu[i][j] < -0.5){
         data << " 255 228 54 ";
       }
-      else if(arrayOfLyapu[i][j] >=0.5 && arrayOfLyapu[i][j] <0 ){
+      else if(arrayOfLyapu[i][j] >=-0.5 && arrayOfLyapu[i][j] <0 ){
         data << " 255 255 0";
       }
       else {
