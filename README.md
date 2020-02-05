@@ -15,6 +15,6 @@
 - SFML
 - GTK
 
-##Date de rendu
+## Date de rendu
 
 15 Mai 2020
