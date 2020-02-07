@@ -2,7 +2,7 @@
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <fstream>
 #include <string>
 
@@ -152,10 +152,13 @@ double **exposant(std::string seq){
 
 int main(){ // Revoir l'implémentation graphique de Lyapu mais semble fonctionnelle au vue de la tete du tableau en 10 10 sur AAB;
             // Implementation du code en PNM PORTABLE PIXMAP A FAIRE : APPRENDRE ECRITURE FICHIER + LECTURE
-  std::string seq = "BABAABAAAB";
+  std::cout << "Entrez la sequence de A-B\n";
+  std:: string seq;
+  std::cin >> seq;
   seq=AB(seq);
   double ** arrayExpo=exposant(seq);
   free(arrayExpo);
+  std::cout << "Generation finie\n";
 
   return EXIT_SUCCESS;
 }
