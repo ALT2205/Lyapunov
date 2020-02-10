@@ -7,8 +7,8 @@
 #include <string>
 
 
-#define WIDTH 640
-#define HEIGHT 640
+#define WIDTH 700
+#define HEIGHT 700
 
 #define BORNEINFA 0.0
 #define BORNESUPA 4.0
@@ -58,6 +58,12 @@ double rN(char currChar, double a, double b){ // Choix entre A ou B selon le cur
     return ((currChar == 'A') ? a : b);
 }
 
+Uint32 colorToPixel(int red, int green, int blue){
+    Uint32 pixel =+ (255 << 24) + (red << 16) + (green << 8) + (blue << 0);
+    return pixel;
+}
+
+
 Uint32* exposant(std::string seq){
     Uint32* pixels = new Uint32[WIDTH * HEIGHT];
     std::ofstream data("data.ppm"); // Création du fichier ou est stockée l'image
@@ -70,7 +76,7 @@ Uint32* exposant(std::string seq){
     data << "255";
     data << std::endl;
 
-
+    int greenLayer,redLayer, blueLayer;
     double** arrayExpo = new double* [WIDTH]; // Creation d'un tableau en 2D afin de recuperer un tableau contenant les exposant
     for(int i = 0; i < WIDTH; i++)
         arrayExpo[i] = new double[HEIGHT];
@@ -83,6 +89,8 @@ Uint32* exposant(std::string seq){
     for(int x = 0; x < WIDTH; ++x){
         std::cout << (float)x / WIDTH * 100 << "%" << std::endl;
         for(int y = 0; y < HEIGHT; ++y){
+
+            int index = y * WIDTH + x;
             a = aOrB(scaleOfA, x);
             b = aOrB(scaleOfB, y);
             expoLyap = 0;
@@ -99,7 +107,26 @@ Uint32* exposant(std::string seq){
             arrayExpo[x][y] = expoLyap;
 
             //LAMBDA NEGATIF
+            greenLayer = ( (int)210+expoLyap* 50 >= 0 )?(int) 210+expoLyap*50: 0 ;
+            redLayer = ( (int)255+expoLyap* 52>= 100 )?(int) 255+expoLyap*52 : 100 ;
 
+            blueLayer = ( (int)255-expoLyap*200 >= 0)?(int) 255-expoLyap*200 : 0 ;
+            //std::cout << greenLayer << std::endl;
+            if(arrayExpo[x][y] < -6){
+                pixels[index] = colorToPixel(0,0,0);
+            }
+            else if (arrayExpo[x][y] <= 0){
+                pixels[index] = colorToPixel(0,greenLayer,0);
+            }
+            else if (arrayExpo[x][y] > 0){
+                pixels[index] = colorToPixel(0,0,blueLayer);
+            }
+            else if (arrayExpo[x][y] >= 1){
+                pixels[index] = colorToPixel(0,0,0);
+            }
+        }
+
+            /*
             if(arrayExpo[x][y] < -4){
                 //data << " 100 45 0 ";
                 pixels[y * WIDTH + x] = (100 << 16) + (45 << 8) + (0 << 0) + (255 << 24);
@@ -150,6 +177,7 @@ Uint32* exposant(std::string seq){
 
             }
         }
+             */
         data << std::endl;
     }
     data.close();
@@ -161,7 +189,8 @@ main(){ // Revoir l'implémentation graphique de Lyapu mais semble fonctionnelle
     // Implementation du code en PNM PORTABLE PIXMAP A FAIRE : APPRENDRE ECRITURE FICHIER + LECTURE
     std::cout << "Entrez la sequence de A-B\n";
     std::string seq;
-    std::cin >> seq;
+    //std::cin >> seq;
+    seq="BA";
     seq = AB(seq);
     WindowManager manager(WIDTH, HEIGHT);
     Uint32* arrayExpo = exposant(seq);
