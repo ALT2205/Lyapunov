@@ -13,7 +13,7 @@
 
 // Degradé au format brut : Pourquoi ne pas passer par un fichier ?
 
-void Lyapunov::setPixel(int index, unsigned int r, unsigned int g, unsigned int b){
+void Lyapunov::setPixel(unsigned int index, unsigned int r, unsigned int g, unsigned int b){
     m_pixels[index] = (r << 16) + (g << 8) + b;
 }
 

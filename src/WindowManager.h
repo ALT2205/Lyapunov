@@ -20,11 +20,11 @@ class WindowManager {
 
 
 public:
-    WindowManager(int width, int height);
+    WindowManager(unsigned int w, unsigned int h);
 
     void eventLoop();
 
-    void update(std::vector<Uint32> pixels);
+    void update(std::vector<Uint32>& pixels);
 
     ~WindowManager();
 };

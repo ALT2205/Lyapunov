@@ -5,8 +5,8 @@
 #include <vector>
 #include "WindowManager.h"
 
-#define WIDTH 700
-#define HEIGHT 700
+#define WIDTH 100
+#define HEIGHT 100
 
 #define BORNEINFA 0.0
 #define BORNESUPA 4.0
@@ -14,7 +14,7 @@
 #define BORNEINFB 0.0
 #define BORNESUPB 4.0
 
-#define NUMOFITER 700
+#define NUMOFITER 100
 
 #define X0 0.5
 
@@ -30,7 +30,7 @@ public:
 
     Lyapunov();
 
-    void setPixel(int index, unsigned int r, unsigned int g, unsigned int b);
+    void setPixel(unsigned int index, unsigned int r, unsigned int g, unsigned int b);
     void updatePixels();
     void eventLoop();
     void generate();
