@@ -2,18 +2,20 @@ FLAGS = -Wall -Wextra -g
 SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 SDL_LIBS = -lSDL2
 CC = g++
+BUILD_DIR=build
+SRC_SIR=src
 .PHONY: clean
 
 all: lyapunov
 
-lyapunov:  WindowManager.o Lyapunov.o
+lyapunov: $(BUILD_DIR)/WindowManager.o $(BUILD_DIR)/Lyapunov.o
 	$(CC) -o $@ $^ $(FLAGS) $(SDL_LIBS)
 
-WindowManager.o: WindowManager.h WindowManager.cpp
-	$(CC) -c $^ $(FLAGS)
+$(BUILD_DIR)/WindowManager.o: $(SRC_SIR)/WindowManager.cpp
+	$(CC) -c -o $@ $^ $(FLAGS)
 
-Lyapunov.o: Lyapunov.cpp
-	$(CC) -c $^ $(FLAGS)
+$(BUILD_DIR)/Lyapunov.o: $(SRC_SIR)/Lyapunov.cpp
+	$(CC) -c -o $@ $^ $(FLAGS)
 
 clean:
-	rm -Rf *.o headers/*.gch
+	rm -Rf $(BUILD_DIR)/*.o $(SRC_SIR)/*.gch
