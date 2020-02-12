@@ -7,16 +7,16 @@
 
 #include <SDL2/SDL.h>
 #include <exception>
-
+#include <iostream>
+#include <vector>
 
 class WindowManager {
 
-    int width, height;
-    bool quit;
-    Uint32* pixels;
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    SDL_Texture* texture;
+    unsigned int m_width, m_height;
+    bool m_quit;
+    SDL_Window* m_window;
+    SDL_Renderer* m_renderer;
+    SDL_Texture* m_texture;
 
 
 public:
@@ -24,11 +24,9 @@ public:
 
     void eventLoop();
 
-    void setPixels(Uint32* pixels);
+    void update(std::vector<Uint32> pixels);
 
     ~WindowManager();
-
-    void update();
 };
 
 

@@ -20,16 +20,20 @@
 
 class Lyapunov {
 
-    WindowManager windowManager;
-    std::vector<Uint32> pixels;
+    WindowManager m_windowManager;
+    std::vector<Uint32> m_pixels;
+    std::string m_sequence;
+
+    void generateSequence();
 
 public:
 
     Lyapunov();
 
     void setPixel(int index, unsigned int r, unsigned int g, unsigned int b);
-    void setPixels(std::vector<Uint32> pixels);
+    void updatePixels();
     void eventLoop();
+    void generate();
 
 };
 
