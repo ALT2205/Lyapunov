@@ -9,7 +9,7 @@ SRC_SIR=src
 all: dir lyapunov
 
 dir:
-	if [ ! -d "build" ]; then mkdir build; fi
+	@if [ ! -d "build" ]; then mkdir build; fi
 
 lyapunov: $(BUILD_DIR)/WindowManager.o $(BUILD_DIR)/Lyapunov.o
 	$(CC) -o $@ $^ $(FLAGS) $(SDL_LIBS)

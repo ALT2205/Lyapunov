@@ -9,24 +9,75 @@
    https://en.wikipedia.org/wiki/Lyapunov_fractal
    Calcul de l'xposant de Lyapunov via https://www.youtube.com/watch?v=8xZyA09zRXY
    Quel logarithme doit-on utiliser ? LN ? LOG10 ? LOGN ? LOG2 ?
-   Quel bibliothèque graphique ? Une qui permet de modif pixels par pixels ? QT? OpenGL/SDL ? GTK+ */
+   Quel bibliothèque graphique ? Une qui permet de modif pixels par pixels ? QT? OpenGL/SDL ? GTK+
+    --> SDL
 
-// Degradé au format brut : Pourquoi ne pas passer par un fichier ?
+    Degradé au format brut : Pourquoi ne pas passer par un fichier ?*/
 
-void Lyapunov::setPixel(unsigned int index, unsigned int r, unsigned int g, unsigned int b){
+Lyapunov::Lyapunov(unsigned int width, unsigned int height,
+                   unsigned int lyapunovWidth, unsigned int lyapunovHeight)
+                   : WindowManager(width, height), m_pixels(lyapunovWidth * lyapunovHeight){
+    SDL_Rect texturePosition;
+    texturePosition.x = (int)((width >> 1) - (lyapunovWidth >> 1));
+    texturePosition.y = (int)((height >> 1) - (lyapunovHeight >> 1));
+    texturePosition.w = (int) lyapunovWidth;
+    texturePosition.h = (int) lyapunovHeight;
+    initRender(texturePosition);
+}
+
+void Lyapunov::setPixelRGB(unsigned int index, unsigned int r, unsigned int g, unsigned int b){
     m_pixels[index] = (r << 16) + (g << 8) + b;
 }
 
+/*
+ * Algorithme de conversion: https://fr.wikipedia.org/wiki/Teinte_Saturation_Valeur
+ * Faut-il déclarer des variables ou bien passer directement en paramètre au détriment de la lisibilité ?
+ * Y a-t-il un impact sur les performances en déclarant si appelé beaucoup de fois en peu de temps ?
+ */
+void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
+    int hi = (int) (h / 60) % 6;
+    switch(hi){
+        case 0:
+            setPixelRGB(index,
+                        (int) (v * 255), //v
+                        (int) (v * (1 - (1 - (h / 60 - hi)) * s) * 255), //n
+                        (int) (v * (1 - s) * 255)); //l
+            break;
+        case 1:
+            setPixelRGB(index,
+                        (int) (v * (1 - (h / 60 - hi) * s) * 255), //m
+                        (int) (v * 255), //v
+                        (int) (v * (1 - s) * 255)); //l
+            break;
+        case 2:
+            setPixelRGB(index,
+                        (int) (v * (1 - s) * 255), //l
+                        (int) (v * 255), //v
+                        (int) (v * (1 - (1 - (h / 60 - hi)) * s) * 255)); //n
+            break;
+        case 3:
+            setPixelRGB(index,
+                        (int) (v * (1 - s) * 255), //l
+                        (int) (v * (1 - (h / 60 - hi) * s) * 255), //m
+                        (int) (v * 255)); //v
+            break;
+        case 4:
+            setPixelRGB(index,
+                        (int) (v * (1 - (1 - (h / 60 - hi)) * s) * 255), //n
+                        (int) (v * (1 - s) * 255), //l
+                        (int) (v * 255)); //v
+            break;
+        case 5:
+            setPixelRGB(index,
+                        (int) (v * 255), //v
+                        (int) (v * (1 - s) * 255), //l
+                        (int) (v * (1 - (h / 60 - hi) * s) * 255)); //m
+            break;
+    }
+}
+
 void Lyapunov::updatePixels(){
-    m_windowManager.update(m_pixels);
-}
-
-Lyapunov::Lyapunov() : m_windowManager(HEIGHT, WIDTH), m_pixels(HEIGHT * WIDTH){
-
-}
-
-void Lyapunov::eventLoop(){
-    m_windowManager.eventLoop();
+    update(m_pixels);
 }
 
 void Lyapunov::generateSequence(){
@@ -43,20 +94,21 @@ void Lyapunov::generate(){
     if(m_sequence.empty()){
         generateSequence();
     }
-    std::vector<Uint32> pixels(WIDTH * HEIGHT);
+    SDL_Rect position = getTexturePosition();
+    std::vector<Uint32> pixels(position.w * position.h);
     int greenLayer, redLayer, blueLayer;
     unsigned int i, x, y, yPos, index;
     double a, b, arrayExpo, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
-    double scaleOfA = ((BORNESUPA - BORNEINFA) / WIDTH); //+ BORNEINFA;
+    double scaleOfA = ((BORNESUPA - BORNEINFA) / position.w); //+ BORNEINFA;
     //Formule à corriger ?
-    double scaleOfB = ((BORNESUPB - BORNEINFB) / HEIGHT); //+ BORNEINFB;
+    double scaleOfB = ((BORNESUPB - BORNEINFB) / position.h); //+ BORNEINFB;
     //std::cout << scaleOfA << std::endl;
     //std::cout << scaleOfB << std::endl;
-    for(y = 0; y < HEIGHT; ++y){
-        std::cout << (float) y / WIDTH * 100 << "%" << std::endl;
-        yPos = y * WIDTH;
-        for(x = 0; x < WIDTH; ++x){
+    for(y = 0; y < position.h; ++y){
+        std::cout << (float) y / position.w * 100 << "%" << std::endl;
+        yPos = y * position.w;
+        for(x = 0; x < position.w; ++x){
             index = yPos + x;
             // Calcul la position de X/Y dnas A/B
             a = x * scaleOfA;
@@ -77,13 +129,13 @@ void Lyapunov::generate(){
             blueLayer = ((int) (255 - expoLyap * 200) >= 0) ? (int) (255 - expoLyap * 200) : 0;
             //std::cout << greenLayer << std::endl;
             if(arrayExpo < -6){
-                setPixel(index, 0, 0, 0);
+                setPixelRGB(index, 0, 0, 0);
             } else if(arrayExpo <= 0){
-                setPixel(index, 0, greenLayer, 0);
+                setPixelRGB(index, 0, greenLayer, 0);
             } else if(arrayExpo > 0){
-                setPixel(index, 0, 0, blueLayer);
+                setPixelRGB(index, 0, 0, blueLayer);
             } else if(arrayExpo >= 1){
-                setPixel(index, 0, 0, 0);
+                setPixelRGB(index, 0, 0, 0);
             }
         }
     }
@@ -91,8 +143,19 @@ void Lyapunov::generate(){
     std::cout << "Generation finie\n";
 }
 
+void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
+    SDL_Rect newPos{getTexturePosition()};
+    newPos.x = (int)((newWidth >> 1) - (newPos.w >> 1));
+    newPos.y = (int)((newHeight >> 1) - (newPos.h >> 1));
+    setTexturePosition(newPos);
+}
+
+void Lyapunov::eventLoop(){
+    WindowManager::eventLoop();
+}
+
 int main(){
-    Lyapunov lyapunov;
+    Lyapunov lyapunov(1280, 720, 720, 720);
     lyapunov.generate();
     lyapunov.eventLoop();
     return EXIT_SUCCESS;
