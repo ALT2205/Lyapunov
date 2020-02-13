@@ -98,7 +98,7 @@ void Lyapunov::generate(){
     std::vector<Uint32> pixels(position.w * position.h);
     int greenLayer, redLayer, blueLayer;
     unsigned int i, x, y, yPos, index;
-    double a, b, arrayExpo, expoLyap, xn, rn;
+    double a, b, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
     double scaleOfA = ((BORNESUPA - BORNEINFA) / position.w); //+ BORNEINFA;
     //Formule à corriger ?
@@ -122,19 +122,19 @@ void Lyapunov::generate(){
                 xn = rn * xn * (1 - xn);
                 expoLyap += log2(fabs(rn * (1 - 2 * xn)));
             }
-            arrayExpo = expoLyap /= NUMOFITER;
+            expoLyap /= NUMOFITER;
             //LAMBDA NEGATIF
             greenLayer = ((int) (210 + expoLyap * 50) >= 0) ? (int) (210 + expoLyap * 50) : 0;
             redLayer = ((int) (255 + expoLyap * 52) >= 100) ? (int) (255 + expoLyap * 52) : 100;
             blueLayer = ((int) (255 - expoLyap * 200) >= 0) ? (int) (255 - expoLyap * 200) : 0;
             //std::cout << greenLayer << std::endl;
-            if(arrayExpo < -6){
+            if(expoLyap < -6){
                 setPixelRGB(index, 0, 0, 0);
-            } else if(arrayExpo <= 0){
+            } else if(expoLyap <= 0){
                 setPixelRGB(index, 0, greenLayer, 0);
-            } else if(arrayExpo > 0){
+            } else if(expoLyap > 0){
                 setPixelRGB(index, 0, 0, blueLayer);
-            } else if(arrayExpo >= 1){
+            } else if(expoLyap >= 1){
                 setPixelRGB(index, 0, 0, 0);
             }
         }
