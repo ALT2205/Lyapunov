@@ -10,6 +10,15 @@
 - Zoom et déplacement
 - Images animées (zoom), représentation 3D, parallélisation
 
+## To Do
+- Trouver les bornes supérieures/inférieures autres que 0/4
+- Multi threading : voir l'implementation avec <thread> depuis C++11
+- Régler les couleurs pour le degradé 
+- Essayer de trouver une méthode de calcul plus rapide // limiter les appels de methodes/focntions   afin d'optimiser le temps de calcul (?fabs?)
+- Redimensionner en fonction du coté de la fenêtre ( taille de la zone de rendu = côté le + petit)
+
+
+
 ## Bibliothèques graphiques:
 - SDL2
 - SFML
