@@ -5,12 +5,6 @@
 #include <vector>
 #include "WindowManager.h"
 
-#define BORNEINFA 0.0
-#define BORNESUPA 4.0
-
-#define BORNEINFB 0.0
-#define BORNESUPB 4.0
-
 #define NUMOFITER 700
 
 #define X0 0.5
@@ -33,7 +27,7 @@ public:
     void updatePixels();
     void startLoop();
     void onResized(unsigned int newWidth, unsigned int newHeight) override;
-    void generate();
+    void generate(float aStart = 0, float bStart = 0, float aEnd = 4, float bEnd = 4);
 
 };
 

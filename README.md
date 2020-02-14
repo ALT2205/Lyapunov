@@ -11,7 +11,8 @@
 - Images animées (zoom), représentation 3D, parallélisation
 
 ## To Do
-- Trouver les bornes supérieures/inférieures autres que 0/4
+- ~~Trouver les bornes supérieures/inférieures autres que 0/4~~
+- Choisir l'orientation de l'image
 - Multi threading : voir l'implementation avec <thread> depuis C++11
 - Régler les couleurs pour le degradé 
 - Essayer de trouver une méthode de calcul plus rapide // limiter les appels de methodes/focntions   afin d'optimiser le temps de calcul (?fabs?)

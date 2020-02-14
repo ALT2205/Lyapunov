@@ -93,34 +93,43 @@ void Lyapunov::generateSequence(){
     std::cout << "Entrez la sequence de A-B\n";
     std::string sequence;
     //std::cin >> seq;
-    sequence = "BA";
+    sequence = "BBBBBBAAAAAA";
     while(m_sequence.length() < NUMOFITER){
         m_sequence += sequence;
     }
 }
 
-void Lyapunov::generate(){
+void Lyapunov::generate(float aStart, float bStart, float aEnd, float bEnd){
     if(m_sequence.empty()){
         generateSequence();
     }
-    std::vector<Uint32> pixels(m_size.w * m_size.h);
+    if(aStart > aEnd){
+        float change = aStart;
+        aStart = aEnd;
+        aEnd = change;
+    }
+    if(bStart > bEnd){
+        float change = bStart;
+        bStart = bEnd;
+        bEnd = change;
+    }
+    //Utilisation de variable local pour améliorer la performance
+    unsigned int width = m_size.w, height = m_size.h;
+    std::vector<Uint32> pixels(width * height);
     int greenLayer, redLayer, blueLayer;
     unsigned int i, x, y, yPos, index;
     double a, b, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
-    double scaleOfA = ((BORNESUPA - BORNEINFA) / m_size.w); //+ BORNEINFA;
-    //Formule à corriger ?
-    double scaleOfB = ((BORNESUPB - BORNEINFB) / m_size.h); //+ BORNEINFB;
-    //std::cout << scaleOfA << std::endl;
-    //std::cout << scaleOfB << std::endl;
-    for(y = 0; y < m_size.h; ++y){
-        std::cout << y * 100 / m_size.w << "%" << std::endl;
-        yPos = y * m_size.w;
-        for(x = 0; x < m_size.w; ++x){
+    double scaleOfA = ((aEnd - aStart) / (float) width);
+    double scaleOfB = ((bEnd - bStart) / (float) height);
+    for(y = 0; y < height; ++y){
+        std::cout << y * 100 / width << "%" << std::endl;
+        yPos = y * width;
+        for(x = 0; x < width; ++x){
             index = yPos + x;
             // Calcul la position de X/Y dnas A/B
-            a = x * scaleOfA;
-            b = y * scaleOfB;
+            a = aStart + x * scaleOfA;
+            b = bStart + y * scaleOfB;
             expoLyap = 0;
             xn = X0;
             for(i = 0; i < NUMOFITER; ++i){
@@ -165,8 +174,8 @@ void Lyapunov::startLoop(){
 }
 
 int main(){
-    Lyapunov lyapunov(200, 200, 500, 500);
-    lyapunov.generate();
+    Lyapunov lyapunov(1280, 720, 1000, 1000);
+    lyapunov.generate(3.4, 2.5, 4.0, 3.4);
     lyapunov.startLoop();
     return EXIT_SUCCESS;
 }
