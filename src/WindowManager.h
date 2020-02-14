@@ -46,5 +46,6 @@ public:
     ~WindowManager();
 };
 
+std::ostream& operator<<(std::ostream& flux, SDL_Rect rect);
 
 #endif //LYAPUNOV_WINDOWMANAGER_H

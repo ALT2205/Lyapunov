@@ -151,10 +151,10 @@ void Lyapunov::generate(){
 }
 
 void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
-    SDL_Rect newPos{getTexturePosition()};
+    SDL_Rect newPos;
+    newPos.w = newPos.h = (int)(newWidth < newHeight ? newWidth : newHeight);
     newPos.x = (int) ((newWidth >> 1u) - ((unsigned int)newPos.w >> 1u));
     newPos.y = (int) ((newHeight >> 1u) - ((unsigned int)newPos.h >> 1u));
-    newPos.w = newPos.h = (int)(newWidth < newHeight ? newWidth : newHeight);
     setTexturePosition(newPos);
     showTexture();
 }
@@ -164,7 +164,7 @@ void Lyapunov::startLoop(){
 }
 
 int main(){
-    Lyapunov lyapunov(200, 200, 1000, 1000);
+    Lyapunov lyapunov(200, 200, 500, 500);
     lyapunov.generate();
     lyapunov.startLoop();
     return EXIT_SUCCESS;

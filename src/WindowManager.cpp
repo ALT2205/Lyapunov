@@ -4,6 +4,7 @@
 
 #include "WindowManager.h"
 
+//Afficher SDL_Rect
 std::ostream& operator<<(std::ostream& flux, SDL_Rect rect){
     flux << "x=" << rect.x << ", y=" << rect.y << ", w=" << rect.w << ", h=" << rect.h << " ";
     return flux;
@@ -65,7 +66,6 @@ void WindowManager::update(std::vector<Uint32>& pixels) const{
  * Affiche une texture à l'écran
  * */
 void WindowManager::showTexture() const{
-    std::cout << m_texturePosition << std::endl;
     SDL_RenderClear(m_renderer);
     SDL_RenderCopy(m_renderer, m_texture, nullptr, &m_texturePosition);
     SDL_RenderPresent(m_renderer);
@@ -94,7 +94,6 @@ void WindowManager::eventLoop(){
         }
     }
 }
-
 
 WindowManager::~WindowManager(){
     SDL_DestroyTexture(m_texture);
