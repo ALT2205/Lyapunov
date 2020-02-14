@@ -15,7 +15,7 @@
 - Multi threading : voir l'implementation avec <thread> depuis C++11
 - Régler les couleurs pour le degradé 
 - Essayer de trouver une méthode de calcul plus rapide // limiter les appels de methodes/focntions   afin d'optimiser le temps de calcul (?fabs?)
-- Redimensionner en fonction du coté de la fenêtre ( taille de la zone de rendu = côté le + petit)
+- ~~Redimensionner en fonction du coté de la fenêtre ( taille de la zone de rendu = côté le + petit)~~
 
 
 

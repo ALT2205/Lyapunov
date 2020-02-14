@@ -26,9 +26,9 @@ public:
 
     SDL_Rect& getTexturePosition();
 
-    virtual void eventLoop();
+    void eventLoop();
 
-    virtual void onResized(unsigned int newWidth, unsigned int newHeight);
+    virtual void onResized(unsigned int newWidth, unsigned int newHeight) = 0;
 
     void update(std::vector<Uint32>& pixels);
 

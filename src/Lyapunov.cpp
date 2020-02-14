@@ -30,7 +30,7 @@ void Lyapunov::setPixelRGB(unsigned int index, unsigned int r, unsigned int g, u
 }
 
 /*
- * Algorithme de conversion: https://fr.wikipedia.org/wiki/Teinte_Saturation_Valeur
+ * Algorithme de conversion: https://fr.wikipedia.org/wiki/Teinte_Saturation_Valeur#Conversion_de_TSV_vers_RVB
  * Faut-il déclarer des variables ou bien passer directement en paramètre au détriment de la lisibilité ?
  * Y a-t-il un impact sur les performances en déclarant si appelé beaucoup de fois en peu de temps ?
  */
@@ -147,16 +147,17 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     SDL_Rect newPos{getTexturePosition()};
     newPos.x = (int)((newWidth >> 1) - (newPos.w >> 1));
     newPos.y = (int)((newHeight >> 1) - (newPos.h >> 1));
+    newPos.w = newPos.h = newWidth < newHeight ? newWidth : newHeight;
     setTexturePosition(newPos);
 }
 
-void Lyapunov::eventLoop(){
-    WindowManager::eventLoop();
+void Lyapunov::startLoop(){
+    eventLoop();
 }
 
 int main(){
     Lyapunov lyapunov(1280, 720, 720, 720);
     lyapunov.generate();
-    lyapunov.eventLoop();
+    lyapunov.startLoop();
     return EXIT_SUCCESS;
 }

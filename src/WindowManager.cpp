@@ -9,12 +9,12 @@ WindowManager::WindowManager(unsigned int w, unsigned int h)
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         throw std::runtime_error(SDL_GetError());
     }
-    m_window = SDL_CreateWindow("Fractales de Lyapunov", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_RESIZABLE);
+    m_window = SDL_CreateWindow("Fractales de Lyapunov", (unsigned int)SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, (int)w, (int)h, SDL_WINDOW_RESIZABLE);
     if(m_window == nullptr){
         throw std::runtime_error(SDL_GetError());
     }
-    m_windowPosition.w = w;
-    m_windowPosition.h = h;
+    m_windowPosition.w = (int)w;
+    m_windowPosition.h = (int)h;
 }
 
 void WindowManager::initRender(SDL_Rect texturePosition){
@@ -37,7 +37,7 @@ SDL_Rect& WindowManager::getTexturePosition(){
 
 void WindowManager::update(std::vector<Uint32>& pixels){
     SDL_Rect position = getTexturePosition();
-    SDL_UpdateTexture(m_texture, nullptr, pixels.data(), position.h * sizeof(Uint32));
+    SDL_UpdateTexture(m_texture, nullptr, pixels.data(), (int)(position.h * sizeof(Uint32)));
     SDL_RenderClear(m_renderer);
     SDL_RenderCopy(m_renderer, m_texture, nullptr, &position);
     SDL_RenderPresent(m_renderer);
@@ -49,8 +49,6 @@ void WindowManager::setTexturePosition(SDL_Rect texturePosition){
     SDL_RenderPresent(m_renderer);
     m_texturePosition = texturePosition;
 }
-
-void WindowManager::onResized(unsigned int newWidth, unsigned int newHeight){}
 
 void WindowManager::eventLoop(){
     SDL_Event event;

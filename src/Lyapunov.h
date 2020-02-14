@@ -30,7 +30,7 @@ public:
     void setPixelRGB(unsigned int index, unsigned int r, unsigned int g, unsigned int b);
     void setPixelHSV(unsigned int index, float h, float s, float v);
     void updatePixels();
-    void eventLoop() override;
+    void startLoop();
     void onResized(unsigned int newWidth, unsigned int newHeight) override;
     void generate();
 
