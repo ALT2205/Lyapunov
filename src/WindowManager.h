@@ -18,23 +18,30 @@ class WindowManager {
     SDL_Renderer* m_renderer;
     SDL_Texture* m_texture;
     SDL_Rect m_texturePosition;
+    SDL_Rect m_textureOriginalSize;
 
 public:
     WindowManager(unsigned int w, unsigned int h);
 
-    void initRender(SDL_Rect texturePosition);
+    void initRender(SDL_Rect size, SDL_Rect position);
 
     SDL_Rect& getTexturePosition();
+
+    SDL_Rect& getOriginalSize();
+
+    const SDL_Rect& getWindowPosition() const;
 
     void eventLoop();
 
     virtual void onResized(unsigned int newWidth, unsigned int newHeight) = 0;
 
-    void update(std::vector<Uint32>& pixels);
+    void update(std::vector<Uint32>& pixels) const;
+
+    void showTexture() const ;
 
     void setTexturePosition(SDL_Rect texturePosition);
 
-    const SDL_Rect& getWindowPosition() const;
+
 
     ~WindowManager();
 };

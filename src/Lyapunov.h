@@ -19,12 +19,13 @@ class Lyapunov : WindowManager{
 
     std::vector<Uint32> m_pixels;
     std::string m_sequence;
+    SDL_Rect m_size;
 
     void generateSequence();
 
 public:
 
-    Lyapunov(unsigned int width, unsigned int height, unsigned int lyapunovWidth,
+    Lyapunov(unsigned int windowWidth, unsigned int windowHeight, unsigned int lyapunovWidth,
              unsigned int lyapunovHeight);
 
     void setPixelRGB(unsigned int index, unsigned int r, unsigned int g, unsigned int b);

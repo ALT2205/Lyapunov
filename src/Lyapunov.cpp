@@ -14,19 +14,25 @@
 
     Degradé au format brut : Pourquoi ne pas passer par un fichier ?*/
 
-Lyapunov::Lyapunov(unsigned int width, unsigned int height,
+Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
                    unsigned int lyapunovWidth, unsigned int lyapunovHeight)
-                   : WindowManager(width, height), m_pixels(lyapunovWidth * lyapunovHeight){
+        : WindowManager(windowWidth, windowHeight), m_pixels(lyapunovWidth * lyapunovHeight), m_size(){
+    m_size.w = (int) lyapunovWidth;
+    m_size.h = (int) lyapunovHeight;
     SDL_Rect texturePosition;
-    texturePosition.x = (int)((width >> 1) - (lyapunovWidth >> 1));
-    texturePosition.y = (int)((height >> 1) - (lyapunovHeight >> 1));
-    texturePosition.w = (int) lyapunovWidth;
-    texturePosition.h = (int) lyapunovHeight;
-    initRender(texturePosition);
+    //La texture ne peut pas sortir de l'écran
+    texturePosition.w = (int)(windowWidth < lyapunovWidth ? windowWidth : lyapunovWidth);
+    texturePosition.h = (int)(windowHeight < lyapunovHeight ? windowHeight : lyapunovHeight);
+    //La texture est carrée
+    texturePosition.w = texturePosition.h = texturePosition.w < texturePosition.h ? texturePosition.w : texturePosition.h;
+    //La texture est positionnée au milieu de l'écran
+    texturePosition.x = (int) ((windowWidth >> 1u) - ((unsigned int)texturePosition.w >> 1u));
+    texturePosition.y = (int) ((windowHeight >> 1u) - ((unsigned int)texturePosition.h >> 1u));
+    initRender(m_size, texturePosition);
 }
 
 void Lyapunov::setPixelRGB(unsigned int index, unsigned int r, unsigned int g, unsigned int b){
-    m_pixels[index] = (r << 16) + (g << 8) + b;
+    m_pixels[index] = (r << 16u) + (g << 8u) + b;
 }
 
 /*
@@ -40,12 +46,12 @@ void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
         case 0:
             setPixelRGB(index,
                         (int) (v * 255), //v
-                        (int) (v * (1 - (1 - (h / 60 - hi)) * s) * 255), //n
+                        (int) (v * (1 - (1 - (h / 60 - (float)hi)) * s) * 255), //n
                         (int) (v * (1 - s) * 255)); //l
             break;
         case 1:
             setPixelRGB(index,
-                        (int) (v * (1 - (h / 60 - hi) * s) * 255), //m
+                        (int) (v * (1 - (h / 60 - (float)hi) * s) * 255), //m
                         (int) (v * 255), //v
                         (int) (v * (1 - s) * 255)); //l
             break;
@@ -53,17 +59,17 @@ void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
             setPixelRGB(index,
                         (int) (v * (1 - s) * 255), //l
                         (int) (v * 255), //v
-                        (int) (v * (1 - (1 - (h / 60 - hi)) * s) * 255)); //n
+                        (int) (v * (1 - (1 - (h / 60 - (float)hi)) * s) * 255)); //n
             break;
         case 3:
             setPixelRGB(index,
                         (int) (v * (1 - s) * 255), //l
-                        (int) (v * (1 - (h / 60 - hi) * s) * 255), //m
+                        (int) (v * (1 - (h / 60 - (float)hi) * s) * 255), //m
                         (int) (v * 255)); //v
             break;
         case 4:
             setPixelRGB(index,
-                        (int) (v * (1 - (1 - (h / 60 - hi)) * s) * 255), //n
+                        (int) (v * (1 - (1 - (h / 60 - (float)hi)) * s) * 255), //n
                         (int) (v * (1 - s) * 255), //l
                         (int) (v * 255)); //v
             break;
@@ -71,7 +77,9 @@ void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
             setPixelRGB(index,
                         (int) (v * 255), //v
                         (int) (v * (1 - s) * 255), //l
-                        (int) (v * (1 - (h / 60 - hi) * s) * 255)); //m
+                        (int) (v * (1 - (h / 60 - (float)hi) * s) * 255)); //m
+            break;
+        default:
             break;
     }
 }
@@ -94,21 +102,20 @@ void Lyapunov::generate(){
     if(m_sequence.empty()){
         generateSequence();
     }
-    SDL_Rect position = getTexturePosition();
-    std::vector<Uint32> pixels(position.w * position.h);
+    std::vector<Uint32> pixels(m_size.w * m_size.h);
     int greenLayer, redLayer, blueLayer;
     unsigned int i, x, y, yPos, index;
     double a, b, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
-    double scaleOfA = ((BORNESUPA - BORNEINFA) / position.w); //+ BORNEINFA;
+    double scaleOfA = ((BORNESUPA - BORNEINFA) / m_size.w); //+ BORNEINFA;
     //Formule à corriger ?
-    double scaleOfB = ((BORNESUPB - BORNEINFB) / position.h); //+ BORNEINFB;
+    double scaleOfB = ((BORNESUPB - BORNEINFB) / m_size.h); //+ BORNEINFB;
     //std::cout << scaleOfA << std::endl;
     //std::cout << scaleOfB << std::endl;
-    for(y = 0; y < position.h; ++y){
-        std::cout << (float) y / position.w * 100 << "%" << std::endl;
-        yPos = y * position.w;
-        for(x = 0; x < position.w; ++x){
+    for(y = 0; y < m_size.h; ++y){
+        std::cout << y * 100 / m_size.w  << "%" << std::endl;
+        yPos = y * m_size.w;
+        for(x = 0; x < m_size.w; ++x){
             index = yPos + x;
             // Calcul la position de X/Y dnas A/B
             a = x * scaleOfA;
@@ -145,10 +152,11 @@ void Lyapunov::generate(){
 
 void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     SDL_Rect newPos{getTexturePosition()};
-    newPos.x = (int)((newWidth >> 1) - (newPos.w >> 1));
-    newPos.y = (int)((newHeight >> 1) - (newPos.h >> 1));
-    newPos.w = newPos.h = newWidth < newHeight ? newWidth : newHeight;
+    newPos.x = (int) ((newWidth >> 1u) - ((unsigned int)newPos.w >> 1u));
+    newPos.y = (int) ((newHeight >> 1u) - ((unsigned int)newPos.h >> 1u));
+    newPos.w = newPos.h = (int)(newWidth < newHeight ? newWidth : newHeight);
     setTexturePosition(newPos);
+    showTexture();
 }
 
 void Lyapunov::startLoop(){
@@ -156,7 +164,7 @@ void Lyapunov::startLoop(){
 }
 
 int main(){
-    Lyapunov lyapunov(1280, 720, 720, 720);
+    Lyapunov lyapunov(200, 200, 1000, 1000);
     lyapunov.generate();
     lyapunov.startLoop();
     return EXIT_SUCCESS;
