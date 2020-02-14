@@ -20,14 +20,15 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
     m_size.w = (int) lyapunovWidth;
     m_size.h = (int) lyapunovHeight;
     SDL_Rect texturePosition;
-    //La texture ne peut pas sortir de l'écran
-    texturePosition.w = (int)(windowWidth < lyapunovWidth ? windowWidth : lyapunovWidth);
-    texturePosition.h = (int)(windowHeight < lyapunovHeight ? windowHeight : lyapunovHeight);
+    //La texture fait la taille de l'écran
+    texturePosition.w = (int) windowWidth;
+    texturePosition.h = (int) windowHeight;
     //La texture est carrée
-    texturePosition.w = texturePosition.h = texturePosition.w < texturePosition.h ? texturePosition.w : texturePosition.h;
+    texturePosition.w = texturePosition.h =
+            texturePosition.w < texturePosition.h ? texturePosition.w : texturePosition.h;
     //La texture est positionnée au milieu de l'écran
-    texturePosition.x = (int) ((windowWidth >> 1u) - ((unsigned int)texturePosition.w >> 1u));
-    texturePosition.y = (int) ((windowHeight >> 1u) - ((unsigned int)texturePosition.h >> 1u));
+    texturePosition.x = (int) ((windowWidth >> 1u) - ((unsigned int) texturePosition.w >> 1u));
+    texturePosition.y = (int) ((windowHeight >> 1u) - ((unsigned int) texturePosition.h >> 1u));
     initRender(m_size, texturePosition);
 }
 
@@ -46,12 +47,12 @@ void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
         case 0:
             setPixelRGB(index,
                         (int) (v * 255), //v
-                        (int) (v * (1 - (1 - (h / 60 - (float)hi)) * s) * 255), //n
+                        (int) (v * (1 - (1 - (h / 60 - (float) hi)) * s) * 255), //n
                         (int) (v * (1 - s) * 255)); //l
             break;
         case 1:
             setPixelRGB(index,
-                        (int) (v * (1 - (h / 60 - (float)hi) * s) * 255), //m
+                        (int) (v * (1 - (h / 60 - (float) hi) * s) * 255), //m
                         (int) (v * 255), //v
                         (int) (v * (1 - s) * 255)); //l
             break;
@@ -59,17 +60,17 @@ void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
             setPixelRGB(index,
                         (int) (v * (1 - s) * 255), //l
                         (int) (v * 255), //v
-                        (int) (v * (1 - (1 - (h / 60 - (float)hi)) * s) * 255)); //n
+                        (int) (v * (1 - (1 - (h / 60 - (float) hi)) * s) * 255)); //n
             break;
         case 3:
             setPixelRGB(index,
                         (int) (v * (1 - s) * 255), //l
-                        (int) (v * (1 - (h / 60 - (float)hi) * s) * 255), //m
+                        (int) (v * (1 - (h / 60 - (float) hi) * s) * 255), //m
                         (int) (v * 255)); //v
             break;
         case 4:
             setPixelRGB(index,
-                        (int) (v * (1 - (1 - (h / 60 - (float)hi)) * s) * 255), //n
+                        (int) (v * (1 - (1 - (h / 60 - (float) hi)) * s) * 255), //n
                         (int) (v * (1 - s) * 255), //l
                         (int) (v * 255)); //v
             break;
@@ -77,7 +78,7 @@ void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
             setPixelRGB(index,
                         (int) (v * 255), //v
                         (int) (v * (1 - s) * 255), //l
-                        (int) (v * (1 - (h / 60 - (float)hi) * s) * 255)); //m
+                        (int) (v * (1 - (h / 60 - (float) hi) * s) * 255)); //m
             break;
         default:
             break;
@@ -113,7 +114,7 @@ void Lyapunov::generate(){
     //std::cout << scaleOfA << std::endl;
     //std::cout << scaleOfB << std::endl;
     for(y = 0; y < m_size.h; ++y){
-        std::cout << y * 100 / m_size.w  << "%" << std::endl;
+        std::cout << y * 100 / m_size.w << "%" << std::endl;
         yPos = y * m_size.w;
         for(x = 0; x < m_size.w; ++x){
             index = yPos + x;
@@ -152,9 +153,9 @@ void Lyapunov::generate(){
 
 void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     SDL_Rect newPos;
-    newPos.w = newPos.h = (int)(newWidth < newHeight ? newWidth : newHeight);
-    newPos.x = (int) ((newWidth >> 1u) - ((unsigned int)newPos.w >> 1u));
-    newPos.y = (int) ((newHeight >> 1u) - ((unsigned int)newPos.h >> 1u));
+    newPos.w = newPos.h = (int) (newWidth < newHeight ? newWidth : newHeight);
+    newPos.x = (int) ((newWidth >> 1u) - ((unsigned int) newPos.w >> 1u));
+    newPos.y = (int) ((newHeight >> 1u) - ((unsigned int) newPos.h >> 1u));
     setTexturePosition(newPos);
     showTexture();
 }
