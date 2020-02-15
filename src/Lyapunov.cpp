@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "Lyapunov.h"
 #include <string>
+#include <array>
 
 /* Couleur : Jaune si Exposant < 0
    Couleur : Bleu si Exposant > 0
@@ -23,13 +24,26 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
     //La texture fait la taille de l'écran
     texturePosition.w = (int) windowWidth;
     texturePosition.h = (int) windowHeight;
-    //La texture est carrée
+    //Mais la texture est carrée
     texturePosition.w = texturePosition.h =
             texturePosition.w < texturePosition.h ? texturePosition.w : texturePosition.h;
     //La texture est positionnée au milieu de l'écran
     texturePosition.x = (int) ((windowWidth >> 1u) - ((unsigned int) texturePosition.w >> 1u));
     texturePosition.y = (int) ((windowHeight >> 1u) - ((unsigned int) texturePosition.h >> 1u));
     initRender(m_size, texturePosition);
+}
+
+std::array<float, 2> Lyapunov::getCoordinates(int x, int y){
+    std::array<float, 2> coordinates{};
+    SDL_Rect texturePosition = getTexturePosition();
+    //Les coordonnées ne peuvent pas sortir de la texture
+    coordinates[0] = (float) (x < texturePosition.x ? 0 : x > texturePosition.x + texturePosition.w ?
+                                                          texturePosition.w : x - texturePosition.x) /
+                     (float) texturePosition.w * (m_aEnd - m_aStart) + m_aStart;
+    coordinates[1] = (float) (y < texturePosition.y ? 0 : y > texturePosition.y + texturePosition.h ?
+                                                          texturePosition.h : y - texturePosition.y) /
+                     (float) texturePosition.h * (m_bEnd - m_bStart) + m_bStart;
+    return coordinates;
 }
 
 void Lyapunov::setPixelRGB(unsigned int index, unsigned int r, unsigned int g, unsigned int b){
@@ -86,7 +100,7 @@ void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
 }
 
 void Lyapunov::updatePixels(){
-    update(m_pixels);
+    updateTexture(m_pixels);
 }
 
 void Lyapunov::generateSequence(){
@@ -100,6 +114,13 @@ void Lyapunov::generateSequence(){
 }
 
 void Lyapunov::generate(float aStart, float bStart, float aEnd, float bEnd){
+    if(aStart < 0 || aEnd > 4 || bStart < 0 || bEnd > 4){
+        throw std::domain_error("Invalid domain to generate Lyapunov");
+    }
+    m_aStart = aStart;
+    m_aEnd = aEnd;
+    m_bStart = bStart;
+    m_bEnd = bEnd;
     if(m_sequence.empty()){
         generateSequence();
     }
@@ -115,7 +136,6 @@ void Lyapunov::generate(float aStart, float bStart, float aEnd, float bEnd){
     }
     //Utilisation de variable local pour améliorer la performance
     unsigned int width = m_size.w, height = m_size.h;
-    std::vector<Uint32> pixels(width * height);
     int greenLayer, redLayer, blueLayer;
     unsigned int i, x, y, yPos, index;
     double a, b, expoLyap, xn, rn;
@@ -157,6 +177,8 @@ void Lyapunov::generate(float aStart, float bStart, float aEnd, float bEnd){
         }
     }
     updatePixels();
+    blitTexture();
+    updateScreen();
     std::cout << "Generation finie\n";
 }
 
@@ -166,7 +188,20 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     newPos.x = (int) ((newWidth >> 1u) - ((unsigned int) newPos.w >> 1u));
     newPos.y = (int) ((newHeight >> 1u) - ((unsigned int) newPos.h >> 1u));
     setTexturePosition(newPos);
-    showTexture();
+    updateScreen();
+}
+
+void Lyapunov::onMouseClick(unsigned int x, unsigned int y){
+    std::array<float, 2> coordsStart = getCoordinates((int)x - 200, (int)y - 200);
+    std::array<float, 2> coordsEnd = getCoordinates((int)x + 200, (int)y + 200);
+    generate(coordsStart[0], coordsStart[1], coordsEnd[0], coordsEnd[1]);
+}
+
+void Lyapunov::onMouseMove(unsigned int x, unsigned int y){
+    std::array<float, 2> coords = getCoordinates((int) x, (int) y);
+    blitTexture();
+    drawRect((int) x - 200, (int) y - 200, 400, 400);
+    updateScreen();
 }
 
 void Lyapunov::startLoop(){
@@ -174,7 +209,7 @@ void Lyapunov::startLoop(){
 }
 
 int main(){
-    Lyapunov lyapunov(1280, 720, 1000, 1000);
+    Lyapunov lyapunov(1280, 720, 720, 720);
     lyapunov.generate(3.4, 2.5, 4.0, 3.4);
     lyapunov.startLoop();
     return EXIT_SUCCESS;

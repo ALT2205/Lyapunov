@@ -16,6 +16,7 @@ class WindowManager {
     bool m_quit;
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
+    SDL_Texture* m_draw;
     SDL_Texture* m_texture;
     SDL_Rect m_texturePosition;
     SDL_Rect m_textureOriginalSize;
@@ -25,25 +26,28 @@ public:
 
     void initRender(SDL_Rect size, SDL_Rect position);
 
-    SDL_Rect& getTexturePosition();
+    void drawRect(int x, int y, int w, int h);
 
-    SDL_Rect& getOriginalSize();
+    void updateTexture(std::vector<Uint32>& pixels) const;
 
-    const SDL_Rect& getWindowPosition() const;
+    void blitTexture() const;
 
-    void eventLoop();
+    void updateScreen() const;
 
     virtual void onResized(unsigned int newWidth, unsigned int newHeight) = 0;
 
-    void update(std::vector<Uint32>& pixels) const;
+    virtual void onMouseClick(unsigned int x, unsigned int y) = 0;
 
-    void showTexture() const ;
+    virtual void onMouseMove(unsigned int x, unsigned int y) = 0;
+
+    void eventLoop();
+
+    const SDL_Rect& getTexturePosition() const;
 
     void setTexturePosition(SDL_Rect texturePosition);
 
-
-
     ~WindowManager();
+
 };
 
 std::ostream& operator<<(std::ostream& flux, SDL_Rect rect);

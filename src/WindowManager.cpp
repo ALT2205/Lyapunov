@@ -11,7 +11,7 @@ std::ostream& operator<<(std::ostream& flux, SDL_Rect rect){
 }
 
 WindowManager::WindowManager(unsigned int w, unsigned int h)
-        : m_windowPosition(), m_quit(false), m_window(nullptr), m_renderer(nullptr), m_texture(nullptr),
+        : m_windowPosition(), m_quit(false), m_window(nullptr), m_renderer(nullptr), m_draw(nullptr), m_texture(nullptr),
           m_texturePosition(), m_textureOriginalSize{}{
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         throw std::runtime_error(SDL_GetError());
@@ -30,7 +30,7 @@ WindowManager::WindowManager(unsigned int w, unsigned int h)
  * La texture est au format RGB, et a une taille de size.w * size.h, à la position position
  * */
 void WindowManager::initRender(SDL_Rect size, SDL_Rect position){
-    m_renderer = SDL_CreateRenderer(m_window, -1, 0);
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
     if(m_renderer == nullptr){
         throw std::runtime_error(SDL_GetError());
     }
@@ -42,57 +42,69 @@ void WindowManager::initRender(SDL_Rect size, SDL_Rect position){
     m_textureOriginalSize = size;
 }
 
-SDL_Rect& WindowManager::getTexturePosition(){
-    return m_texturePosition;
-}
-
-SDL_Rect& WindowManager::getOriginalSize(){
-    return m_textureOriginalSize;
-}
-
-const SDL_Rect& WindowManager::getWindowPosition() const{
-    return m_windowPosition;
+void WindowManager::drawRect(int x, int y, int w, int h){
+    SDL_Rect rect = {x, y, w, h};
+    SDL_RenderDrawRect(m_renderer, &rect);
 }
 
 /*
  * Mets à jour les pixels d'une texture
  * */
-void WindowManager::update(std::vector<Uint32>& pixels) const{
+void WindowManager::updateTexture(std::vector<Uint32>& pixels) const{
     SDL_UpdateTexture(m_texture, nullptr, pixels.data(), (int) (m_textureOriginalSize.h * sizeof(Uint32)));
-    showTexture();
 }
 
 /*
- * Affiche une texture à l'écran
+ * Réinitialise le Render avec uniquement la texture
  * */
-void WindowManager::showTexture() const{
+void WindowManager::blitTexture() const{
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
     SDL_RenderCopy(m_renderer, m_texture, nullptr, &m_texturePosition);
-    SDL_RenderPresent(m_renderer);
 }
 
-void WindowManager::setTexturePosition(SDL_Rect texturePosition){
-    m_texturePosition = texturePosition;
+/*
+ * Affiche le Render à l'écran
+ * */
+void WindowManager::updateScreen() const{
+    SDL_RenderPresent(m_renderer);
 }
 
 void WindowManager::eventLoop(){
     SDL_Event event;
     while(!m_quit){
-        SDL_WaitEvent(&event);
-        switch(event.type){
-            case SDL_WINDOWEVENT:
-                switch(event.window.event){
-                    case SDL_WINDOWEVENT_RESIZED:
-                        onResized(event.window.data1, event.window.data2);
-                        break;
-                }
-                break;
-            case SDL_QUIT:
-                m_quit = true;
-                break;
+        while(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_MOUSEBUTTONUP:
+                    onMouseClick(event.button.x, event.button.y);
+                    break;
+                case SDL_MOUSEMOTION:
+                    onMouseMove(event.motion.x, event.motion.y);
+                    break;
+                case SDL_WINDOWEVENT:
+                    switch(event.window.event){
+                        case SDL_WINDOWEVENT_RESIZED:
+                            onResized(event.window.data1, event.window.data2);
+                            break;
+                    }
+                    break;
+                case SDL_QUIT:
+                    m_quit = true;
+                    break;
 
+            }
         }
+        SDL_Delay(10);
     }
+}
+
+const SDL_Rect& WindowManager::getTexturePosition() const{
+    return m_texturePosition;
+}
+
+void WindowManager::setTexturePosition(SDL_Rect texturePosition){
+    m_texturePosition = texturePosition;
 }
 
 WindowManager::~WindowManager(){
