@@ -5,8 +5,9 @@
 #include <vector>
 #include <array>
 #include "WindowManager.h"
+//#include <thread>
 
-#define NUMOFITER 100
+#define NUMOFITER 700
 
 #define X0 0.5
 
@@ -25,6 +26,8 @@ public:
              unsigned int lyapunovHeight);
 
     void generate(float aStart = 0, float bStart = 0, float aEnd = 4, float bEnd = 4);
+
+    void generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd);
 
     std::array<float, 2> getCoordinates(int x, int y);
 
