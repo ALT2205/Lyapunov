@@ -4,6 +4,9 @@
 #include "Lyapunov.h"
 #include <string>
 #include <array>
+#include <ctime>
+#include <thread>
+
 
 /* Couleur : Jaune si Exposant < 0
    Couleur : Bleu si Exposant > 0
@@ -17,7 +20,7 @@
 
 Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
                    unsigned int lyapunovWidth, unsigned int lyapunovHeight)
-        : WindowManager(windowWidth, windowHeight), m_pixels(lyapunovWidth * lyapunovHeight), m_size(){
+        : WindowManager(windowWidth, windowHeight), m_pixels(lyapunovWidth * lyapunovHeight), m_size() {
     m_size.w = (int) lyapunovWidth;
     m_size.h = (int) lyapunovHeight;
     SDL_Rect texturePosition;
@@ -33,7 +36,7 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
     initRender(m_size, texturePosition);
 }
 
-std::array<float, 2> Lyapunov::getCoordinates(int x, int y){
+std::array<float, 2> Lyapunov::getCoordinates(int x, int y) {
     std::array<float, 2> coordinates{};
     SDL_Rect texturePosition = getTexturePosition();
     //Les coordonnées ne peuvent pas sortir de la texture
@@ -46,7 +49,7 @@ std::array<float, 2> Lyapunov::getCoordinates(int x, int y){
     return coordinates;
 }
 
-void Lyapunov::setPixelRGB(unsigned int index, unsigned int r, unsigned int g, unsigned int b){
+void Lyapunov::setPixelRGB(unsigned int index, unsigned int r, unsigned int g, unsigned int b) {
     m_pixels[index] = (r << 16u) + (g << 8u) + b;
 }
 
@@ -55,9 +58,9 @@ void Lyapunov::setPixelRGB(unsigned int index, unsigned int r, unsigned int g, u
  * Faut-il déclarer des variables ou bien passer directement en paramètre au détriment de la lisibilité ?
  * Y a-t-il un impact sur les performances en déclarant si appelé beaucoup de fois en peu de temps ?
  */
-void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
+void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v) {
     int hi = (int) (h / 60) % 6;
-    switch(hi){
+    switch (hi) {
         case 0:
             setPixelRGB(index,
                         (int) (v * 255), //v
@@ -99,64 +102,91 @@ void Lyapunov::setPixelHSV(unsigned int index, float h, float s, float v){
     }
 }
 
-void Lyapunov::updatePixels(){
+void Lyapunov::updatePixels() {
     updateTexture(m_pixels);
 }
 
-void Lyapunov::generateSequence(){
-    std::cout << "Entrez la sequence de A-B\n";
+void Lyapunov::generateSequence() {
+    //std::cout << "Entrez la sequence de A-B\n";
     std::string sequence;
     //std::cin >> seq;
-    sequence = "BBBBBBAAAAAA";
-    while(m_sequence.length() < NUMOFITER){
+    sequence = "BAAB";
+    while (m_sequence.length() < NUMOFITER) {
         m_sequence += sequence;
     }
 }
 
-void Lyapunov::generate(float aStart, float bStart, float aEnd, float bEnd){
-    if(aStart < 0 || aEnd > 4 || bStart < 0 || bEnd > 4){
+void
+Lyapunov::generate(float aStart, float bStart, float aEnd, float bEnd) {
+
+    if (aStart < 0 || aEnd > 4 || bStart < 0 || bEnd > 4) {
         throw std::domain_error("Invalid domain to generate Lyapunov");
     }
     m_aStart = aStart;
     m_aEnd = aEnd;
     m_bStart = bStart;
     m_bEnd = bEnd;
-    if(m_sequence.empty()){
+    if (m_sequence.empty()) {
         generateSequence();
     }
-    if(aStart > aEnd){
+    if (aStart > aEnd) {
         float change = aStart;
         aStart = aEnd;
         aEnd = change;
     }
-    if(bStart > bEnd){
+    if (bStart > bEnd) {
         float change = bStart;
         bStart = bEnd;
         bEnd = change;
     }
+
+    // Creation du nombre de threads en fonction du nombre de threads de l'ordinateur
+    int nbThread = std::thread::hardware_concurrency();
+    std::vector<std::thread> threads(nbThread);
+    for (int i = 0; i < nbThread; i++) {
+        threads[i] = std::thread(&Lyapunov::generatePart,this,(unsigned int)0,(unsigned int)i*m_size.w/nbThread,(unsigned int) m_size.w, (unsigned int)(i+1)*m_size.h/nbThread);
+    }
+    for (auto& th : threads) {
+        th.join();
+    }
+    updatePixels();
+    blitTexture();
+    updateScreen();
+    //std::cout << "Generation finie\n";
+}
+
+
+
+
+void
+Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd){
+
     //Utilisation de variable local pour améliorer la performance
     unsigned int width = m_size.w, height = m_size.h;
     int greenLayer, redLayer, blueLayer;
     unsigned int i, x, y, yPos, index;
     double a, b, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
-    double scaleOfA = ((aEnd - aStart) / (float) width);
-    double scaleOfB = ((bEnd - bStart) / (float) height);
-    for(y = 0; y < height; ++y){
-        std::cout << y * 100 / width << "%" << std::endl;
+    double scaleOfA = ((m_aEnd - m_aStart) / (float) width);
+    double scaleOfB = ((m_bEnd - m_bStart) / (float) height);
+    for (y = yStart; y < yEnd; ++y) {
+        //std::cout << y * 100 / width << "%" << std::endl;
         yPos = y * width;
-        for(x = 0; x < width; ++x){
+        for (x = xStart; x < xEnd; ++x) {
             index = yPos + x;
-            // Calcul la position de X/Y dnas A/B
-            a = aStart + x * scaleOfA;
-            b = bStart + y * scaleOfB;
+            // Calcul la position de X/Y dans A/B
+            a = m_aStart + x * scaleOfA;
+            b = m_bStart + y * scaleOfB;
             expoLyap = 0;
             xn = X0;
-            for(i = 0; i < NUMOFITER; ++i){
+            for (i = 0; i < NUMOFITER; ++i) {
+
                 // Choix entre A ou B selon le current Char
                 rn = m_sequence[i] == 'A' ? a : b;
+
                 // Calcul de Xn+1
                 xn = rn * xn * (1 - xn);
+
                 expoLyap += log2(fabs(rn * (1 - 2 * xn)));
             }
             expoLyap /= NUMOFITER;
@@ -164,25 +194,23 @@ void Lyapunov::generate(float aStart, float bStart, float aEnd, float bEnd){
             greenLayer = ((int) (210 + expoLyap * 50) >= 0) ? (int) (210 + expoLyap * 50) : 0;
             redLayer = ((int) (255 + expoLyap * 52) >= 100) ? (int) (255 + expoLyap * 52) : 100;
             blueLayer = ((int) (255 - expoLyap * 200) >= 0) ? (int) (255 - expoLyap * 200) : 0;
-            //std::cout << greenLayer << std::endl;
-            if(expoLyap < -6){
+            if (expoLyap < -6) {
                 setPixelRGB(index, 0, 0, 0);
-            } else if(expoLyap <= 0){
+            } else if (expoLyap <= 0) {
                 setPixelRGB(index, 0, greenLayer, 0);
-            } else if(expoLyap > 0){
+            } else if (expoLyap > 0) {
                 setPixelRGB(index, 0, 0, blueLayer);
-            } else if(expoLyap >= 1){
+            } else if (expoLyap >= 1) {
                 setPixelRGB(index, 0, 0, 0);
             }
         }
     }
-    updatePixels();
-    blitTexture();
-    updateScreen();
-    std::cout << "Generation finie\n";
 }
 
-void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
+
+
+
+void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight) {
     SDL_Rect newPos;
     newPos.w = newPos.h = (int) (newWidth < newHeight ? newWidth : newHeight);
     newPos.x = (int) ((newWidth >> 1u) - ((unsigned int) newPos.w >> 1u));
@@ -191,26 +219,27 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     updateScreen();
 }
 
-void Lyapunov::onMouseClick(unsigned int x, unsigned int y){
-    std::array<float, 2> coordsStart = getCoordinates((int)x - 200, (int)y - 200);
-    std::array<float, 2> coordsEnd = getCoordinates((int)x + 200, (int)y + 200);
+void Lyapunov::onMouseClick(unsigned int x, unsigned int y) {
+    std::array<float, 2> coordsStart = getCoordinates((int) x - 200, (int) y - 200);
+    std::array<float, 2> coordsEnd = getCoordinates((int) x + 200, (int) y + 200);
     generate(coordsStart[0], coordsStart[1], coordsEnd[0], coordsEnd[1]);
 }
 
-void Lyapunov::onMouseMove(unsigned int x, unsigned int y){
+void Lyapunov::onMouseMove(unsigned int x, unsigned int y) {
     std::array<float, 2> coords = getCoordinates((int) x, (int) y);
     blitTexture();
     drawRect((int) x - 200, (int) y - 200, 400, 400);
     updateScreen();
 }
 
-void Lyapunov::startLoop(){
+void Lyapunov::startLoop() {
     eventLoop();
 }
 
-int main(){
-    Lyapunov lyapunov(1280, 720, 720, 720);
-    lyapunov.generate(3.4, 2.5, 4.0, 3.4);
+int main() {
+
+    Lyapunov lyapunov(1400, 1000, 1000, 1000);
+    lyapunov.generate(0, 0, 4.0, 4.0);
     lyapunov.startLoop();
     return EXIT_SUCCESS;
 }

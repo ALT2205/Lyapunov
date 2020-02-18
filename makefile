@@ -1,4 +1,4 @@
-FLAGS = -Wall -Wextra -g
+FLAGS = -Wall -Wextra -g -std=c++0x -pthread
 SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 SDL_LIBS = -lSDL2
 CC = g++
