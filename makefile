@@ -1,4 +1,4 @@
-FLAGS = -Wall -Wextra -g -std=c++0x -pthread
+FLAGS = -Wall -Wextra -g -std=c++0x -pthread -fdump-tree-optimized
 SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 SDL_LIBS = -lSDL2
 CC = g++
@@ -11,8 +11,11 @@ all: dir lyapunov
 dir:
 	@if [ ! -d "build" ]; then mkdir build; fi
 
-lyapunov: $(BUILD_DIR)/WindowManager.o $(BUILD_DIR)/Lyapunov.o
+lyapunov: $(BUILD_DIR)/Time.o $(BUILD_DIR)/WindowManager.o $(BUILD_DIR)/Lyapunov.o
 	$(CC) -o $@ $^ $(FLAGS) $(SDL_LIBS)
+
+$(BUILD_DIR)/Time.o: $(SRC_SIR)/Time.cpp
+	$(CC) -c -o $@ $^ $(FLAGS)
 
 $(BUILD_DIR)/WindowManager.o: $(SRC_SIR)/WindowManager.cpp
 	$(CC) -c -o $@ $^ $(FLAGS)

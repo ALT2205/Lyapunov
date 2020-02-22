@@ -3,6 +3,7 @@
 //
 
 #include "WindowManager.h"
+#include "Time.h"
 
 //Afficher SDL_Rect
 std::ostream& operator<<(std::ostream& flux, SDL_Rect rect){
@@ -11,13 +12,15 @@ std::ostream& operator<<(std::ostream& flux, SDL_Rect rect){
 }
 
 WindowManager::WindowManager(unsigned int w, unsigned int h)
-        : m_windowPosition(), m_quit(false), m_window(nullptr), m_renderer(nullptr), m_draw(nullptr), m_texture(nullptr),
+        : m_windowPosition(), m_quit(false), m_window(nullptr), m_renderer(nullptr), m_draw(nullptr),
+          m_texture(nullptr),
           m_texturePosition(), m_textureOriginalSize{}{
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         throw std::runtime_error(SDL_GetError());
     }
     m_window = SDL_CreateWindow("Fractales de Lyapunov", SDL_WINDOWPOS_UNDEFINED,
                                 SDL_WINDOWPOS_UNDEFINED, (int) w, (int) h, SDL_WINDOW_RESIZABLE);
+    SDL_MaximizeWindow(m_window);
     if(m_window == nullptr){
         throw std::runtime_error(SDL_GetError());
     }
@@ -79,13 +82,22 @@ void WindowManager::eventLoop(){
                 case SDL_MOUSEBUTTONUP:
                     onMouseClick(event.button.x, event.button.y);
                     break;
+                case SDL_MOUSEWHEEL:
+                    onMouseWheel();
+                    break;
                 case SDL_MOUSEMOTION:
                     onMouseMove(event.motion.x, event.motion.y);
+                    break;
+                case SDL_KEYUP:
+                    onKeyboard(event.key.keysym.sym);
                     break;
                 case SDL_WINDOWEVENT:
                     switch(event.window.event){
                         case SDL_WINDOWEVENT_RESIZED:
                             onResized(event.window.data1, event.window.data2);
+                            break;
+                        case SDL_WINDOWEVENT_MOVED:
+                            updateScreen();
                             break;
                     }
                     break;
@@ -95,6 +107,7 @@ void WindowManager::eventLoop(){
 
             }
         }
+        onTick();
         SDL_Delay(10);
     }
 }
@@ -113,7 +126,6 @@ WindowManager::~WindowManager(){
     SDL_DestroyWindow(m_window);
     SDL_Quit();
 }
-
 
 
 

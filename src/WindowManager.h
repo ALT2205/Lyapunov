@@ -40,6 +40,12 @@ public:
 
     virtual void onMouseMove(unsigned int x, unsigned int y) = 0;
 
+    virtual void onMouseWheel() = 0;
+
+    virtual void onKeyboard(int c) = 0;
+
+    virtual void onTick() = 0;
+
     void eventLoop();
 
     const SDL_Rect& getTexturePosition() const;

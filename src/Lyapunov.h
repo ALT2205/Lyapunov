@@ -4,19 +4,25 @@
 #include <SDL2/SDL_quit.h>
 #include <vector>
 #include <array>
+#include <string>
+#include <thread>
+#include <cmath>
+#include <cstdlib>
 #include "WindowManager.h"
-//#include <thread>
-
-#define NUMOFITER 700
+#include "Time.h"
 
 #define X0 0.5
 
 class Lyapunov : WindowManager {
 
-    std::vector<Uint32> m_pixels;
+    std::vector<double> m_exponents;
     std::string m_sequence;
     SDL_Rect m_size;
-    float m_aStart{0}, m_bStart{0}, m_aEnd{4}, m_bEnd{4};
+    double m_aStart{0}, m_bStart{0}, m_aEnd{4}, m_bEnd{4};
+    int precision{100};
+    long m_lastMove{getCurrentTime()};
+    int currentColor{0};
+    bool stopColor{false};
 
     void generateSequence();
 
@@ -25,15 +31,15 @@ public:
     Lyapunov(unsigned int windowWidth, unsigned int windowHeight, unsigned int lyapunovWidth,
              unsigned int lyapunovHeight);
 
-    void generate(float aStart = 0, float bStart = 0, float aEnd = 4, float bEnd = 4);
+    void generate(double aStart = 0, double bStart = 0, double aEnd = 4, double bEnd = 4);
 
     void generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd);
 
-    std::array<float, 2> getCoordinates(int x, int y);
+    std::array<double, 2> getCoordinates(int x, int y);
 
-    void setPixelRGB(unsigned int index, unsigned int r, unsigned int g, unsigned int b);
+    void setPixelRGB(std::vector<Uint32>& pixels, unsigned int index, unsigned int r, unsigned int g, unsigned int b);
 
-    void setPixelHSV(unsigned int index, float h, float s, float v);
+    void setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int h, double s, double v);
 
     void updatePixels();
 
@@ -42,6 +48,12 @@ public:
     void onMouseClick(unsigned int x, unsigned int y) override;
 
     void onMouseMove(unsigned int x, unsigned int y) override;
+
+    void onMouseWheel() override;
+
+    void onKeyboard(int c) override;
+
+    void onTick() override;
 
     void startLoop();
 };
