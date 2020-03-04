@@ -9,7 +9,8 @@
 
 Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
                    unsigned int lyapunovWidth, unsigned int lyapunovHeight)
-        : WindowManager(windowWidth, windowHeight), m_exponents(lyapunovWidth * lyapunovHeight), m_size(){
+        : WindowManager(windowWidth, windowHeight), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
+          m_lastPosition{}{
     m_size.w = (int) lyapunovWidth;
     m_size.h = (int) lyapunovHeight;
     SDL_Rect texturePosition;
@@ -25,16 +26,19 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
     initRender(m_size, texturePosition);
 }
 
-std::array<double, 2> Lyapunov::getCoordinates(int x, int y){
-    std::array<double, 2> coordinates{};
+/*
+ * Renvoie les coordonnées sur le plan Lyapunov (entre 0 et 4)
+ * à partir des coordonnées de l'écran
+ * */
+Coordinates Lyapunov::getCoordinates(int x, int y){
     SDL_Rect texturePosition = getTexturePosition();
-    //Les coordonnées ne peuvent pas sortir de la texture
-    coordinates[0] = (double) (x < texturePosition.x ? 0 : x > texturePosition.x + texturePosition.w ?
-                                                           texturePosition.w : x - texturePosition.x) /
-                     (double) texturePosition.w * (m_aEnd - m_aStart) + m_aStart;
-    coordinates[1] = (double) (y < texturePosition.y ? 0 : y > texturePosition.y + texturePosition.h ?
-                                                           texturePosition.h : y - texturePosition.y) /
-                     (double) texturePosition.h * (m_bEnd - m_bStart) + m_bStart;
+    Coordinates coordinates{
+        //Si x est négatif, alors 0, si x dépasse de la texture, alors la largeur de la texture
+        //Ensuite on divise par la largeur de la texture, on multiplie par la largeur actuelle du plan de Lyapunov
+        //Et on ajoute l'origine
+        (double) (x < texturePosition.x ? 0 : x > texturePosition.x + texturePosition.w ? texturePosition.w : x - texturePosition.x) / (double) texturePosition.w * (m_aEnd - m_aStart) + m_aStart,
+        //De même pour y
+        (double) (y < texturePosition.y ? 0 : y > texturePosition.y + texturePosition.h ? texturePosition.h : y - texturePosition.y) / (double) texturePosition.h * (m_bEnd - m_bStart) + m_bStart};
     return coordinates;
 }
 
@@ -47,6 +51,8 @@ void Lyapunov::setPixelRGB(std::vector<Uint32>& pixels, unsigned int index,
  * Algorithme de conversion: https://fr.wikipedia.org/wiki/Teinte_Saturation_Valeur#Conversion_de_TSV_vers_RVB
  * Faut-il déclarer des variables ou bien passer directement en paramètre au détriment de la lisibilité ?
  * Y a-t-il un impact sur les performances en déclarant si appelé beaucoup de fois en peu de temps ?
+ *
+ * Utilisée surtout pour faire le test arc-en-ciel
  */
 void Lyapunov::setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int h, double s, double v){
     h %= 360;
@@ -100,7 +106,7 @@ void Lyapunov::updatePixels(){
         int greenLayer = ((int) (210 + exponent * 50) >= 0) ? (int) (210 + exponent * 50) : 0;
         int redLayer = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
         int blueLayer = ((int) (255 - exponent * 200) >= 0) ? (int) (255 - exponent * 200) : 0;
-        int h = currentColor;
+        int h = m_currentColor;
         setPixelHSV(pixels, i, greenLayer + h, 1, 1);
 
         /*if(exponent < -6){
@@ -121,13 +127,12 @@ void Lyapunov::generateSequence(){
     std::string sequence;
     //std::cin >> seq;
     sequence = "BBABBABBABBABAABBBBA";
-    while(m_sequence.length() < precision){
+    while(m_sequence.length() < m_precision){
         m_sequence += sequence;
     }
 }
 
-void
-Lyapunov::generate(double aStart, double bStart, double aEnd, double bEnd){
+void Lyapunov::generate(double aStart, double bStart, double aEnd, double bEnd){
     if(aStart < 0 || aEnd > 4 || bStart < 0 || bEnd > 4){
         throw std::domain_error("Invalid domain to generate Lyapunov");
     }
@@ -183,14 +188,14 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
             b = m_bStart + y * scaleOfB;
             expoLyap = 0;
             xn = X0;
-            for(i = 0; i < precision; ++i){
+            for(i = 0; i < m_precision; ++i){
                 // Choix entre A ou B selon le current Char
                 rn = m_sequence[i] == 'A' ? a : b;
                 // Calcul de Xn+1
                 xn = rn * xn * (1 - xn);
                 expoLyap += log2(fabs(rn * (1 - 2 * xn)));
             }
-            m_exponents[index] = expoLyap / precision;
+            m_exponents[index] = expoLyap / m_precision;
         }
     }
 }
@@ -205,10 +210,21 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     updateScreen();
 }
 
-void Lyapunov::onMouseClick(unsigned int x, unsigned int y){
-    std::array<double, 2> coordsStart = getCoordinates((int) x - 200, (int) y - 200);
-    std::array<double, 2> coordsEnd = getCoordinates((int) x + 200, (int) y + 200);
-    generate(coordsStart[0], coordsStart[1], coordsEnd[0], coordsEnd[1]);
+void Lyapunov::onMouseClick(unsigned int x, unsigned int y, unsigned int button){
+    switch(button){
+        case SDL_BUTTON_LEFT:{
+            Coordinates coordsStart = getCoordinates((int) x - 200, (int) y - 200);
+            Coordinates coordsEnd = getCoordinates((int) x + 200, (int) y + 200);
+            generate(coordsStart.getX(), coordsStart.getY(), coordsEnd.getX(), coordsEnd.getY());
+        }
+            break;
+        case SDL_BUTTON_RIGHT:
+            //dézoom
+            break;
+        default:
+            break;
+    }
+
 }
 
 void Lyapunov::onMouseMove(unsigned int x, unsigned int y){
@@ -231,9 +247,9 @@ void Lyapunov::onMouseWheel(){
 }
 
 void Lyapunov::onTick(){
-    if(!stopColor){
-        currentColor = (360 + (currentColor - 5 % 360)) % 360;
-        std::cout << currentColor << std::endl;
+    if(!m_stopColor){
+        m_currentColor = (360 + (m_currentColor - 5 % 360)) % 360;
+        std::cout << m_currentColor << std::endl;
         updatePixels();
         blitTexture();
         updateScreen();
@@ -243,7 +259,7 @@ void Lyapunov::onTick(){
 void Lyapunov::onKeyboard(int c){
     switch(c){
         case SDLK_SPACE:
-            stopColor = !stopColor;
+            m_stopColor = !m_stopColor;
             break;
     }
 }

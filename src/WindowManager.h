@@ -36,7 +36,7 @@ public:
 
     virtual void onResized(unsigned int newWidth, unsigned int newHeight) = 0;
 
-    virtual void onMouseClick(unsigned int x, unsigned int y) = 0;
+    virtual void onMouseClick(unsigned int x, unsigned int y, unsigned int button) = 0;
 
     virtual void onMouseMove(unsigned int x, unsigned int y) = 0;
 

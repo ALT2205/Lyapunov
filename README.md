@@ -15,8 +15,12 @@
 - Choisir l'orientation de l'image
 - ~~Multi threading : voir l'implementation avec <thread> depuis C++11~~
 - Régler les couleurs pour le degradé 
-- Essayer de trouver une méthode de calcul plus rapide // limiter les appels de methodes/focntions   afin d'optimiser le temps de calcul (?fabs?)
+- Essayer de trouver une méthode de calcul plus rapide -> Faire le produit puis calculer son log2 avant que le nombre ne soit trop grand
 - ~~Redimensionner en fonction du coté de la fenêtre ( taille de la zone de rendu = côté le + petit)~~
+- Dézoom (en cours - AL)
+- Déplacement
+- Faire en sorte qu'il n'y ait pas besoin de recalculer le contenu s'il a déjà été calculé lors d'un autre déplacement
+- Menu pour décider des paramètres techniques (précision de l'image, taille de la texture...)
 
 ## Bibliothèques graphiques:
 - SDL2

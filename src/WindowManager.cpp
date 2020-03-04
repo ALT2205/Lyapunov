@@ -80,7 +80,7 @@ void WindowManager::eventLoop(){
         while(SDL_PollEvent(&event)){
             switch(event.type){
                 case SDL_MOUSEBUTTONUP:
-                    onMouseClick(event.button.x, event.button.y);
+                    onMouseClick(event.button.x, event.button.y, event.button.button);
                     break;
                 case SDL_MOUSEWHEEL:
                     onMouseWheel();

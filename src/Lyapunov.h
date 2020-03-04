@@ -8,8 +8,10 @@
 #include <thread>
 #include <cmath>
 #include <cstdlib>
+#include <stack>
 #include "WindowManager.h"
 #include "Time.h"
+#include "Coordinates.h"
 
 #define X0 0.5
 
@@ -19,10 +21,11 @@ class Lyapunov : WindowManager {
     std::string m_sequence;
     SDL_Rect m_size;
     double m_aStart{0}, m_bStart{0}, m_aEnd{4}, m_bEnd{4};
-    int precision{100};
+    int m_precision{100};
     long m_lastMove{getCurrentTime()};
-    int currentColor{0};
-    bool stopColor{false};
+    int m_currentColor{0};
+    bool m_stopColor{false};
+    std::stack<Coordinates> m_lastPosition;
 
     void generateSequence();
 
@@ -35,7 +38,7 @@ public:
 
     void generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd);
 
-    std::array<double, 2> getCoordinates(int x, int y);
+    Coordinates getCoordinates(int x, int y);
 
     void setPixelRGB(std::vector<Uint32>& pixels, unsigned int index, unsigned int r, unsigned int g, unsigned int b);
 
@@ -45,7 +48,7 @@ public:
 
     void onResized(unsigned int newWidth, unsigned int newHeight) override;
 
-    void onMouseClick(unsigned int x, unsigned int y) override;
+    void onMouseClick(unsigned int x, unsigned int y, unsigned int button) override;
 
     void onMouseMove(unsigned int x, unsigned int y) override;
 
