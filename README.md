@@ -17,15 +17,15 @@
 - Régler les couleurs pour le degradé 
 - Essayer de trouver une méthode de calcul plus rapide -> Faire le produit puis calculer son log2 avant que le nombre ne soit trop grand
 - ~~Redimensionner en fonction du coté de la fenêtre ( taille de la zone de rendu = côté le + petit)~~
-- Dézoom (en cours - AL)
+- ~~Dézoom~~
 - Déplacement
-- Faire en sorte qu'il n'y ait pas besoin de recalculer le contenu s'il a déjà été calculé lors d'un autre déplacement
+- Faire en sorte qu'il n'y ait pas besoin de recalculer le contenu s'il a déjà été calculé lors d'un autre déplacement ?
 - Menu pour décider des paramètres techniques (précision de l'image, taille de la texture...)
+- Libérer un thread pour gérer les évènements (ex: carré autour de la souris qui ne bouge pas lors de la génération)
+- Commenter le code
 
 ## Bibliothèques graphiques:
 - SDL2
-- SFML
-- GTK
 
 ## Date de rendu
 

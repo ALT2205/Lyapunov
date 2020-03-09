@@ -11,7 +11,7 @@
 #include <stack>
 #include "WindowManager.h"
 #include "Time.h"
-#include "Coordinates.h"
+#include "Region.h"
 
 #define X0 0.5
 
@@ -20,12 +20,12 @@ class Lyapunov : WindowManager {
     std::vector<double> m_exponents;
     std::string m_sequence;
     SDL_Rect m_size;
-    double m_aStart{0}, m_bStart{0}, m_aEnd{4}, m_bEnd{4};
+    Region m_curentRegion{0, 4, 0, 4};
     int m_precision{100};
     long m_lastMove{getCurrentTime()};
     int m_currentColor{0};
     bool m_stopColor{false};
-    std::stack<Coordinates> m_lastPosition;
+    std::stack<Region> m_lastPosition;
 
     void generateSequence();
 
@@ -34,11 +34,11 @@ public:
     Lyapunov(unsigned int windowWidth, unsigned int windowHeight, unsigned int lyapunovWidth,
              unsigned int lyapunovHeight);
 
-    void generate(double aStart = 0, double bStart = 0, double aEnd = 4, double bEnd = 4);
+    void generate(Region region = {0, 4, 0, 4});
 
     void generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd);
 
-    Coordinates getCoordinates(int x, int y);
+    Region getRegion(int fromX, int toX, int fromY, int toY);
 
     void setPixelRGB(std::vector<Uint32>& pixels, unsigned int index, unsigned int r, unsigned int g, unsigned int b);
 

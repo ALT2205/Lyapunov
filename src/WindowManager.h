@@ -20,6 +20,7 @@ class WindowManager {
     SDL_Texture* m_texture;
     SDL_Rect m_texturePosition;
     SDL_Rect m_textureOriginalSize;
+    SDL_Rect m_mousePosition;
 
 public:
     WindowManager(unsigned int w, unsigned int h);
@@ -33,6 +34,8 @@ public:
     void blitTexture() const;
 
     void updateScreen() const;
+
+    const SDL_Rect& getMousePosition() const;
 
     virtual void onResized(unsigned int newWidth, unsigned int newHeight) = 0;
 

@@ -27,19 +27,21 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
 }
 
 /*
- * Renvoie les coordonnées sur le plan Lyapunov (entre 0 et 4)
- * à partir des coordonnées de l'écran
+ * Renvoie la région sur le plan Lyapunov (entre 0 et 4)
+ * à partir de la région de l'écran
  * */
-Coordinates Lyapunov::getCoordinates(int x, int y){
+Region Lyapunov::getRegion(int fromX, int toX, int fromY, int toY){
     SDL_Rect texturePosition = getTexturePosition();
-    Coordinates coordinates{
-        //Si x est négatif, alors 0, si x dépasse de la texture, alors la largeur de la texture
-        //Ensuite on divise par la largeur de la texture, on multiplie par la largeur actuelle du plan de Lyapunov
-        //Et on ajoute l'origine
-        (double) (x < texturePosition.x ? 0 : x > texturePosition.x + texturePosition.w ? texturePosition.w : x - texturePosition.x) / (double) texturePosition.w * (m_aEnd - m_aStart) + m_aStart,
-        //De même pour y
-        (double) (y < texturePosition.y ? 0 : y > texturePosition.y + texturePosition.h ? texturePosition.h : y - texturePosition.y) / (double) texturePosition.h * (m_bEnd - m_bStart) + m_bStart};
-    return coordinates;
+    Region region{
+            //Si x est négatif, alors 0, si x dépasse de la texture, alors la largeur de la texture
+            //Ensuite on divise par la largeur de la texture, on multiplie par la largeur actuelle du plan de Lyapunov
+            //Et on ajoute l'origine
+            //TODO: Faire une fonction pour simplifier cette partie lourde à lire ?
+            (double) (fromX < texturePosition.x ? 0 : fromX > texturePosition.x + texturePosition.w ? texturePosition.w : fromX - texturePosition.x) / (double) texturePosition.w * (m_curentRegion.getToX() - m_curentRegion.getFromX()) + m_curentRegion.getFromX(),
+            (double) (toX < texturePosition.x ? 0 : toX > texturePosition.x + texturePosition.w ? texturePosition.w : toX - texturePosition.x) / (double) texturePosition.w * (m_curentRegion.getToX() - m_curentRegion.getFromX()) + m_curentRegion.getFromX(),
+            (double) (fromY < texturePosition.y ? 0 : fromY > texturePosition.y + texturePosition.h ? texturePosition.h : fromY - texturePosition.y) / (double) texturePosition.h * (m_curentRegion.getToY() - m_curentRegion.getFromY()) + m_curentRegion.getFromY(),
+            (double) (toY < texturePosition.y ? 0 : toY > texturePosition.y + texturePosition.h ? texturePosition.h : toY - texturePosition.y) / (double) texturePosition.h * (m_curentRegion.getToY() - m_curentRegion.getFromY()) + m_curentRegion.getFromY()};
+    return region;
 }
 
 void Lyapunov::setPixelRGB(std::vector<Uint32>& pixels, unsigned int index,
@@ -106,10 +108,9 @@ void Lyapunov::updatePixels(){
         int greenLayer = ((int) (210 + exponent * 50) >= 0) ? (int) (210 + exponent * 50) : 0;
         int redLayer = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
         int blueLayer = ((int) (255 - exponent * 200) >= 0) ? (int) (255 - exponent * 200) : 0;
-        int h = m_currentColor;
-        setPixelHSV(pixels, i, greenLayer + h, 1, 1);
-
-        /*if(exponent < -6){
+        //int h = m_currentColor;
+        //setPixelHSV(pixels, i, greenLayer + h, 1, 1);
+        if(exponent < -6){
             setPixelRGB(pixels, i, 0, 0, 0);
         } else if(exponent <= 0){
             setPixelRGB(pixels, i, 0, greenLayer, 0);
@@ -117,7 +118,7 @@ void Lyapunov::updatePixels(){
             setPixelRGB(pixels, i, 0, 0, blueLayer);
         } else if(exponent >= 1){
             setPixelRGB(pixels, i, 0, 0, 0);
-        }*/
+        }
     }
     updateTexture(pixels);
 }
@@ -132,27 +133,24 @@ void Lyapunov::generateSequence(){
     }
 }
 
-void Lyapunov::generate(double aStart, double bStart, double aEnd, double bEnd){
-    if(aStart < 0 || aEnd > 4 || bStart < 0 || bEnd > 4){
+void Lyapunov::generate(Region region){
+    m_curentRegion = Region{region};
+    if(region.getFromX() < 0 || region.getToX() > 4 || region.getFromY() < 0 || region.getToY() > 4){
         throw std::domain_error("Invalid domain to generate Lyapunov");
     }
     if(m_sequence.empty()){
         generateSequence();
     }
-    if(aStart > aEnd){
-        double change = aStart;
-        aStart = aEnd;
-        aEnd = change;
-    }
-    if(bStart > bEnd){
-        double change = bStart;
-        bStart = bEnd;
-        bEnd = change;
-    }
-    m_aStart = aStart;
-    m_aEnd = aEnd;
-    m_bStart = bStart;
-    m_bEnd = bEnd;
+    //if(aStart > aEnd){
+    //    double change = aStart;
+    //    aStart = aEnd;
+    //    aEnd = change;
+    //}
+    //if(bStart > bEnd){
+    //    double change = bStart;
+    //    bStart = bEnd;
+    //    bEnd = change;
+    //}
     // Creation du nombre de threads en fonction du nombre de threads de l'ordinateur
     unsigned int nbThread = std::thread::hardware_concurrency();
     std::vector<std::thread> threads(nbThread);
@@ -166,6 +164,8 @@ void Lyapunov::generate(double aStart, double bStart, double aEnd, double bEnd){
     }
     updatePixels();
     blitTexture();
+    SDL_Rect mousePos = getMousePosition();
+    drawRect((int) mousePos.x - 200, (int) mousePos.y - 200, 400, 400);
     updateScreen();
     //std::cout << "Generation finie\n";
 }
@@ -176,16 +176,20 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
     unsigned int i, x, y, yPos, index;
     double a, b, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
-    double scaleOfA = ((m_aEnd - m_aStart) / (double) width);
-    double scaleOfB = ((m_bEnd - m_bStart) / (double) height);
+    double aStart = m_curentRegion.getFromX();
+    double bStart = m_curentRegion.getFromY();
+    double scaleOfA = ((m_curentRegion.getToX() - aStart) / (double) width);
+    double scaleOfB = ((m_curentRegion.getToY() - bStart) / (double) height);
+    //std::cout << aStart << " - " << bStart << "\n";
+    //std::cout << m_curentRegion.getToX() << " / " << m_curentRegion.getBottomRight().getY() << "\n";
     for(y = yStart; y < yEnd; ++y){
         //std::cout << y * 100 / width << "%" << std::endl;
         yPos = y * width;
         for(x = xStart; x < xEnd; ++x){
             index = yPos + x;
             // Calcul la position de X/Y dans A/B
-            a = m_aStart + x * scaleOfA;
-            b = m_bStart + y * scaleOfB;
+            a = aStart + x * scaleOfA;
+            b = bStart + y * scaleOfB;
             expoLyap = 0;
             xn = X0;
             for(i = 0; i < m_precision; ++i){
@@ -213,13 +217,19 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
 void Lyapunov::onMouseClick(unsigned int x, unsigned int y, unsigned int button){
     switch(button){
         case SDL_BUTTON_LEFT:{
-            Coordinates coordsStart = getCoordinates((int) x - 200, (int) y - 200);
-            Coordinates coordsEnd = getCoordinates((int) x + 200, (int) y + 200);
-            generate(coordsStart.getX(), coordsStart.getY(), coordsEnd.getX(), coordsEnd.getY());
+            m_lastPosition.emplace(m_curentRegion);
+            Region newRegion = getRegion((int) x - 200, (int) x + 200, (int) y - 200, (int) y + 200);
+            generate(newRegion);
         }
             break;
-        case SDL_BUTTON_RIGHT:
-            //dézoom
+        case SDL_BUTTON_RIGHT:{
+            if(m_lastPosition.empty()){
+                return;
+            }
+            Region dezoom = m_lastPosition.top();
+            m_lastPosition.pop();
+            generate(dezoom);
+        }
             break;
         default:
             break;
@@ -247,13 +257,13 @@ void Lyapunov::onMouseWheel(){
 }
 
 void Lyapunov::onTick(){
-    if(!m_stopColor){
+    /*if(!m_stopColor){
         m_currentColor = (360 + (m_currentColor - 5 % 360)) % 360;
         std::cout << m_currentColor << std::endl;
         updatePixels();
         blitTexture();
         updateScreen();
-    }
+    }*/
 }
 
 void Lyapunov::onKeyboard(int c){
@@ -267,7 +277,7 @@ void Lyapunov::onKeyboard(int c){
 int main(int argc, char* argv[]){
     (void) argc, (void) argv;
     Lyapunov lyapunov(1400, 1000, 1000, 1000);
-    lyapunov.generate(0, 0, 4.0, 4.0);
+    lyapunov.generate();
     lyapunov.startLoop();
     return EXIT_SUCCESS;
 }

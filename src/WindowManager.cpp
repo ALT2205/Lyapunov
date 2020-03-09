@@ -12,9 +12,9 @@ std::ostream& operator<<(std::ostream& flux, SDL_Rect rect){
 }
 
 WindowManager::WindowManager(unsigned int w, unsigned int h)
-        : m_windowPosition(), m_quit(false), m_window(nullptr), m_renderer(nullptr), m_draw(nullptr),
-          m_texture(nullptr),
-          m_texturePosition(), m_textureOriginalSize{}{
+        : m_windowPosition{}, m_quit{false}, m_window{nullptr}, m_renderer{nullptr}, m_draw{nullptr},
+          m_texture{nullptr},
+          m_texturePosition{}, m_textureOriginalSize{}, m_mousePosition{}{
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         throw std::runtime_error(SDL_GetError());
     }
@@ -86,6 +86,8 @@ void WindowManager::eventLoop(){
                     onMouseWheel();
                     break;
                 case SDL_MOUSEMOTION:
+                    m_mousePosition.x = event.motion.x;
+                    m_mousePosition.y = event.motion.y;
                     onMouseMove(event.motion.x, event.motion.y);
                     break;
                 case SDL_KEYUP:
@@ -125,6 +127,10 @@ WindowManager::~WindowManager(){
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
     SDL_Quit();
+}
+
+const SDL_Rect& WindowManager::getMousePosition() const{
+    return m_mousePosition;
 }
 
 
