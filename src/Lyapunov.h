@@ -15,17 +15,20 @@
 
 #define X0 0.5
 
+
+// Classe principale de la génération de fractales de Lyapunov.
+
 class Lyapunov : WindowManager {
 
-    std::vector<double> m_exponents;
-    std::string m_sequence;
-    SDL_Rect m_size;
-    Region m_curentRegion{0, 4, 0, 4};
-    int m_precision{100};
-    long m_lastMove{getCurrentTime()};
-    int m_currentColor{0};
-    bool m_stopColor{false};
-    std::stack<Region> m_lastPosition;
+    std::vector<double> m_exponents;    // le tableau 2D des exposants de Lyapunov
+    std::string m_sequence;             // sequence de A et B pour le calcul des exposants
+    SDL_Rect m_size;                    // Taille de la fractale de Lyapunov
+    Region m_curentRegion{0, 4, 0, 4};  // Correspond à la région d'affichage de la fractale
+    int m_precision{100};               // Longueur de la séquence nécessaire au calcul de l'exposant
+    long m_lastMove{getCurrentTime()};  // Temps depuis
+    int m_currentColor{0};              //
+    bool m_stopColor{false};            // Determine si les couleurs de la fractale changent
+    std::stack<Region> m_lastPosition;  // Pile qui contient les régions zoomées
 
     void generateSequence();
 

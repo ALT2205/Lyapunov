@@ -11,7 +11,7 @@ all: dir lyapunov
 dir:
 	@if [ ! -d "build" ]; then mkdir build; fi
 
-lyapunov: $(BUILD_DIR)/Time.o $(BUILD_DIR)/WindowManager.o $(BUILD_DIR)/Lyapunov.o
+lyapunov: $(BUILD_DIR)/Time.o $(BUILD_DIR)/WindowManager.o $(BUILD_DIR)/Lyapunov.o $(BUILD_DIR)/Region.o
 	$(CC) -o $@ $^ $(FLAGS) $(SDL_LIBS)
 
 $(BUILD_DIR)/Time.o: $(SRC_SIR)/Time.cpp
@@ -21,6 +21,9 @@ $(BUILD_DIR)/WindowManager.o: $(SRC_SIR)/WindowManager.cpp
 	$(CC) -c -o $@ $^ $(FLAGS)
 
 $(BUILD_DIR)/Lyapunov.o: $(SRC_SIR)/Lyapunov.cpp
+	$(CC) -c -o $@ $^ $(FLAGS)
+
+$(BUILD_DIR)/Region.o: $(SRC_SIR)/Region.cpp
 	$(CC) -c -o $@ $^ $(FLAGS)
 
 clean:

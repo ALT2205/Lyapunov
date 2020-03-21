@@ -7,6 +7,7 @@
 
 #include <chrono>
 
+// Classe qui s'occupe du temps. Utile au défilement des couleurs
 class Time {
 
 };

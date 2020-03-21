@@ -5,12 +5,14 @@
 #include "WindowManager.h"
 #include "Time.h"
 
-//Afficher SDL_Rect
+// Surchage de l'opérateur <<. Permet d'afficher les champs d'un SDL_Rect
 std::ostream& operator<<(std::ostream& flux, SDL_Rect rect){
     flux << "x=" << rect.x << ", y=" << rect.y << ", w=" << rect.w << ", h=" << rect.h << " ";
     return flux;
 }
 
+
+// Constructeur de la classe WindowMangager
 WindowManager::WindowManager(unsigned int w, unsigned int h)
         : m_windowPosition{}, m_quit{false}, m_window{nullptr}, m_renderer{nullptr}, m_draw{nullptr},
           m_texture{nullptr},
@@ -28,10 +30,8 @@ WindowManager::WindowManager(unsigned int w, unsigned int h)
     m_windowPosition.h = (int) h;
 }
 
-/*
- * Initialise une Texture et un Render
- * La texture est au format RGB, et a une taille de size.w * size.h, à la position position
- * */
+// Initialise une Texture et un Render
+// La texture est au format RGB, et a une taille de size.w * size.h, à la position position
 void WindowManager::initRender(SDL_Rect size, SDL_Rect position){
     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
     if(m_renderer == nullptr){
@@ -45,21 +45,21 @@ void WindowManager::initRender(SDL_Rect size, SDL_Rect position){
     m_textureOriginalSize = size;
 }
 
+
+// Permet de dessiner un rectangle à la positon X,Y de largeur et hauteur W,H
 void WindowManager::drawRect(int x, int y, int w, int h){
     SDL_Rect rect = {x, y, w, h};
     SDL_RenderDrawRect(m_renderer, &rect);
 }
 
-/*
- * Mets à jour les pixels d'une texture
- * */
+
+ //Mets à jour les pixels d'une texture
 void WindowManager::updateTexture(std::vector<Uint32>& pixels) const{
     SDL_UpdateTexture(m_texture, nullptr, pixels.data(), (int) (m_textureOriginalSize.h * sizeof(Uint32)));
 }
 
-/*
- * Réinitialise le Render avec uniquement la texture
- * */
+
+// Réinitialise le Render avec uniquement la texture
 void WindowManager::blitTexture() const{
     SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
@@ -67,13 +67,14 @@ void WindowManager::blitTexture() const{
     SDL_RenderCopy(m_renderer, m_texture, nullptr, &m_texturePosition);
 }
 
-/*
- * Affiche le Render à l'écran
- * */
+
+// Affiche le Render à l'écran
 void WindowManager::updateScreen() const{
     SDL_RenderPresent(m_renderer);
 }
 
+// Permet de gérér les différents événements liées à la SDL :
+// les évenements clavier/souris/quit
 void WindowManager::eventLoop(){
     SDL_Event event;
     while(!m_quit){
@@ -114,14 +115,18 @@ void WindowManager::eventLoop(){
     }
 }
 
+
+// Getter qui retourne la position de la texture
 const SDL_Rect& WindowManager::getTexturePosition() const{
     return m_texturePosition;
 }
 
+// Setter qui permet de modifier la position de la texture
 void WindowManager::setTexturePosition(SDL_Rect texturePosition){
     m_texturePosition = texturePosition;
 }
 
+// Destructeur de la classe WindowManager
 WindowManager::~WindowManager(){
     SDL_DestroyTexture(m_texture);
     SDL_DestroyRenderer(m_renderer);
@@ -129,6 +134,7 @@ WindowManager::~WindowManager(){
     SDL_Quit();
 }
 
+// Getter qui retourne la position de la souris
 const SDL_Rect& WindowManager::getMousePosition() const{
     return m_mousePosition;
 }

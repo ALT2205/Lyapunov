@@ -1,16 +1,12 @@
 #include "Lyapunov.h"
 
-/* Couleur : Jaune si Exposant < 0
-   Couleur : Bleu si Exposant > 0
-   https://en.wikipedia.org/wiki/Lyapunov_fractal
-   Calcul de l'xposant de Lyapunov via https://www.youtube.com/watch?v=8xZyA09zRXY
 
-    Degradé au format brut : Pourquoi ne pas passer par un fichier ?*/
-
+// Constructeur de la classe Lyapunov
 Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
                    unsigned int lyapunovWidth, unsigned int lyapunovHeight)
         : WindowManager(windowWidth, windowHeight), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
           m_lastPosition{}{
+
     m_size.w = (int) lyapunovWidth;
     m_size.h = (int) lyapunovHeight;
     SDL_Rect texturePosition;
@@ -26,10 +22,9 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
     initRender(m_size, texturePosition);
 }
 
-/*
- * Renvoie la région sur le plan Lyapunov (entre 0 et 4)
- * à partir de la région de l'écran
- * */
+
+ // Renvoie la région sur le plan Lyapunov (entre 0 et 4)
+ // à partir de la région de l'écran
 Region Lyapunov::getRegion(int fromX, int toX, int fromY, int toY){
     SDL_Rect texturePosition = getTexturePosition();
     Region region{
@@ -44,18 +39,18 @@ Region Lyapunov::getRegion(int fromX, int toX, int fromY, int toY){
     return region;
 }
 
+// Définie la couleur d'un pixel dans l'espace colorimétrique RGB
 void Lyapunov::setPixelRGB(std::vector<Uint32>& pixels, unsigned int index,
                            unsigned int r, unsigned int g, unsigned int b){
     pixels[index] = (r << 16u) + (g << 8u) + b;
 }
 
-/*
- * Algorithme de conversion: https://fr.wikipedia.org/wiki/Teinte_Saturation_Valeur#Conversion_de_TSV_vers_RVB
- * Faut-il déclarer des variables ou bien passer directement en paramètre au détriment de la lisibilité ?
- * Y a-t-il un impact sur les performances en déclarant si appelé beaucoup de fois en peu de temps ?
- *
- * Utilisée surtout pour faire le test arc-en-ciel
- */
+
+
+ // Définie la couleur d'un pixel dans l'espace colorimétrique HSV
+ // Algorithme de conversion: https://fr.wikipedia.org/wiki/Teinte_Saturation_Valeur#Conversion_de_TSV_vers_RVB
+ // Utilisée surtout pour faire le défilement des couleurs en mode arc-en-ciel
+
 void Lyapunov::setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int h, double s, double v){
     h %= 360;
     int hi = (int) (h / 60) % 6;
@@ -101,21 +96,27 @@ void Lyapunov::setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int 
     }
 }
 
+// Modifie la couleur des pixels  dans un tableau en
+// fonction de la valeur de l'exposant associé à la même
+// position dans le tableau des exposants 2D
 void Lyapunov::updatePixels(){
     std::vector<Uint32> pixels(m_size.w * m_size.h);
     for(int i = 0, size = m_size.w * m_size.h; i < size; ++i){
         double exponent = m_exponents[i];
-        int greenLayer = ((int) (210 + exponent * 50) >= 0) ? (int) (210 + exponent * 50) : 0;
-        int redLayer = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
-        int blueLayer = ((int) (255 - exponent * 200) >= 0) ? (int) (255 - exponent * 200) : 0;
+        int green = ((int) (210 + exponent * 50) >= 0) ? (int) (210 + exponent * 50) : 0;
+        int red = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
+        int blue = ((int) (255 - exponent * 200) >= 0) ? (int) (255 - exponent * 200) : 0;
+        // Calcul des différentes couleurs d'après une série de tests.
+        // en fonction de la valeur de l'exposant de lyapunov
+
         //int h = m_currentColor;
         //setPixelHSV(pixels, i, greenLayer + h, 1, 1);
         if(exponent < -6){
             setPixelRGB(pixels, i, 0, 0, 0);
         } else if(exponent <= 0){
-            setPixelRGB(pixels, i, 0, greenLayer, 0);
+            setPixelRGB(pixels, i, 0, green, 0);
         } else if(exponent > 0){
-            setPixelRGB(pixels, i, 0, 0, blueLayer);
+            setPixelRGB(pixels, i, 0, 0, blue);
         } else if(exponent >= 1){
             setPixelRGB(pixels, i, 0, 0, 0);
         }
@@ -123,53 +124,65 @@ void Lyapunov::updatePixels(){
     updateTexture(pixels);
 }
 
+
+
+// Génération de la séquence en fonction de la précision voulue
+// et de la séquence initiale
 void Lyapunov::generateSequence(){
-    //std::cout << "Entrez la sequence de A-B\n";
     std::string sequence;
-    //std::cin >> seq;
     sequence = "BBABBABBABBABAABBBBA";
     while(m_sequence.length() < m_precision){
         m_sequence += sequence;
     }
 }
 
+
+// Génère la fractale de Lyapunov dans une région donnée
 void Lyapunov::generate(Region region){
     m_curentRegion = Region{region};
+
     if(region.getFromX() < 0 || region.getToX() > 4 || region.getFromY() < 0 || region.getToY() > 4){
         throw std::domain_error("Invalid domain to generate Lyapunov");
     }
     if(m_sequence.empty()){
         generateSequence();
     }
-    //if(aStart > aEnd){
-    //    double change = aStart;
-    //    aStart = aEnd;
-    //    aEnd = change;
-    //}
-    //if(bStart > bEnd){
-    //    double change = bStart;
-    //    bStart = bEnd;
-    //    bEnd = change;
-    //}
-    // Creation du nombre de threads en fonction du nombre de threads de l'ordinateur
+
+
+    // Cette partie de la focntion est responsable du multi-threading
+    // nécessaire à la création des fractales de Lyapunov
+
+
+    // Nombre de threads en fonction du nombre de threads du CPU
     unsigned int nbThread = std::thread::hardware_concurrency();
+
+    // Vector de threads afin de pouvoir géré le multi-threading
     std::vector<std::thread> threads(nbThread);
+
+    // Création des différents threads générant une partie de la fractale de Lyapunov
     for(unsigned int i = 0; i < nbThread; i++){
         threads[i] = std::thread(&Lyapunov::generatePart, this, 0,
                                  i * m_size.w / nbThread, m_size.w,
                                  (i + 1) * m_size.h / nbThread);
     }
+
+    // Permet de synchroniser les différentes opérations gérées dans les threads.
+    // Met également fin aux threads.
     for(auto& th : threads){
         th.join();
     }
+
     updatePixels();
     blitTexture();
     SDL_Rect mousePos = getMousePosition();
+    // Tracer du rectangle affichant la zone Zoomée
     drawRect((int) mousePos.x - 200, (int) mousePos.y - 200, 400, 400);
     updateScreen();
-    //std::cout << "Generation finie\n";
 }
 
+// Permet de générer une partie de la fractale de Lyapunov
+// Entre différentes coordonnées. Utile pour le multi-threading
+// Calcul de l'exposant de Lyapunov : https://en.wikipedia.org/wiki/Lyapunov_fractal#Algorithm_for_generating_Lyapunov_fractals
 void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd){
     //Utilisation de variable local pour améliorer la performance
     unsigned int width = m_size.w, height = m_size.h;
@@ -180,10 +193,8 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
     double bStart = m_curentRegion.getFromY();
     double scaleOfA = ((m_curentRegion.getToX() - aStart) / (double) width);
     double scaleOfB = ((m_curentRegion.getToY() - bStart) / (double) height);
-    //std::cout << aStart << " - " << bStart << "\n";
-    //std::cout << m_curentRegion.getToX() << " / " << m_curentRegion.getBottomRight().getY() << "\n";
+
     for(y = yStart; y < yEnd; ++y){
-        //std::cout << y * 100 / width << "%" << std::endl;
         yPos = y * width;
         for(x = xStart; x < xEnd; ++x){
             index = yPos + x;
@@ -193,8 +204,8 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
             expoLyap = 0;
             xn = X0;
             for(i = 0; i < m_precision; ++i){
-                // Choix entre A ou B selon le current Char
                 rn = m_sequence[i] == 'A' ? a : b;
+
                 // Calcul de Xn+1
                 xn = rn * xn * (1 - xn);
                 expoLyap += log2(fabs(rn * (1 - 2 * xn)));
@@ -204,6 +215,8 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
     }
 }
 
+// Permet de modifier la taille de la fractale de Lyapunov
+// lorsque l'on modifie la taille de la fenêtre
 void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     SDL_Rect newPos;
     newPos.w = newPos.h = (int) (newWidth < newHeight ? newWidth : newHeight);
@@ -214,14 +227,18 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     updateScreen();
 }
 
+// Permet de gérer les différents évenements liés à la souris
 void Lyapunov::onMouseClick(unsigned int x, unsigned int y, unsigned int button){
     switch(button){
+        // Un Clic Gauche sur la souris permet de zoomer dans la fractale
         case SDL_BUTTON_LEFT:{
             m_lastPosition.emplace(m_curentRegion);
             Region newRegion = getRegion((int) x - 200, (int) x + 200, (int) y - 200, (int) y + 200);
             generate(newRegion);
         }
             break;
+        
+            // Un Clic Droit permet de dézoomer grâce à la pile
         case SDL_BUTTON_RIGHT:{
             if(m_lastPosition.empty()){
                 return;
@@ -237,6 +254,8 @@ void Lyapunov::onMouseClick(unsigned int x, unsigned int y, unsigned int button)
 
 }
 
+// Appelée au moment où le pointeur de la souris est en mouvement
+// Affiche la région de la fractale dans lzquelle on zoome
 void Lyapunov::onMouseMove(unsigned int x, unsigned int y){
     long time = getCurrentTime();
     if(time - m_lastMove < 16){
@@ -248,14 +267,17 @@ void Lyapunov::onMouseMove(unsigned int x, unsigned int y){
     updateScreen();
 }
 
+// S'occupe de la gestion des différents événements : clavier/souris/quit
 void Lyapunov::startLoop(){
     eventLoop();
 }
 
+// Appelée au moment où la molette de la souris est en action
 void Lyapunov::onMouseWheel(){
 
 }
 
+// Permet de déterminer la couleur actuelle
 void Lyapunov::onTick(){
     /*if(!m_stopColor){
         m_currentColor = (360 + (m_currentColor - 5 % 360)) % 360;
@@ -265,12 +287,15 @@ void Lyapunov::onTick(){
         updateScreen();
     }*/
 }
-
+// Gère les différents évenements liés au clavier
 void Lyapunov::onKeyboard(int c){
     switch(c){
+        // Appuyer sur ESPACE permet d'arrêter(reprendre) le défilement
+        // des couleurs dans la fractale : Effet Arc En Ciel
         case SDLK_SPACE:
             m_stopColor = !m_stopColor;
             break;
+
     }
 }
 

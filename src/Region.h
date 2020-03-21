@@ -7,6 +7,7 @@
 
 #include <ostream>
 
+// Cette classe permet de créer des "régions" : une zone comprise entre 2 points
 class Region {
 
     double fromX, toX, fromY, toY;
