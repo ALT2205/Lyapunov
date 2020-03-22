@@ -130,7 +130,7 @@ void Lyapunov::updatePixels(){
 // et de la séquence initiale
 void Lyapunov::generateSequence(){
     std::string sequence;
-    sequence = "BBABBABBABBABAABBBBA";
+    sequence = "ABBBA";
     while(m_sequence.length() < m_precision){
         m_sequence += sequence;
     }
@@ -154,7 +154,8 @@ void Lyapunov::generate(Region region){
 
 
     // Nombre de threads en fonction du nombre de threads du CPU
-    unsigned int nbThread = std::thread::hardware_concurrency();
+    // On garde un thread libre pour gérer d'eventuels problèmes
+    unsigned int nbThread = std::thread::hardware_concurrency() ;
 
     // Vector de threads afin de pouvoir géré le multi-threading
     std::vector<std::thread> threads(nbThread);

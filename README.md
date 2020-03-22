@@ -12,20 +12,24 @@
 
 ## To Do
 - ~~Trouver les bornes supérieures/inférieures autres que 0/4~~
-- Choisir l'orientation de l'image
+-  <span style="color: #0000FF"> Choisir l'orientation de l'image </span>
 - ~~Multi threading : voir l'implementation avec <thread> depuis C++11~~
-- Régler les couleurs pour le degradé 
-- Essayer de trouver une méthode de calcul plus rapide -> Faire le produit puis calculer son log2 avant que le nombre ne soit trop grand
+-  <span style="color: #0000FF">Régler les couleurs pour le degradé </span>
+- <span style="color: #00FF00">Essayer de trouver une méthode de calcul plus rapide -> Faire le produit puis calculer son log2 avant que le nombre ne soit trop grand </span>
 - ~~Redimensionner en fonction du coté de la fenêtre ( taille de la zone de rendu = côté le + petit)~~
 - ~~Dézoom~~
-- Déplacement
-- Faire en sorte qu'il n'y ait pas besoin de recalculer le contenu s'il a déjà été calculé lors d'un autre déplacement ?
-- Menu pour décider des paramètres techniques (précision de l'image, taille de la texture...)
-- Libérer un thread pour gérer les évènements (ex: carré autour de la souris qui ne bouge pas lors de la génération)
-- Commenter le code
+- <span style="color: #0000FF">Déplacement </span>
+- <span style="color: #0000FF"> Faire en sorte qu'il n'y ait pas besoin de recalculer le contenu s'il a déjà été calculé lors d'un autre déplacement ? </span>
+- <span style="color: #FFFF00">Menu pour décider des paramètres techniques (précision de l'image, taille de la texture...) </span>
+- <span style="color: #00FF00">Libérer un thread pour gérer les évènements (ex: carré autour de la souris qui ne bouge pas lors de la génération) </span>
+- ~~Commenter le code~~
+- <span style="color: #0000FF">Régler la taille du zoom </span>
+- Exporter une image et une vidéo - A définir
+- <span style="color: #0000FF">Aliasing </span>
 
 ## Bibliothèques graphiques:
 - SDL2
+- GTK + ??
 
 ## Date de rendu
 
