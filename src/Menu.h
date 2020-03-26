@@ -1,5 +1,7 @@
 #ifndef DEF_MENU
 #define DEF_MENU
+#define MINSPIN 10
+#define MAXSPIN 500
 
 #include <gtkmm.h>
 #include <gdk/gdk.h>
@@ -9,24 +11,16 @@
 #include <vector>
 #include <fstream>
 class Menu : public Gtk::Window {
-
-    Gtk::Entry sequence;
-    unsigned int precision = 100;
-    Gdk::RGBA m_color[4];
-    Gtk::Button m_color_button_neg_e;
-    Gtk::Button m_color_button_neg_s;
-    Gtk::Button m_color_button_pos_s;
-    Gtk::Button m_color_button_pos_e;
-    Gtk::SpinButton m_select_precision;
-    Gtk::Grid grid;
-    Gtk::Label tagSpin;
-
-    Glib::RefPtr<Gtk::Adjustment> ajustement;
-    /*Gtk::ColorSelectionDialog colorNegStart("Couleur de la valeur négative du plus petit exposant de Lyapunov calculée");
-    Gtk::ColorSelectionDialog colorNegEnd("Couleur de la valeur négative du plus grand exposant de Lyapunov calculée");
-    Gtk::ColorSelectionDialog colorPosStart("Couleur de la valeur positive du plus petit exposant de Lyapunov calculée");
-    Gtk::ColorSelectionDialog colorPosend("Couleur de la valeur positive du plus grand exposant de Lyapunov calculée");*/
-
+  
+    Gtk::Entry sequence;                  // Champ de saisie de la séquence
+    unsigned int precision = 100;         // Précision (lien avec m_precision)
+    Gdk::RGBA m_color[4];                 // Tableau des couleurs selon la vlauer des exposants
+    Gtk::Button m_color_button_neg_e;     // Bouton qui permet la séléction des couleurs de l'exposant
+    Gtk::Button m_color_button_neg_s;     // Bouton qui permet la séléction des couleurs de l'exposant
+    Gtk::Button m_color_button_pos_s;     // Bouton qui permet la séléction des couleurs de l'exposant
+    Gtk::Button m_color_button_pos_e;     // Bouton qui permet la séléction des couleurs de l'exposant
+    Gtk::SpinButton m_select_precision;   // Bouton qui permet de régler la précison : 10 à 500 pour le moment (MINSPIN - MAXSPIN)
+    Gtk::Grid grid;                       // Grille d'affichage des différents boutons
 
     public :
 
@@ -41,12 +35,6 @@ class Menu : public Gtk::Window {
     void getPrecision(std::ofstream &file);
     void textArea();
     void newPrecision();
-
-
-
-
-
-
 };
 
 #endif

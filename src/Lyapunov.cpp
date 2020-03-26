@@ -302,8 +302,10 @@ void Lyapunov::onKeyboard(int c){
 
 int main(int argc, char* argv[]){
     (void) argc, (void) argv;
+    // Nécessaire à l'utilisation d'une fenêtre gtk
     Gtk::Main app(argc, argv);
     Menu m=Menu();
+    // Ouvre le menu m
     Gtk::Main::run(m);
     std::ofstream file("../config.txt");
 
@@ -311,9 +313,12 @@ int main(int argc, char* argv[]){
       std::cout << "Error : Cannot open file config " <<std::endl;
       return -1;
     }
+    // Recupère les saisies dans le fichier de config
     m.getSequence(file);
     m.getColor(file);
     m.getPrecision(file);
+
+
     Lyapunov lyapunov(1400, 1000, 1000, 1000);
     lyapunov.generate();
     lyapunov.startLoop();
