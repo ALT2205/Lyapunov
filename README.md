@@ -21,6 +21,7 @@
 - <span style="color: #0000FF">Déplacement : Baptiste</span>
 - <span style="color: #0000FF"> Faire en sorte qu'il n'y ait pas besoin de recalculer le contenu s'il a déjà été calculé lors d'un autre déplacement ?: Baptiste </span>
 - <span style="color: #FFFF00">Menu pour décider des paramètres techniques (précision de l'image, taille de la texture...): Antoine/Adrien </span>
+- <span style="color: #FFFF00">Ajouter des fonctions au menu : Antoine/Adrien </span>
 - <span style="color: #00FF00">Libérer un thread pour gérer les évènements (ex: carré autour de la souris qui ne bouge pas lors de la génération):Adrien </span>
 - ~~Commenter le code~~
 - <span style="color: #0000FF">Régler la taille du zoom: Baptiste </span>
@@ -29,7 +30,7 @@
 
 ## Bibliothèques graphiques:
 - SDL2
-- GTK + ??
+- GTK +
 
 ## Date de rendu
 

@@ -238,7 +238,7 @@ void Lyapunov::onMouseClick(unsigned int x, unsigned int y, unsigned int button)
             generate(newRegion);
         }
             break;
-        
+
             // Un Clic Droit permet de dézoomer grâce à la pile
         case SDL_BUTTON_RIGHT:{
             if(m_lastPosition.empty()){
@@ -302,6 +302,18 @@ void Lyapunov::onKeyboard(int c){
 
 int main(int argc, char* argv[]){
     (void) argc, (void) argv;
+    Gtk::Main app(argc, argv);
+    Menu m=Menu();
+    Gtk::Main::run(m);
+    std::ofstream file("../config.txt");
+
+    if (!file.is_open()){
+      std::cout << "Error : Cannot open file config " <<std::endl;
+      return -1;
+    }
+    m.getSequence(file);
+    m.getColor(file);
+    m.getPrecision(file);
     Lyapunov lyapunov(1400, 1000, 1000, 1000);
     lyapunov.generate();
     lyapunov.startLoop();
