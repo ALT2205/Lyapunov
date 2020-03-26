@@ -12,6 +12,7 @@
 #include "WindowManager.h"
 #include "Time.h"
 #include "Region.h"
+#include "Menu.h"
 
 #define X0 0.5
 
