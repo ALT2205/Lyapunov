@@ -213,10 +213,10 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
                 for (j = i*numberOfProducts; j<(i+1)*numberOfProducts; ++j){
                     rn = m_sequence[j] == 'A' ? a : b;
                     xn = rn * xn * (1 - xn);
-                    product[i] *= (fabs(rn * (1 - 2 * xn));
+                    product[i] *= (fabs(rn * (1 - 2 * xn)));
                 }
                 product[i] = log2(product[i]);
-                expoLyap+= product[i]
+                expoLyap+= product[i];
             }
 
             m_exponents[index] = expoLyap / m_precision;
