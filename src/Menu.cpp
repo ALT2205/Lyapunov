@@ -151,7 +151,7 @@ void Menu::textArea(){
 // Ecriture de la séquence rentrée dans un fichier de config
 void Menu::getSequence(std::ofstream& file){
   std::string seq = sequence.get_text();
-  file << "sequence= "+seq << std::endl;
+  file << "sequence= "+seq;
 }
 
 // Remplace l'ancienne valeur de la précision par la nouvelle
@@ -173,16 +173,28 @@ std::string Menu::colorToString(Gdk::RGBA color){
 
 // Ecriture dans le fichier de config des différentes couleurs de l'utilisateur
 void Menu::getColor(std::ofstream& file){
-
   file << "color_neg_+= "+ colorToString(m_color[0]) << std::endl;
   file << "color_neg_-= "+ colorToString(m_color[1]) << std::endl;
   file << "color_pos_-= "+ colorToString(m_color[2]) << std::endl;
   file << "color_pos_+= "+ colorToString(m_color[3]) << std::endl;
 }
 
-// Ecriture dans le fichier de config de la précision souhaitée par l'utilisateur
+// Ecriture dans le fichier de config de la précision souhaitée
 void Menu::getPrecision(std::ofstream& file){
   std::stringstream precis;
   precis << m_select_precision.get_value();
   file << "precision= "+ precis.str()<< std::endl;
+}
+
+
+int Menu::writeFile(){
+  std::ofstream file("config.txt");
+  if (!file.is_open()){
+    std::cout << "Error : Cannot open file config " <<std::endl;
+    return -1;
+  }
+  getColor(file);
+  getPrecision(file);
+  getSequence(file);
+  return 0;
 }

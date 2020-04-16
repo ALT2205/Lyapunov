@@ -7,6 +7,32 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
         : WindowManager(windowWidth, windowHeight), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
           m_lastPosition{}{
 
+
+
+    // Ouverture en mode lecture du fichier de configuration
+    std::ifstream file("config.txt");
+    std::string str;
+    int r,g,b,i = 0,precis;
+
+    // On recupère d'abord les couleurs stockées dans un  tableau de Pixels(Uint32)
+    while (i < 4 && file >> str >> r >> g >> b){
+      m_colorLyap[i] = (r << 16u) + (g << 8u) + b;
+      std::cout << r << g << b << std::endl;
+      i++;
+    }
+
+    // On recupère ensite la précision souhaitée
+    file >> str >> precis;
+    m_precision = precis;
+    std::cout << m_precision << std::endl;
+
+
+    // On récupère finalement la sequence
+    std::string seq;
+    file >> str >> seq;
+    m_sequence = seq;
+    std::cout << m_sequence << std::endl;
+    generateSequence();
     m_size.w = (int) lyapunovWidth;
     m_size.h = (int) lyapunovHeight;
     SDL_Rect texturePosition;
@@ -104,7 +130,7 @@ void Lyapunov::updatePixels(){
     for(int i = 0, size = m_size.w * m_size.h; i < size; ++i){
         double exponent = m_exponents[i];
         int green = ((int) (210 + exponent * 50) >= 0) ? (int) (210 + exponent * 50) : 0;
-        int red = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
+        //int red = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
         int blue = ((int) (255 - exponent * 200) >= 0) ? (int) (255 - exponent * 200) : 0;
         // Calcul des différentes couleurs d'après une série de tests.
         // en fonction de la valeur de l'exposant de lyapunov
@@ -130,8 +156,19 @@ void Lyapunov::updatePixels(){
 // et de la séquence initiale
 void Lyapunov::generateSequence(){
     std::string sequence;
-    sequence = "ABBBA";
-    while(m_sequence.length() < m_precision){
+    bool error = false;
+    for(unsigned int i =0;i< m_sequence.length();++i){
+      if (m_sequence[i] != 'A' || m_sequence[i] != 'B'){
+        std::cout << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB";
+        error = true;
+        break;
+      }
+    }
+    if (m_sequence.empty() || error){
+      m_sequence = "AB";
+    }
+    sequence = m_sequence;
+    while((int)m_sequence.length() < m_precision){
         m_sequence += sequence;
     }
 }
@@ -187,7 +224,8 @@ void Lyapunov::generate(Region region){
 void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd){
     //Utilisation de variable local pour améliorer la performance
     unsigned int width = m_size.w, height = m_size.h;
-    unsigned int i, x, y, yPos, index;
+    unsigned int x, y, yPos, index;
+    int i;
     double a, b, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
     double aStart = m_curentRegion.getFromX();
@@ -307,20 +345,15 @@ int main(int argc, char* argv[]){
     Menu m=Menu();
     // Ouvre le menu m
     Gtk::Main::run(m);
-    std::ofstream file("../config.txt");
 
-    if (!file.is_open()){
-      std::cout << "Error : Cannot open file config " <<std::endl;
-      return -1;
-    }
-    // Recupère les saisies dans le fichier de config
-    m.getSequence(file);
-    m.getColor(file);
-    m.getPrecision(file);
-
-
-    Lyapunov lyapunov(1400, 1000, 1000, 1000);
-    lyapunov.generate();
-    lyapunov.startLoop();
-    return EXIT_SUCCESS;
+      // Recupère les saisies dans le fichier de config
+    if (m.writeFile() == 0){
+     Lyapunov lyapunov(1400, 1000, 1000, 1000);
+     lyapunov.generate();
+     lyapunov.startLoop();
+     return EXIT_SUCCESS;
+  }
+  else {
+    return -1;
+  }
 }

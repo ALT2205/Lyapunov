@@ -11,7 +11,7 @@
 #include <vector>
 #include <fstream>
 class Menu : public Gtk::Window {
-  
+
     Gtk::Entry sequence;                  // Champ de saisie de la séquence
     unsigned int precision = 100;         // Précision (lien avec m_precision)
     Gdk::RGBA m_color[4];                 // Tableau des couleurs selon la vlauer des exposants
@@ -30,11 +30,12 @@ class Menu : public Gtk::Window {
     void setColorMinPosExpo();
     void setColorMaxPosExpo();
     std::string colorToString(Gdk::RGBA color);
-    void getSequence(std::ofstream &file);
-    void getColor(std::ofstream &file);
-    void getPrecision(std::ofstream &file);
+    void getSequence(std::ofstream& file);
+    void getColor(std::ofstream& file);
+    void getPrecision(std::ofstream& file);
     void textArea();
     void newPrecision();
+    int writeFile();
 };
 
 #endif

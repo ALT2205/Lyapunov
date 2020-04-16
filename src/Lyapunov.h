@@ -30,6 +30,7 @@ class Lyapunov : WindowManager {
     int m_currentColor{0};              //
     bool m_stopColor{false};            // Determine si les couleurs de la fractale changent
     std::stack<Region> m_lastPosition;  // Pile qui contient les régions zoomées
+    Uint32 m_colorLyap[4];
 
     void generateSequence();
 
