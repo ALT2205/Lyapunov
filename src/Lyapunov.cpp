@@ -157,9 +157,11 @@ void Lyapunov::updatePixels(){
 void Lyapunov::generateSequence(){
     std::string sequence;
     bool error = false;
-    for(unsigned int i =0;i< m_sequence.length();++i){
+    for(unsigned int i = 0;i< m_sequence.length();++i){
+      std::cout << (int)m_sequence[i] << std::endl;
       if (m_sequence[i] != 'A' || m_sequence[i] != 'B'){
-        std::cout << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB";
+        std::cout << m_sequence[i] + " has been detected"<< std::endl;
+        std::cout << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB" << std::endl;
         error = true;
         break;
       }
@@ -223,13 +225,7 @@ void Lyapunov::generate(Region region){
 // Calcul de l'exposant de Lyapunov : https://en.wikipedia.org/wiki/Lyapunov_fractal#Algorithm_for_generating_Lyapunov_fractals
 void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd){
     //Utilisation de variable local pour améliorer la performance
-    unsigned int width = m_size.w, height = m_size.h;
-<<<<<<< HEAD
-    unsigned int x, y, yPos, index;
-    int i;
-=======
-    unsigned int i, j, x, y, yPos, index;
->>>>>>> 01ccc176c40b782e28e885fce2968051d320dadd
+    unsigned int width = m_size.w, height = m_size.h,x, y, yPos, index,i,j;
     double a, b, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
     double aStart = m_curentRegion.getFromX();
