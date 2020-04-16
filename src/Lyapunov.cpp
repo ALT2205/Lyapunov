@@ -195,7 +195,7 @@ void Lyapunov::generate(Region region){
     unsigned int nbThread = std::thread::hardware_concurrency() ;
 
     // Vector de threads afin de pouvoir géré le multi-threading
-    std::vector<std::thread> threads(nbThread);
+    std::vector<std::thread> threads(nbThread) ;
 
     // Création des différents threads générant une partie de la fractale de Lyapunov
     for(unsigned int i = 0; i < nbThread; i++){
@@ -224,15 +224,20 @@ void Lyapunov::generate(Region region){
 void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd){
     //Utilisation de variable local pour améliorer la performance
     unsigned int width = m_size.w, height = m_size.h;
+<<<<<<< HEAD
     unsigned int x, y, yPos, index;
     int i;
+=======
+    unsigned int i, j, x, y, yPos, index;
+>>>>>>> 01ccc176c40b782e28e885fce2968051d320dadd
     double a, b, expoLyap, xn, rn;
     // Echelle d'espacement entre chaque a/b pour x/y
     double aStart = m_curentRegion.getFromX();
     double bStart = m_curentRegion.getFromY();
     double scaleOfA = ((m_curentRegion.getToX() - aStart) / (double) width);
     double scaleOfB = ((m_curentRegion.getToY() - bStart) / (double) height);
-
+    // Eviter un appel trop important de log2 : LOG2 (MN) = LOG2(M) + LOG2(N)
+    unsigned int numberOfProducts;
     for(y = yStart; y < yEnd; ++y){
         yPos = y * width;
         for(x = xStart; x < xEnd; ++x){
@@ -241,14 +246,21 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
             a = aStart + x * scaleOfA;
             b = bStart + y * scaleOfB;
             expoLyap = 0;
-            xn = X0;
-            for(i = 0; i < m_precision; ++i){
-                rn = m_sequence[i] == 'A' ? a : b;
 
-                // Calcul de Xn+1
-                xn = rn * xn * (1 - xn);
-                expoLyap += log2(fabs(rn * (1 - 2 * xn)));
+            xn = X0;
+            numberOfProducts = m_precision / 10;
+            std::vector<double> product(numberOfProducts);
+            for(i = 0; i< numberOfProducts; ++i){
+                product[i] = 1;
+                for (j = i*numberOfProducts; j<(i+1)*numberOfProducts; ++j){
+                    rn = m_sequence[j] == 'A' ? a : b;
+                    xn = rn * xn * (1 - xn);
+                    product[i] *= (fabs(rn * (1 - 2 * xn)));
+                }
+                product[i] = log2(product[i]);
+                expoLyap+= product[i];
             }
+
             m_exponents[index] = expoLyap / m_precision;
         }
     }
