@@ -157,10 +157,10 @@ void Lyapunov::updatePixels(){
 void Lyapunov::generateSequence(){
     std::string sequence;
     bool error = false;
-    for(unsigned int i = 0;i< m_sequence.length();++i){
-      std::cout << (int)m_sequence[i] << std::endl;
-      if (m_sequence[i] != 'A' || m_sequence[i] != 'B'){
-        std::cout << m_sequence[i] + " has been detected"<< std::endl;
+    std::cout << m_sequence.length()<< std::endl;
+    for(unsigned int i = 0;i< m_sequence.length();i++){
+      std::cout << m_sequence.at(i) << std::endl;
+      if (m_sequence.at(i) != 'A' || m_sequence.at(i) != 'B'){
         std::cout << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB" << std::endl;
         error = true;
         break;
