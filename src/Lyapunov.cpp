@@ -270,8 +270,8 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     newPos.x = (int) ((newWidth >> 1u) - ((unsigned int) newPos.w >> 1u));
     newPos.y = (int) ((newHeight >> 1u) - ((unsigned int) newPos.h >> 1u));
     setTexturePosition(newPos);
-    blitTexture();
-    updateScreen();
+    //blitTexture();
+    //updateScreen();
 }
 
 // Permet de gérer les différents évenements liés à la souris

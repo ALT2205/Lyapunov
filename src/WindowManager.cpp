@@ -17,9 +17,11 @@ WindowManager::WindowManager(unsigned int w, unsigned int h)
         : m_windowPosition{}, m_quit{false}, m_window{nullptr}, m_renderer{nullptr}, m_draw{nullptr},
           m_texture{nullptr},
           m_texturePosition{}, m_textureOriginalSize{}, m_mousePosition{}{
+	   
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         throw std::runtime_error(SDL_GetError());
     }
+    
     m_window = SDL_CreateWindow("Fractales de Lyapunov", SDL_WINDOWPOS_UNDEFINED,
                                 SDL_WINDOWPOS_UNDEFINED, (int) w, (int) h, SDL_WINDOW_RESIZABLE);
     SDL_MaximizeWindow(m_window);
@@ -33,7 +35,7 @@ WindowManager::WindowManager(unsigned int w, unsigned int h)
 // Initialise une Texture et un Render
 // La texture est au format RGB, et a une taille de size.w * size.h, à la position position
 void WindowManager::initRender(SDL_Rect size, SDL_Rect position){
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED| SDL_RENDERER_PRESENTVSYNC);
     if(m_renderer == nullptr){
         throw std::runtime_error(SDL_GetError());
     }
@@ -70,13 +72,33 @@ void WindowManager::blitTexture() const{
 
 // Affiche le Render à l'écran
 void WindowManager::updateScreen() const{
+
     SDL_RenderPresent(m_renderer);
+}
+void WindowManager::render(SDL_Rect* clip,double angle, SDL_Point* center,SDL_RendererFlip flip)
+{
+  SDL_Rect renderQuad = {0,0,clip->w,clip->h};
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_RenderClear(m_renderer);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+
+  if (clip!= NULL)
+    {
+      renderQuad.w = clip->w;
+      renderQuad.h = clip->h;
+    }
+  
+  SDL_RenderCopyEx(m_renderer,m_texture,clip,&renderQuad,angle,center,flip);
 }
 
 // Permet de gérér les différents événements liées à la SDL :
 // les évenements clavier/souris/quit
 void WindowManager::eventLoop(){
     SDL_Event event;
+    double degree =0;
+    bool pause = true;
+    SDL_Rect testRect = {0,0,m_texturePosition.w,m_texturePosition.h};
+    SDL_RendererFlip flipType = SDL_FLIP_NONE;
     while(!m_quit){
         while(SDL_PollEvent(&event)){
             switch(event.type){
@@ -94,12 +116,42 @@ void WindowManager::eventLoop(){
                 case SDL_KEYUP:
                     onKeyboard(event.key.keysym.sym);
                     break;
+                case SDL_KEYDOWN:
+	          
+		          switch(event.key.keysym.sym)
+		              {
+		              case SDLK_a:
+		                degree+= 1;
+		                break;
+		              case SDLK_e:
+		                degree-=1;
+		                break;
+		              case SDLK_d:
+		                flipType = SDL_FLIP_HORIZONTAL;
+		                break;
+		              case SDLK_s:
+		                flipType= SDL_FLIP_NONE;
+		                break;
+		              case SDLK_z:
+		                flipType = SDL_FLIP_VERTICAL;
+		                break;
+		              case SDLK_q:
+		                degree += 180;
+		                break;
+		              case SDLK_p:
+		                pause = !pause;
+		                break;
+		              }
+                render(&m_textureOriginalSize,degree, NULL, flipType);
+                updateScreen();
+                break;
                 case SDL_WINDOWEVENT:
                     switch(event.window.event){
                         case SDL_WINDOWEVENT_RESIZED:
                             onResized(event.window.data1, event.window.data2);
                             break;
                         case SDL_WINDOWEVENT_MOVED:
+                            render(&m_texturePosition,0, NULL, SDL_FLIP_NONE);
                             updateScreen();
                             break;
                     }
@@ -112,6 +164,11 @@ void WindowManager::eventLoop(){
         }
         onTick();
         SDL_Delay(10);
+//        std::cout<<<<" ";
+
+
+        
+
     }
 }
 

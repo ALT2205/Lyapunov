@@ -1,0 +1,134 @@
+
+;; Function constexpr std::chrono::duration<_Rep, _Period>::rep std::chrono::duration<_Rep, _Period>::count() const [with _Rep = long int; _Period = std::ratio<1, 1000000000>] (_ZNKSt6chrono8durationIlSt5ratioILl1ELl1000000000EEE5countEv, funcdef_no=245, decl_uid=7634, cgraph_uid=169, symbol_order=169)
+
+constexpr std::chrono::duration<_Rep, _Period>::rep std::chrono::duration<_Rep, _Period>::count() const [with _Rep = long int; _Period = std::ratio<1, 1000000000>] (const struct duration * const this)
+{
+  rep D.9309;
+  rep _3;
+
+  <bb 2> [0.00%]:
+  _3 = this_2(D)->__r;
+
+<L0> [0.00%]:
+  return _3;
+
+}
+
+
+
+;; Function constexpr std::chrono::time_point<_Clock, _Dur>::duration std::chrono::time_point<_Clock, _Dur>::time_since_epoch() const [with _Clock = std::chrono::_V2::system_clock; _Dur = std::chrono::duration<long int, std::ratio<1, 1000000000> >] (_ZNKSt6chrono10time_pointINS_3_V212system_clockENS_8durationIlSt5ratioILl1ELl1000000000EEEEE16time_since_epochEv, funcdef_no=247, decl_uid=8206, cgraph_uid=171, symbol_order=171)
+
+constexpr std::chrono::time_point<_Clock, _Dur>::duration std::chrono::time_point<_Clock, _Dur>::time_since_epoch() const [with _Clock = std::chrono::_V2::system_clock; _Dur = std::chrono::duration<long int, std::ratio<1, 1000000000> >] (const struct time_point * const this)
+{
+  struct duration D.9301;
+
+  <bb 2> [0.00%]:
+  D.9301 = this_2(D)->__d;
+
+<L0> [0.00%]:
+  return D.9301;
+
+}
+
+
+
+;; Function long int getCurrentTime() (_Z14getCurrentTimev, funcdef_no=265, decl_uid=8972, cgraph_uid=190, symbol_order=190)
+
+long int getCurrentTime() ()
+{
+  struct time_point D.8975;
+  struct duration D.8976;
+  struct type D.9165;
+  long int D.9293;
+  long int _6;
+
+  <bb 2> [0.00%]:
+  D.8975 = std::chrono::_V2::system_clock::now ();
+  D.8976 = std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >::time_since_epoch (&D.8975);
+  D.9165 = std::chrono::duration_cast<std::chrono::duration<long int, std::ratio<1, 1000> >, long int, std::ratio<1, 1000000000> > (&D.8976);
+  _6 = std::chrono::duration<long int, std::ratio<1, 1000> >::count (&D.9165);
+  D.9165 ={v} {CLOBBER};
+  D.8976 ={v} {CLOBBER};
+  D.8975 ={v} {CLOBBER};
+
+<L3> [0.00%]:
+  return _6;
+
+}
+
+
+
+;; Function constexpr std::chrono::duration<_Rep, _Period>::duration(const _Rep2&) [with _Rep2 = long int; <template-parameter-2-2> = void; _Rep = long int; _Period = std::ratio<1, 1000>] (_ZNSt6chrono8durationIlSt5ratioILl1ELl1000EEEC2IlvEERKT_, funcdef_no=269, decl_uid=9281, cgraph_uid=192, symbol_order=192)
+
+constexpr std::chrono::duration<_Rep, _Period>::duration(const _Rep2&) [with _Rep2 = long int; <template-parameter-2-2> = void; _Rep = long int; _Period = std::ratio<1, 1000>] (struct duration * const this, const long int & __rep)
+{
+  long int _1;
+
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_3(D)] ={v} {CLOBBER};
+  _1 = *__rep_5(D);
+  this_3(D)->__r = _1;
+  return;
+
+}
+
+
+
+;; Function static constexpr _ToDur std::chrono::__duration_cast_impl<_ToDur, _CF, _CR, true, false>::__cast(const std::chrono::duration<_Rep, _Period>&) [with _Rep = long int; _Period = std::ratio<1, 1000000000>; _ToDur = std::chrono::duration<long int, std::ratio<1, 1000> >; _CF = std::ratio<1, 1000000>; _CR = long int] (_ZNSt6chrono20__duration_cast_implINS_8durationIlSt5ratioILl1ELl1000EEEES2_ILl1ELl1000000EElLb1ELb0EE6__castIlS2_ILl1ELl1000000000EEEES4_RKNS1_IT_T0_EE, funcdef_no=267, decl_uid=9245, cgraph_uid=194, symbol_order=194)
+
+static constexpr _ToDur std::chrono::__duration_cast_impl<_ToDur, _CF, _CR, true, false>::__cast(const std::chrono::duration<_Rep, _Period>&) [with _Rep = long int; _Period = std::ratio<1, 1000000000>; _ToDur = std::chrono::duration<long int, std::ratio<1, 1000> >; _CF = std::ratio<1, 1000000>; _CR = long int] (const struct duration & __d)
+{
+  const long int D.9284;
+  struct duration D.9285;
+  struct duration D.9305;
+  long int _1;
+  long int _2;
+
+  <bb 2> [0.00%]:
+  _1 = std::chrono::duration<long int, std::ratio<1, 1000000000> >::count (__d_4(D));
+  _2 = _1 / 1000000;
+  D.9284 = _2;
+  std::chrono::duration<long int, std::ratio<1, 1000> >::duration<long int> (&D.9285, &D.9284);
+  D.9305 = D.9285;
+  D.9285 ={v} {CLOBBER};
+  D.9284 ={v} {CLOBBER};
+
+<L2> [0.00%]:
+  return D.9305;
+
+}
+
+
+
+;; Function constexpr typename std::enable_if<std::chrono::__is_duration<_Tp>::value, _ToDur>::type std::chrono::duration_cast(const std::chrono::duration<_Rep, _Period>&) [with _ToDur = std::chrono::duration<long int, std::ratio<1, 1000> >; _Rep = long int; _Period = std::ratio<1, 1000000000>] (_ZNSt6chrono13duration_castINS_8durationIlSt5ratioILl1ELl1000EEEElS2_ILl1ELl1000000000EEEENSt9enable_ifIXsrNS_13__is_durationIT_EE5valueES8_E4typeERKNS1_IT0_T1_EE, funcdef_no=266, decl_uid=8983, cgraph_uid=195, symbol_order=195)
+
+constexpr typename std::enable_if<std::chrono::__is_duration<_Tp>::value, _ToDur>::type std::chrono::duration_cast(const std::chrono::duration<_Rep, _Period>&) [with _ToDur = std::chrono::duration<long int, std::ratio<1, 1000> >; _Rep = long int; _Period = std::ratio<1, 1000000000>] (const struct duration & __d)
+{
+  struct type D.9303;
+
+  <bb 2> [0.00%]:
+  D.9303 = std::chrono::__duration_cast_impl<std::chrono::duration<long int, std::ratio<1, 1000> >, std::ratio<1, 1000000>, long int, true, false>::__cast<long int, std::ratio<1, 1000000000> > (__d_2(D));
+
+<L0> [0.00%]:
+  return D.9303;
+
+}
+
+
+
+;; Function constexpr std::chrono::duration<_Rep, _Period>::rep std::chrono::duration<_Rep, _Period>::count() const [with _Rep = long int; _Period = std::ratio<1, 1000>] (_ZNKSt6chrono8durationIlSt5ratioILl1ELl1000EEE5countEv, funcdef_no=271, decl_uid=9071, cgraph_uid=196, symbol_order=196)
+
+constexpr std::chrono::duration<_Rep, _Period>::rep std::chrono::duration<_Rep, _Period>::count() const [with _Rep = long int; _Period = std::ratio<1, 1000>] (const struct duration * const this)
+{
+  rep D.9311;
+  rep _3;
+
+  <bb 2> [0.00%]:
+  _3 = this_2(D)->__r;
+
+<L0> [0.00%]:
+  return _3;
+
+}
+
+
