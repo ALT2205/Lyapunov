@@ -3,15 +3,15 @@
 
 std::ostream& operator<<(std::ostream&, SDL_Rect) (struct ostream & flux, struct SDL_Rect rect)
 {
+  struct basic_ostream & D.74510;
+  struct basic_ostream & D.74509;
+  struct basic_ostream & D.74508;
+  struct basic_ostream & D.74507;
+  struct basic_ostream & D.74506;
   struct basic_ostream & D.74505;
   struct basic_ostream & D.74504;
   struct basic_ostream & D.74503;
-  struct basic_ostream & D.74502;
-  struct basic_ostream & D.74501;
-  struct basic_ostream & D.74500;
-  struct basic_ostream & D.74499;
-  struct basic_ostream & D.74498;
-  struct ostream & D.74496;
+  struct ostream & D.74501;
   struct basic_ostream & _1;
   int _2;
   struct basic_ostream & _3;
@@ -69,12 +69,12 @@ std::ostream& operator<<(std::ostream&, SDL_Rect) (struct ostream & flux, struct
 
 WindowManager::WindowManager(unsigned int, unsigned int) (struct WindowManager * const this, unsigned int w, unsigned int h)
 {
-  void * D.74580;
-  void * D.74579;
-  const char * D.74515;
-  struct SDL_Window * D.74514;
-  const char * D.74512;
-  int D.74511;
+  void * D.74585;
+  void * D.74584;
+  const char * D.74520;
+  struct SDL_Window * D.74519;
+  const char * D.74517;
+  int D.74516;
   void * D.69720;
   void * D.69718;
   bool retval.0;
@@ -179,12 +179,12 @@ WindowManager::WindowManager(unsigned int, unsigned int) (struct WindowManager *
 
 void WindowManager::initRender(SDL_Rect, SDL_Rect) (struct WindowManager * const this, struct SDL_Rect size, struct SDL_Rect position)
 {
-  void * D.74583;
-  void * D.74582;
-  const char * D.74526;
-  struct SDL_Texture * D.74525;
-  const char * D.74523;
-  struct SDL_Renderer * D.74522;
+  void * D.74588;
+  void * D.74587;
+  const char * D.74531;
+  struct SDL_Texture * D.74530;
+  const char * D.74528;
+  struct SDL_Renderer * D.74527;
   void * D.69731;
   void * D.69729;
   struct SDL_Window * _1;
@@ -367,41 +367,48 @@ void WindowManager::render(SDL_Rect*, double, SDL_Point*, SDL_RendererFlip) (str
   struct SDL_Rect renderQuad;
   int _1;
   int _2;
-  struct SDL_Renderer * _3;
-  struct SDL_Renderer * _4;
+  int _3;
+  int _4;
   struct SDL_Renderer * _5;
-  int _6;
-  int _7;
-  struct SDL_Texture * _8;
-  struct SDL_Renderer * _9;
+  struct SDL_Renderer * _6;
+  struct SDL_Renderer * _7;
+  int _8;
+  int _9;
+  struct SDL_Rect * _10;
+  struct SDL_Texture * _11;
+  struct SDL_Renderer * _12;
 
   <bb 2> [0.00%]:
-  renderQuad = {};
-  _1 = clip_14(D)->w;
-  renderQuad.w = _1;
-  _2 = clip_14(D)->h;
-  renderQuad.h = _2;
-  _3 = this_17(D)->m_renderer;
-  SDL_SetRenderDrawColor (_3, 0, 0, 0, 255);
-  _4 = this_17(D)->m_renderer;
-  SDL_RenderClear (_4);
-  _5 = this_17(D)->m_renderer;
-  SDL_SetRenderDrawColor (_5, 255, 255, 255, 255);
-  if (clip_14(D) != 0B)
+  _1 = clip_16(D)->x;
+  renderQuad.x = _1;
+  _2 = clip_16(D)->y;
+  renderQuad.y = _2;
+  _3 = clip_16(D)->w;
+  renderQuad.w = _3;
+  _4 = clip_16(D)->h;
+  renderQuad.h = _4;
+  _5 = this_21(D)->m_renderer;
+  SDL_SetRenderDrawColor (_5, 0, 0, 0, 255);
+  _6 = this_21(D)->m_renderer;
+  SDL_RenderClear (_6);
+  _7 = this_21(D)->m_renderer;
+  SDL_SetRenderDrawColor (_7, 255, 255, 255, 255);
+  if (clip_16(D) != 0B)
     goto <bb 3>; [0.00%]
   else
     goto <bb 4>; [0.00%]
 
   <bb 3> [0.00%]:
-  _6 = clip_14(D)->w;
-  renderQuad.w = _6;
-  _7 = clip_14(D)->h;
-  renderQuad.h = _7;
+  _8 = clip_16(D)->w;
+  renderQuad.w = _8;
+  _9 = clip_16(D)->h;
+  renderQuad.h = _9;
 
   <bb 4> [0.00%]:
-  _8 = this_17(D)->m_texture;
-  _9 = this_17(D)->m_renderer;
-  SDL_RenderCopyEx (_9, _8, clip_14(D), &renderQuad, angle_23(D), center_24(D), flip_25(D));
+  _10 = &this_21(D)->m_textureOriginalSize;
+  _11 = this_21(D)->m_texture;
+  _12 = this_21(D)->m_renderer;
+  SDL_RenderCopyEx (_12, _11, _10, &renderQuad, angle_27(D), center_28(D), flip_29(D));
   renderQuad ={v} {CLOBBER};
   return;
 
@@ -413,220 +420,244 @@ void WindowManager::render(SDL_Rect*, double, SDL_Point*, SDL_RendererFlip) (str
 
 void WindowManager::eventLoop() (struct WindowManager * const this)
 {
-  int D.74545;
+  int D.74550;
   SDL_RendererFlip flipType;
   struct SDL_Rect testRect;
   bool pause;
   double degree;
   union SDL_Event event;
   bool retval.5;
-  int _1;
+  bool _1;
   int _2;
-  bool _3;
-  int _4;
-  unsigned int _5;
-  int (*__vtbl_ptr_type) () * _6;
-  int (*__vtbl_ptr_type) () * _7;
-  int (*__vtbl_ptr_type) () _8;
-  unsigned char _9;
+  unsigned int _3;
+  int (*__vtbl_ptr_type) () * _4;
+  int (*__vtbl_ptr_type) () * _5;
+  int (*__vtbl_ptr_type) () _6;
+  unsigned char _7;
+  unsigned int _8;
+  int _9;
   unsigned int _10;
   int _11;
   unsigned int _12;
-  int _13;
-  unsigned int _14;
-  int (*__vtbl_ptr_type) () * _15;
-  int (*__vtbl_ptr_type) () * _16;
-  int (*__vtbl_ptr_type) () _17;
-  int _18;
-  int _19;
-  int (*__vtbl_ptr_type) () * _20;
-  int (*__vtbl_ptr_type) () * _21;
-  int (*__vtbl_ptr_type) () _22;
+  int (*__vtbl_ptr_type) () * _13;
+  int (*__vtbl_ptr_type) () * _14;
+  int (*__vtbl_ptr_type) () _15;
+  int _16;
+  int _17;
+  int (*__vtbl_ptr_type) () * _18;
+  int (*__vtbl_ptr_type) () * _19;
+  int (*__vtbl_ptr_type) () _20;
+  int _21;
+  unsigned int _22;
   int _23;
   unsigned int _24;
-  int _25;
-  unsigned int _26;
-  int (*__vtbl_ptr_type) () * _27;
-  int (*__vtbl_ptr_type) () * _28;
-  int (*__vtbl_ptr_type) () _29;
+  int (*__vtbl_ptr_type) () * _25;
+  int (*__vtbl_ptr_type) () * _26;
+  int (*__vtbl_ptr_type) () _27;
+  int _28;
+  int _29;
   int _30;
   int _31;
-  struct SDL_Rect * _32;
-  unsigned char _33;
+  int _32;
+  int _33;
   int _34;
-  int (*__vtbl_ptr_type) () * _35;
-  int (*__vtbl_ptr_type) () _36;
+  int _35;
+  int _36;
   int _37;
-  unsigned int _38;
+  unsigned char _38;
   int _39;
-  unsigned int _40;
-  struct SDL_Rect * _41;
-  int (*__vtbl_ptr_type) () * _42;
-  int (*__vtbl_ptr_type) () * _43;
-  int (*__vtbl_ptr_type) () _44;
-  int _71;
-  bool retval.5_72;
+  int (*__vtbl_ptr_type) () * _40;
+  int (*__vtbl_ptr_type) () _41;
+  int _42;
+  unsigned int _43;
+  int _44;
+  unsigned int _45;
+  struct SDL_Rect * _46;
+  int (*__vtbl_ptr_type) () * _47;
+  int (*__vtbl_ptr_type) () * _48;
+  int (*__vtbl_ptr_type) () _49;
+  int _75;
+  bool retval.5_76;
 
   <bb 2> [0.00%]:
-  degree_62 = 0.0;
-  pause_63 = 1;
-  testRect = {};
-  _1 = this_66(D)->m_texturePosition.w;
-  testRect.w = _1;
-  _2 = this_66(D)->m_texturePosition.h;
-  testRect.h = _2;
-  flipType_69 = 0;
+  degree_68 = 0.0;
+  pause_69 = 1;
+  testRect = this_71(D)->m_textureOriginalSize;
+  flipType_73 = 0;
 
   <bb 3> [0.00%]:
-  # degree_45 = PHI <degree_62(2), degree_46(25)>
-  # pause_49 = PHI <pause_63(2), pause_50(25)>
-  # flipType_53 = PHI <flipType_69(2), flipType_54(25)>
-  _3 = this_66(D)->m_quit;
-  if (_3 != 0)
-    goto <bb 26>; [0.00%]
+  # degree_50 = PHI <degree_68(2), degree_51(29)>
+  # pause_54 = PHI <pause_69(2), pause_55(29)>
+  # flipType_58 = PHI <flipType_73(2), flipType_59(29)>
+  _1 = this_71(D)->m_quit;
+  if (_1 != 0)
+    goto <bb 30>; [0.00%]
   else
     goto <bb 4>; [0.00%]
 
   <bb 4> [0.00%]:
-  # degree_46 = PHI <degree_45(3), degree_48(24)>
-  # pause_50 = PHI <pause_49(3), pause_52(24)>
-  # flipType_54 = PHI <flipType_53(3), flipType_56(24)>
-  _71 = SDL_PollEvent (&event);
-  _4 = _71;
-  retval.5_72 = _4 != 0;
-  if (retval.5_72 != 0)
+  # degree_51 = PHI <degree_50(3), degree_53(28)>
+  # pause_55 = PHI <pause_54(3), pause_57(28)>
+  # flipType_59 = PHI <flipType_58(3), flipType_61(28)>
+  _75 = SDL_PollEvent (&event);
+  _2 = _75;
+  retval.5_76 = _2 != 0;
+  if (retval.5_76 != 0)
     goto <bb 5>; [0.00%]
   else
-    goto <bb 25>; [0.00%]
+    goto <bb 29>; [0.00%]
 
   <bb 5> [0.00%]:
-  _5 = event.type;
-  switch (_5) <default: <L24> [0.00%], case 256: <L23> [0.00%], case 512: <L18> [0.00%], case 768: <L8> [0.00%], case 769: <L7> [0.00%], case 1024: <L6> [0.00%], case 1026: <L4> [0.00%], case 1027: <L5> [0.00%]>
+  _3 = event.type;
+  switch (_3) <default: <L28> [0.00%], case 256: <L27> [0.00%], case 512: <L22> [0.00%], case 768: <L8> [0.00%], case 769: <L7> [0.00%], case 1024: <L6> [0.00%], case 1026: <L4> [0.00%], case 1027: <L5> [0.00%]>
 
 <L4> [0.00%]:
-  _6 = this_66(D)->_vptr.WindowManager;
-  _7 = _6 + 8;
-  _8 = *_7;
-  _9 = event.button.button;
+  _4 = this_71(D)->_vptr.WindowManager;
+  _5 = _4 + 8;
+  _6 = *_5;
+  _7 = event.button.button;
+  _8 = (unsigned int) _7;
+  _9 = event.button.y;
   _10 = (unsigned int) _9;
-  _11 = event.button.y;
+  _11 = event.button.x;
   _12 = (unsigned int) _11;
-  _13 = event.button.x;
-  _14 = (unsigned int) _13;
-  OBJ_TYPE_REF(_8;(struct WindowManager)this_66(D)->1) (this_66(D), _14, _12, _10);
-  goto <bb 24> (<L24>); [0.00%]
+  OBJ_TYPE_REF(_6;(struct WindowManager)this_71(D)->1) (this_71(D), _12, _10, _8);
+  goto <bb 28> (<L28>); [0.00%]
 
 <L5> [0.00%]:
-  _15 = this_66(D)->_vptr.WindowManager;
-  _16 = _15 + 24;
-  _17 = *_16;
-  OBJ_TYPE_REF(_17;(struct WindowManager)this_66(D)->3) (this_66(D));
-  goto <bb 24> (<L24>); [0.00%]
+  _13 = this_71(D)->_vptr.WindowManager;
+  _14 = _13 + 24;
+  _15 = *_14;
+  OBJ_TYPE_REF(_15;(struct WindowManager)this_71(D)->3) (this_71(D));
+  goto <bb 28> (<L28>); [0.00%]
 
 <L6> [0.00%]:
-  _18 = event.motion.x;
-  this_66(D)->m_mousePosition.x = _18;
-  _19 = event.motion.y;
-  this_66(D)->m_mousePosition.y = _19;
-  _20 = this_66(D)->_vptr.WindowManager;
-  _21 = _20 + 16;
-  _22 = *_21;
-  _23 = event.motion.y;
+  _16 = event.motion.x;
+  this_71(D)->m_mousePosition.x = _16;
+  _17 = event.motion.y;
+  this_71(D)->m_mousePosition.y = _17;
+  _18 = this_71(D)->_vptr.WindowManager;
+  _19 = _18 + 16;
+  _20 = *_19;
+  _21 = event.motion.y;
+  _22 = (unsigned int) _21;
+  _23 = event.motion.x;
   _24 = (unsigned int) _23;
-  _25 = event.motion.x;
-  _26 = (unsigned int) _25;
-  OBJ_TYPE_REF(_22;(struct WindowManager)this_66(D)->2) (this_66(D), _26, _24);
-  goto <bb 24> (<L24>); [0.00%]
+  OBJ_TYPE_REF(_20;(struct WindowManager)this_71(D)->2) (this_71(D), _24, _22);
+  goto <bb 28> (<L28>); [0.00%]
 
 <L7> [0.00%]:
-  _27 = this_66(D)->_vptr.WindowManager;
-  _28 = _27 + 32;
-  _29 = *_28;
-  _30 = event.key.keysym.sym;
-  OBJ_TYPE_REF(_29;(struct WindowManager)this_66(D)->4) (this_66(D), _30);
-  goto <bb 24> (<L24>); [0.00%]
+  _25 = this_71(D)->_vptr.WindowManager;
+  _26 = _25 + 32;
+  _27 = *_26;
+  _28 = event.key.keysym.sym;
+  OBJ_TYPE_REF(_27;(struct WindowManager)this_71(D)->4) (this_71(D), _28);
+  goto <bb 28> (<L28>); [0.00%]
 
 <L8> [0.00%]:
-  _31 = event.key.keysym.sym;
-  switch (_31) <default: <L16> [0.00%], case 97: <L9> [0.00%], case 100: <L11> [0.00%], case 101: <L10> [0.00%], case 112: <L15> [0.00%], case 113: <L14> [0.00%], case 115: <L12> [0.00%], case 122: <L13> [0.00%]>
+  _29 = event.key.keysym.sym;
+  switch (_29) <default: <L20> [0.00%], case 97: <L9> [0.00%], case 100: <L11> [0.00%], case 101: <L10> [0.00%], case 112: <L15> [0.00%], case 113: <L14> [0.00%], case 115: <L12> [0.00%], case 122: <L13> [0.00%], case 1073741903: <L16> [0.00%], case 1073741904: <L17> [0.00%], case 1073741905: <L19> [0.00%], case 1073741906: <L18> [0.00%]>
 
 <L9> [0.00%]:
-  degree_87 = degree_46 + 1.0e+0;
-  goto <bb 18> (<L16>); [0.00%]
+  degree_95 = degree_51 + 1.0e+0;
+  goto <bb 22> (<L20>); [0.00%]
 
 <L10> [0.00%]:
-  degree_85 = degree_46 - 1.0e+0;
-  goto <bb 18> (<L16>); [0.00%]
+  degree_93 = degree_51 - 1.0e+0;
+  goto <bb 22> (<L20>); [0.00%]
 
 <L11> [0.00%]:
-  flipType_86 = 1;
-  goto <bb 18> (<L16>); [0.00%]
+  flipType_94 = 1;
+  goto <bb 22> (<L20>); [0.00%]
 
 <L12> [0.00%]:
-  flipType_82 = 0;
-  goto <bb 18> (<L16>); [0.00%]
+  flipType_90 = 0;
+  goto <bb 22> (<L20>); [0.00%]
 
 <L13> [0.00%]:
-  flipType_81 = 2;
-  goto <bb 18> (<L16>); [0.00%]
+  flipType_89 = 2;
+  goto <bb 22> (<L20>); [0.00%]
 
 <L14> [0.00%]:
-  degree_83 = degree_46 + 1.8e+2;
-  goto <bb 18> (<L16>); [0.00%]
+  degree_91 = degree_51 + 1.8e+2;
+  goto <bb 22> (<L20>); [0.00%]
 
 <L15> [0.00%]:
-  pause_84 = ~pause_50;
+  pause_92 = ~pause_55;
+  goto <bb 22> (<L20>); [0.00%]
 
-  # degree_47 = PHI <degree_46(10), degree_87(11), degree_85(12), degree_46(13), degree_46(14), degree_46(15), degree_83(16), degree_46(17)>
-  # pause_51 = PHI <pause_50(10), pause_50(11), pause_50(12), pause_50(13), pause_50(14), pause_50(15), pause_50(16), pause_84(17)>
-  # flipType_55 = PHI <flipType_54(10), flipType_54(11), flipType_54(12), flipType_86(13), flipType_82(14), flipType_81(15), flipType_54(16), flipType_54(17)>
 <L16> [0.00%]:
-  _32 = &this_66(D)->m_textureOriginalSize;
-  WindowManager::render (this_66(D), _32, degree_47, 0B, flipType_55);
-  WindowManager::updateScreen (this_66(D));
-  goto <bb 24> (<L24>); [0.00%]
+  _30 = testRect.x;
+  _31 = _30 + 10;
+  testRect.x = _31;
+  goto <bb 22> (<L20>); [0.00%]
+
+<L17> [0.00%]:
+  _32 = testRect.x;
+  _33 = _32 + -10;
+  testRect.x = _33;
+  goto <bb 22> (<L20>); [0.00%]
 
 <L18> [0.00%]:
-  _33 = event.window.event;
-  _34 = (int) _33;
-  switch (_34) <default: <L21> [0.00%], case 4: <L20> [0.00%], case 5: <L19> [0.00%]>
+  _34 = testRect.y;
+  _35 = _34 + -10;
+  testRect.y = _35;
+  goto <bb 22> (<L20>); [0.00%]
 
 <L19> [0.00%]:
-  _35 = this_66(D)->_vptr.WindowManager;
-  _36 = *_35;
-  _37 = event.window.data2;
-  _38 = (unsigned int) _37;
-  _39 = event.window.data1;
-  _40 = (unsigned int) _39;
-  OBJ_TYPE_REF(_36;(struct WindowManager)this_66(D)->0) (this_66(D), _40, _38);
-  goto <bb 22> (<L21>); [0.00%]
+  _36 = testRect.y;
+  _37 = _36 + 10;
+  testRect.y = _37;
 
+  # degree_52 = PHI <degree_51(10), degree_95(11), degree_93(12), degree_51(13), degree_51(14), degree_51(15), degree_91(16), degree_51(17), degree_51(18), degree_51(19), degree_51(20), degree_51(21)>
+  # pause_56 = PHI <pause_55(10), pause_55(11), pause_55(12), pause_55(13), pause_55(14), pause_55(15), pause_55(16), pause_92(17), pause_55(18), pause_55(19), pause_55(20), pause_55(21)>
+  # flipType_60 = PHI <flipType_59(10), flipType_59(11), flipType_59(12), flipType_94(13), flipType_90(14), flipType_89(15), flipType_59(16), flipType_59(17), flipType_59(18), flipType_59(19), flipType_59(20), flipType_59(21)>
 <L20> [0.00%]:
-  _41 = &this_66(D)->m_texturePosition;
-  WindowManager::render (this_66(D), _41, 0.0, 0B, 0);
-  WindowManager::updateScreen (this_66(D));
+  WindowManager::render (this_71(D), &testRect, degree_52, 0B, flipType_60);
+  WindowManager::updateScreen (this_71(D));
+  goto <bb 28> (<L28>); [0.00%]
 
-<L21> [0.00%]:
-  goto <bb 24> (<L24>); [0.00%]
+<L22> [0.00%]:
+  _38 = event.window.event;
+  _39 = (int) _38;
+  switch (_39) <default: <L25> [0.00%], case 4: <L24> [0.00%], case 5: <L23> [0.00%]>
 
 <L23> [0.00%]:
-  this_66(D)->m_quit = 1;
+  _40 = this_71(D)->_vptr.WindowManager;
+  _41 = *_40;
+  _42 = event.window.data2;
+  _43 = (unsigned int) _42;
+  _44 = event.window.data1;
+  _45 = (unsigned int) _44;
+  OBJ_TYPE_REF(_41;(struct WindowManager)this_71(D)->0) (this_71(D), _45, _43);
+  goto <bb 26> (<L25>); [0.00%]
 
-  # degree_48 = PHI <degree_46(5), degree_46(6), degree_46(7), degree_46(8), degree_46(9), degree_47(18), degree_46(22), degree_46(23)>
-  # pause_52 = PHI <pause_50(5), pause_50(6), pause_50(7), pause_50(8), pause_50(9), pause_51(18), pause_50(22), pause_50(23)>
-  # flipType_56 = PHI <flipType_54(5), flipType_54(6), flipType_54(7), flipType_54(8), flipType_54(9), flipType_55(18), flipType_54(22), flipType_54(23)>
 <L24> [0.00%]:
+  _46 = &this_71(D)->m_texturePosition;
+  WindowManager::render (this_71(D), _46, 0.0, 0B, 0);
+  WindowManager::updateScreen (this_71(D));
+
+<L25> [0.00%]:
+  goto <bb 28> (<L28>); [0.00%]
+
+<L27> [0.00%]:
+  this_71(D)->m_quit = 1;
+
+  # degree_53 = PHI <degree_51(5), degree_51(6), degree_51(7), degree_51(8), degree_51(9), degree_52(22), degree_51(26), degree_51(27)>
+  # pause_57 = PHI <pause_55(5), pause_55(6), pause_55(7), pause_55(8), pause_55(9), pause_56(22), pause_55(26), pause_55(27)>
+  # flipType_61 = PHI <flipType_59(5), flipType_59(6), flipType_59(7), flipType_59(8), flipType_59(9), flipType_60(22), flipType_59(26), flipType_59(27)>
+<L28> [0.00%]:
   goto <bb 4>; [0.00%]
 
-  <bb 25> [0.00%]:
-  _42 = this_66(D)->_vptr.WindowManager;
-  _43 = _42 + 40;
-  _44 = *_43;
-  OBJ_TYPE_REF(_44;(struct WindowManager)this_66(D)->5) (this_66(D));
+  <bb 29> [0.00%]:
+  _47 = this_71(D)->_vptr.WindowManager;
+  _48 = _47 + 40;
+  _49 = *_48;
+  OBJ_TYPE_REF(_49;(struct WindowManager)this_71(D)->5) (this_71(D));
   SDL_Delay (10);
   goto <bb 3>; [0.00%]
 
-  <bb 26> [0.00%]:
+  <bb 30> [0.00%]:
   event ={v} {CLOBBER};
   testRect ={v} {CLOBBER};
   return;
@@ -639,7 +670,7 @@ void WindowManager::eventLoop() (struct WindowManager * const this)
 
 const SDL_Rect& WindowManager::getTexturePosition() const (const struct WindowManager * const this)
 {
-  const struct SDL_Rect & D.74547;
+  const struct SDL_Rect & D.74552;
   const struct SDL_Rect & _2;
 
   <bb 2> [0.00%]:
@@ -694,7 +725,7 @@ WindowManager::~WindowManager() (struct WindowManager * const this)
 
 const SDL_Rect& WindowManager::getMousePosition() const (const struct WindowManager * const this)
 {
-  const struct SDL_Rect & D.74549;
+  const struct SDL_Rect & D.74554;
   const struct SDL_Rect & _2;
 
   <bb 2> [0.00%]:
@@ -711,7 +742,7 @@ const SDL_Rect& WindowManager::getMousePosition() const (const struct WindowMana
 
 _Tp* std::vector<_Tp, _Alloc>::data() [with _Tp = unsigned int; _Alloc = std::allocator<unsigned int>] (struct vector * const this)
 {
-  unsigned int * D.74529;
+  unsigned int * D.74534;
   unsigned int * _1;
   unsigned int * _5;
 
@@ -726,11 +757,11 @@ _Tp* std::vector<_Tp, _Alloc>::data() [with _Tp = unsigned int; _Alloc = std::al
 
 
 
-;; Function _Up* std::vector<_Tp, _Alloc>::_M_data_ptr(_Up*) const [with _Up = unsigned int; _Tp = unsigned int; _Alloc = std::allocator<unsigned int>] (_ZNKSt6vectorIjSaIjEE11_M_data_ptrIjEEPT_S4_, funcdef_no=6211, decl_uid=73662, cgraph_uid=4777, symbol_order=4780)
+;; Function _Up* std::vector<_Tp, _Alloc>::_M_data_ptr(_Up*) const [with _Up = unsigned int; _Tp = unsigned int; _Alloc = std::allocator<unsigned int>] (_ZNKSt6vectorIjSaIjEE11_M_data_ptrIjEEPT_S4_, funcdef_no=6211, decl_uid=73667, cgraph_uid=4777, symbol_order=4780)
 
 _Up* std::vector<_Tp, _Alloc>::_M_data_ptr(_Up*) const [with _Up = unsigned int; _Tp = unsigned int; _Alloc = std::allocator<unsigned int>] (const struct vector * const this, unsigned int * __ptr)
 {
-  unsigned int * D.74531;
+  unsigned int * D.74536;
   unsigned int * _2;
 
   <bb 2> [0.00%]:
@@ -743,7 +774,7 @@ _Up* std::vector<_Tp, _Alloc>::_M_data_ptr(_Up*) const [with _Up = unsigned int;
 
 
 
-;; Function void __static_initialization_and_destruction_0(int, int) (_Z41__static_initialization_and_destruction_0ii, funcdef_no=6291, decl_uid=74488, cgraph_uid=4857, symbol_order=4887)
+;; Function void __static_initialization_and_destruction_0(int, int) (_Z41__static_initialization_and_destruction_0ii, funcdef_no=6291, decl_uid=74493, cgraph_uid=4857, symbol_order=4887)
 
 void __static_initialization_and_destruction_0(int, int) (int __initialize_p, int __priority)
 {
@@ -770,7 +801,7 @@ void __static_initialization_and_destruction_0(int, int) (int __initialize_p, in
 
 
 
-;; Function (static initializers for src/WindowManager.cpp) (_GLOBAL__sub_I__ZlsRSo8SDL_Rect, funcdef_no=6292, decl_uid=74494, cgraph_uid=4858, symbol_order=5501)
+;; Function (static initializers for src/WindowManager.cpp) (_GLOBAL__sub_I__ZlsRSo8SDL_Rect, funcdef_no=6292, decl_uid=74499, cgraph_uid=4858, symbol_order=5501)
 
 (static initializers for src/WindowManager.cpp) ()
 {

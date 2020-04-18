@@ -77,7 +77,7 @@ void WindowManager::updateScreen() const{
 }
 void WindowManager::render(SDL_Rect* clip,double angle, SDL_Point* center,SDL_RendererFlip flip)
 {
-  SDL_Rect renderQuad = {0,0,clip->w,clip->h};
+  SDL_Rect renderQuad = {clip->x,clip->y,clip->w,clip->h};
     SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
@@ -88,7 +88,7 @@ void WindowManager::render(SDL_Rect* clip,double angle, SDL_Point* center,SDL_Re
       renderQuad.h = clip->h;
     }
   
-  SDL_RenderCopyEx(m_renderer,m_texture,clip,&renderQuad,angle,center,flip);
+  SDL_RenderCopyEx(m_renderer,m_texture,&m_textureOriginalSize,&renderQuad,angle,center,flip);
 }
 
 // Permet de gérér les différents événements liées à la SDL :
@@ -97,7 +97,7 @@ void WindowManager::eventLoop(){
     SDL_Event event;
     double degree =0;
     bool pause = true;
-    SDL_Rect testRect = {0,0,m_texturePosition.w,m_texturePosition.h};
+    SDL_Rect testRect = m_textureOriginalSize;
     SDL_RendererFlip flipType = SDL_FLIP_NONE;
     while(!m_quit){
         while(SDL_PollEvent(&event)){
@@ -141,8 +141,21 @@ void WindowManager::eventLoop(){
 		              case SDLK_p:
 		                pause = !pause;
 		                break;
+                    case SDLK_RIGHT:
+                        testRect.x +=10;
+                        break;
+                    case SDLK_LEFT:
+                        testRect.x -=10;
+                        break;
+                    case SDLK_UP:
+                        testRect.y -=10;
+                        break;
+                    case SDLK_DOWN:
+                        testRect.y +=10;
+                        break;
+
 		              }
-                render(&m_textureOriginalSize,degree, NULL, flipType);
+                render(&testRect,degree, NULL, flipType);
                 updateScreen();
                 break;
                 case SDL_WINDOWEVENT:
