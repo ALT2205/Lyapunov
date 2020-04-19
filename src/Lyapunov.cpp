@@ -127,6 +127,8 @@ void Lyapunov::setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int 
             break;
     }
 }
+
+// Met dans trois cases de colorScale l'intervalle entre deux couleurs
 void Lyapunov::setColorScale(int tab,Uint32 max,Uint32 min){
 
     int currMax = max;
@@ -145,16 +147,9 @@ void Lyapunov::setColorScale(int tab,Uint32 max,Uint32 min){
 // fonction de la valeur de l'exposant associé à la même
 // position dans le tableau des exposants 2D
 void Lyapunov::updatePixels(){
-    std::cout<<"in update Pixels"<<std::endl;
     std::vector<Uint32> pixels(m_size.w * m_size.h);
     for(int i = 0, size = m_size.w * m_size.h; i < size; ++i){
         double exponent = m_exponents[i];
-        /*
-        int green = ((int) (210 + exponent * 50) >= 0) ? (int) (210 + exponent * 50) :0 ;
-        int red = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
-        int blue = ((int) (255 - exponent * 200) >= 0) ? (int) (255 - exponent * 200) : 0;
-        */
-
         int red,green,blue;
         int choixTab =0;
         if(exponent > 0){
@@ -167,6 +162,12 @@ void Lyapunov::updatePixels(){
             
         
         
+        /*
+        int green = ((int) (210 + exponent * 50) >= 0) ? (int) (210 + exponent * 50) :0 ;
+        int red = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
+        int blue = ((int) (255 - exponent * 200) >= 0) ? (int) (255 - exponent * 200) : 0;
+        */
+
 
         // Calcul des différentes couleurs d'après une série de tests.
         // en fonction de la valeur de l'exposant de lyapunov
@@ -188,9 +189,7 @@ void Lyapunov::updatePixels(){
         setPixelRGB(pixels, i, red, green, blue);
         
     }
-    std::cout<<"before Texture"<<std::endl;
     updateTexture(pixels);
-    std::cout<<"out update Pixels"<<std::endl;
 }
 
 

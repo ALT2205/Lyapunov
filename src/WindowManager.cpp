@@ -75,6 +75,8 @@ void WindowManager::updateScreen() const{
 
     SDL_RenderPresent(m_renderer);
 }
+
+// Crée met à jour le render avec nouvelle orientation et position
 void WindowManager::render(SDL_Rect* clip,double angle, SDL_Point* center,SDL_RendererFlip flip)
 {
   SDL_Rect renderQuad = {clip->x,clip->y,clip->w,clip->h};
@@ -82,11 +84,6 @@ void WindowManager::render(SDL_Rect* clip,double angle, SDL_Point* center,SDL_Re
     SDL_RenderClear(m_renderer);
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 
-  if (clip!= NULL)
-    {
-      renderQuad.w = clip->w;
-      renderQuad.h = clip->h;
-    }
   
   SDL_RenderCopyEx(m_renderer,m_texture,&m_textureOriginalSize,&renderQuad,angle,center,flip);
 }
