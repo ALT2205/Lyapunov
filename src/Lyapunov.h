@@ -31,6 +31,7 @@ class Lyapunov : WindowManager {
     bool m_stopColor{false};            // Determine si les couleurs de la fractale changent
     std::stack<Region> m_lastPosition;  // Pile qui contient les régions zoomées
     Uint32 m_colorLyap[4];
+    int colorScale[6]; 
 
     void generateSequence();
 
@@ -48,6 +49,8 @@ public:
     void setPixelRGB(std::vector<Uint32>& pixels, unsigned int index, unsigned int r, unsigned int g, unsigned int b);
 
     void setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int h, double s, double v);
+
+    void setColorScale(int tab,Uint32 max,Uint32 min);
 
     void updatePixels();
 
