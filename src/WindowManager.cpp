@@ -11,17 +11,16 @@ std::ostream& operator<<(std::ostream& flux, SDL_Rect rect){
     return flux;
 }
 
-
 // Constructeur de la classe WindowMangager
 WindowManager::WindowManager(unsigned int w, unsigned int h)
         : m_windowPosition{}, m_quit{false}, m_window{nullptr}, m_renderer{nullptr}, m_draw{nullptr},
           m_texture{nullptr},
           m_texturePosition{}, m_textureOriginalSize{}, m_mousePosition{}{
-	   
+
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         throw std::runtime_error(SDL_GetError());
     }
-    
+
     m_window = SDL_CreateWindow("Fractales de Lyapunov", SDL_WINDOWPOS_UNDEFINED,
                                 SDL_WINDOWPOS_UNDEFINED, (int) w, (int) h, SDL_WINDOW_RESIZABLE);
     SDL_MaximizeWindow(m_window);
@@ -35,7 +34,7 @@ WindowManager::WindowManager(unsigned int w, unsigned int h)
 // Initialise une Texture et un Render
 // La texture est au format RGB, et a une taille de size.w * size.h, à la position position
 void WindowManager::initRender(SDL_Rect size, SDL_Rect position){
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED| SDL_RENDERER_PRESENTVSYNC);
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if(m_renderer == nullptr){
         throw std::runtime_error(SDL_GetError());
     }
@@ -47,55 +46,34 @@ void WindowManager::initRender(SDL_Rect size, SDL_Rect position){
     m_textureOriginalSize = size;
 }
 
-
 // Permet de dessiner un rectangle à la positon X,Y de largeur et hauteur W,H
 void WindowManager::drawRect(int x, int y, int w, int h){
     SDL_Rect rect = {x, y, w, h};
     SDL_RenderDrawRect(m_renderer, &rect);
 }
 
-
- //Mets à jour les pixels d'une texture
+//Mets à jour les pixels d'une texture
 void WindowManager::updateTexture(std::vector<Uint32>& pixels) const{
     SDL_UpdateTexture(m_texture, nullptr, pixels.data(), (int) (m_textureOriginalSize.h * sizeof(Uint32)));
 }
-
 
 // Réinitialise le Render avec uniquement la texture
 void WindowManager::blitTexture() const{
     SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
     SDL_RenderClear(m_renderer);
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-    SDL_RenderCopy(m_renderer, m_texture, nullptr, &m_texturePosition);
+    SDL_RenderCopyEx(m_renderer, m_texture, nullptr, &m_texturePosition, angle, nullptr, m_flip);
 }
-
 
 // Affiche le Render à l'écran
 void WindowManager::updateScreen() const{
-
     SDL_RenderPresent(m_renderer);
-}
-
-// Crée met à jour le render avec nouvelle orientation et position
-void WindowManager::render(SDL_Rect* clip,double angle, SDL_Point* center,SDL_RendererFlip flip)
-{
-  SDL_Rect renderQuad = {clip->x,clip->y,clip->w,clip->h};
-    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-    SDL_RenderClear(m_renderer);
-    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-
-  
-  SDL_RenderCopyEx(m_renderer,m_texture,&m_textureOriginalSize,&renderQuad,angle,center,flip);
 }
 
 // Permet de gérér les différents événements liées à la SDL :
 // les évenements clavier/souris/quit
 void WindowManager::eventLoop(){
     SDL_Event event;
-    double degree =0;
-    bool pause = true;
-    SDL_Rect testRect = m_textureOriginalSize;
-    SDL_RendererFlip flipType = SDL_FLIP_NONE;
     while(!m_quit){
         while(SDL_PollEvent(&event)){
             switch(event.type){
@@ -111,57 +89,18 @@ void WindowManager::eventLoop(){
                     onMouseMove(event.motion.x, event.motion.y);
                     break;
                 case SDL_KEYUP:
-                    onKeyboard(event.key.keysym.sym);
+                    onKeyboardUp(event.key.keysym.sym);
                     break;
                 case SDL_KEYDOWN:
-	          
-		          switch(event.key.keysym.sym)
-		              {
-		              case SDLK_a:
-		                degree+= 1;
-		                break;
-		              case SDLK_e:
-		                degree-=1;
-		                break;
-		              case SDLK_d:
-		                flipType = SDL_FLIP_HORIZONTAL;
-		                break;
-		              case SDLK_s:
-		                flipType= SDL_FLIP_NONE;
-		                break;
-		              case SDLK_z:
-		                flipType = SDL_FLIP_VERTICAL;
-		                break;
-		              case SDLK_q:
-		                degree += 180;
-		                break;
-		              case SDLK_p:
-		                pause = !pause;
-		                break;
-                    case SDLK_RIGHT:
-                        testRect.x +=10;
-                        break;
-                    case SDLK_LEFT:
-                        testRect.x -=10;
-                        break;
-                    case SDLK_UP:
-                        testRect.y -=10;
-                        break;
-                    case SDLK_DOWN:
-                        testRect.y +=10;
-                        break;
-
-		              }
-                render(&testRect,degree, NULL, flipType);
-                updateScreen();
-                break;
+                    onKeyboardDown(event.key.keysym.sym);
+                    break;
                 case SDL_WINDOWEVENT:
                     switch(event.window.event){
                         case SDL_WINDOWEVENT_RESIZED:
                             onResized(event.window.data1, event.window.data2);
                             break;
                         case SDL_WINDOWEVENT_MOVED:
-                            render(&m_texturePosition,0, NULL, SDL_FLIP_NONE);
+                            blitTexture();
                             updateScreen();
                             break;
                     }
@@ -169,19 +108,12 @@ void WindowManager::eventLoop(){
                 case SDL_QUIT:
                     m_quit = true;
                     break;
-
             }
         }
         onTick();
         SDL_Delay(10);
-//        std::cout<<<<" ";
-
-
-        
-
     }
 }
-
 
 // Getter qui retourne la position de la texture
 const SDL_Rect& WindowManager::getTexturePosition() const{
@@ -206,6 +138,50 @@ const SDL_Rect& WindowManager::getMousePosition() const{
     return m_mousePosition;
 }
 
+//Changer le miroir
+void WindowManager::setFlip(SDL_RendererFlip flip){
+    this->m_flip = flip;
+}
+
+//Modifier l'angle en ajoutant des degrées
+void WindowManager::addDegree(int degrees){
+    this->angle += degrees;
+}
+
+//Obtenir le miroir actuel
+SDL_RendererFlip WindowManager::getFlip(){
+    return m_flip;
+}
+
+//Faire un miroir horizontal
+void WindowManager::rotateHorizontally(){
+    switch(m_flip){
+        case SDL_FLIP_NONE:
+            setFlip(SDL_FLIP_HORIZONTAL);
+            break;
+        case SDL_FLIP_HORIZONTAL:
+            setFlip(SDL_FLIP_NONE);
+            break;
+        case SDL_FLIP_VERTICAL:
+            setFlip(SDL_FLIP_NONE);
+            break;
+    }
+}
+
+//Faire un miroir vertical
+void WindowManager::rotateVertically(){
+    switch(m_flip){
+        case SDL_FLIP_NONE:
+            setFlip(SDL_FLIP_VERTICAL);
+            break;
+        case SDL_FLIP_VERTICAL:
+            setFlip(SDL_FLIP_NONE);
+            break;
+        case SDL_FLIP_HORIZONTAL:
+            setFlip(SDL_FLIP_NONE);
+            break;
+    }
+}
 
 
 

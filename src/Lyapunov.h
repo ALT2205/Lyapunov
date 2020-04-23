@@ -62,7 +62,9 @@ public:
 
     void onMouseWheel() override;
 
-    void onKeyboard(int c) override;
+    void onKeyboardUp(int c) override;
+
+    void onKeyboardDown(int c) override;
 
     void onTick() override;
 
