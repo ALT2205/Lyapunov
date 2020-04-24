@@ -1,0 +1,4230 @@
+
+;; Function static std::size_t std::char_traits<char>::length(const char_type*) (_ZNSt11char_traitsIcE6lengthEPKc, funcdef_no=597, decl_uid=19782, cgraph_uid=283, symbol_order=284)
+
+static std::size_t std::char_traits<char>::length(const char_type*) (const char_type * __s)
+{
+  size_t D.316961;
+  size_t _3;
+
+  <bb 2> [0.00%]:
+  _3 = __builtin_strlen (__s_2(D));
+
+<L0> [0.00%]:
+  return _3;
+
+}
+
+
+
+;; Function constexpr std::_Ios_Openmode std::operator|(std::_Ios_Openmode, std::_Ios_Openmode) (_ZStorSt13_Ios_OpenmodeS_, funcdef_no=1241, decl_uid=33241, cgraph_uid=541, symbol_order=543)
+
+constexpr std::_Ios_Openmode std::operator|(std::_Ios_Openmode, std::_Ios_Openmode) (_Ios_Openmode __a, _Ios_Openmode __b)
+{
+  _Ios_Openmode D.316991;
+  _Ios_Openmode _3;
+
+  <bb 2> [0.00%]:
+  _3 = __a_1(D) | __b_2(D);
+
+<L0> [0.00%]:
+  return _3;
+
+}
+
+
+
+;; Function Glib::ustring::operator std::__cxx11::string() const (_ZNK4Glib7ustringcvNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEv, funcdef_no=1735, decl_uid=45754, cgraph_uid=627, symbol_order=629)
+
+Glib::ustring::operator std::__cxx11::string() const (const struct ustring * const this)
+{
+  const struct string * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &this_2(D)->string_;
+  std::__cxx11::basic_string<char>::basic_string (_4(D), _1);
+
+<L0> [0.00%]:
+  return _4(D);
+
+}
+
+
+
+;; Function sigc::internal::slot_rep::slot_rep(sigc::internal::hook, sigc::internal::hook, sigc::internal::hook) (_ZN4sigc8internal8slot_repC2EPFPvS2_ES4_S4_, funcdef_no=2539, decl_uid=59284, cgraph_uid=700, symbol_order=702)
+
+sigc::internal::slot_rep::slot_rep(sigc::internal::hook, sigc::internal::hook, sigc::internal::hook) (struct slot_rep * const this, void * (*hook) (void *) call__, void * (*hook) (void *) destroy__, void * (*hook) (void *) dup__)
+{
+  struct trackable * _1;
+  struct trackable * _2;
+
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_4(D)] ={v} {CLOBBER};
+  _1 = &this_4(D)->D.59307;
+  sigc::trackable::trackable (_1);
+  this_4(D)->call_ = call___7(D);
+  this_4(D)->destroy_ = destroy___9(D);
+  this_4(D)->dup_ = dup___11(D);
+  this_4(D)->cleanup_ = 0B;
+  this_4(D)->parent_ = 0B;
+  return;
+
+}
+
+
+
+;; Function sigc::internal::slot_rep::~slot_rep() (_ZN4sigc8internal8slot_repD2Ev, funcdef_no=2542, decl_uid=59304, cgraph_uid=703, symbol_order=705)
+
+sigc::internal::slot_rep::~slot_rep() (struct slot_rep * const this)
+{
+  struct trackable * _1;
+
+  <bb 2> [0.00%]:
+  sigc::internal::slot_rep::destroy (this_3(D));
+  _1 = &this_3(D)->D.59307;
+  sigc::trackable::~trackable (_1);
+  MEM[(struct  &)this_3(D)] ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function void sigc::internal::slot_rep::destroy() (_ZN4sigc8internal8slot_rep7destroyEv, funcdef_no=2544, decl_uid=59267, cgraph_uid=705, symbol_order=707)
+
+void sigc::internal::slot_rep::destroy() (struct slot_rep * const this)
+{
+  void * (*<Ta23>) (void *) _1;
+  void * (*<Ta23>) (void *) _2;
+
+  <bb 2> [0.00%]:
+  _1 = this_5(D)->destroy_;
+  if (_1 != 0B)
+    goto <bb 3>; [0.00%]
+  else
+    goto <bb 4>; [0.00%]
+
+  <bb 3> [0.00%]:
+  _2 = this_5(D)->destroy_;
+  _2 (this_5(D));
+
+  <bb 4> [0.00%]:
+  return;
+
+}
+
+
+
+;; Function sigc::internal::slot_do_bind::slot_do_bind(sigc::internal::slot_rep*) (_ZN4sigc8internal12slot_do_bindC2EPNS0_8slot_repE, funcdef_no=2548, decl_uid=59339, cgraph_uid=709, symbol_order=711)
+
+sigc::internal::slot_do_bind::slot_do_bind(sigc::internal::slot_rep*) (struct slot_do_bind * const this, struct slot_rep * rep)
+{
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  this_2(D)->rep_ = rep_4(D);
+  return;
+
+}
+
+
+
+;; Function void sigc::internal::slot_do_bind::operator()(const sigc::trackable*) const (_ZNK4sigc8internal12slot_do_bindclEPKNS_9trackableE, funcdef_no=2550, decl_uid=59334, cgraph_uid=711, symbol_order=713)
+
+void sigc::internal::slot_do_bind::operator()(const sigc::trackable*) const (const struct slot_do_bind * const this, const struct trackable * t)
+{
+  struct slot_rep * _1;
+
+  <bb 2> [0.00%]:
+  _1 = this_3(D)->rep_;
+  sigc::trackable::add_destroy_notify_callback (t_4(D), _1, notify);
+  return;
+
+}
+
+
+
+;; Function sigc::internal::slot_do_unbind::slot_do_unbind(sigc::internal::slot_rep*) (_ZN4sigc8internal14slot_do_unbindC2EPNS0_8slot_repE, funcdef_no=2552, decl_uid=59359, cgraph_uid=713, symbol_order=715)
+
+sigc::internal::slot_do_unbind::slot_do_unbind(sigc::internal::slot_rep*) (struct slot_do_unbind * const this, struct slot_rep * rep)
+{
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  this_2(D)->rep_ = rep_4(D);
+  return;
+
+}
+
+
+
+;; Function void sigc::internal::slot_do_unbind::operator()(const sigc::trackable*) const (_ZNK4sigc8internal14slot_do_unbindclEPKNS_9trackableE, funcdef_no=2554, decl_uid=59354, cgraph_uid=715, symbol_order=717)
+
+void sigc::internal::slot_do_unbind::operator()(const sigc::trackable*) const (const struct slot_do_unbind * const this, const struct trackable * t)
+{
+  struct slot_rep * _1;
+
+  <bb 2> [0.00%]:
+  _1 = this_3(D)->rep_;
+  sigc::trackable::remove_destroy_notify_callback (t_4(D), _1);
+  return;
+
+}
+
+
+
+;; Function sigc::slot0<void>::~slot0() (_ZN4sigc5slot0IvED2Ev, funcdef_no=6625, decl_uid=126445, cgraph_uid=1575, symbol_order=1585)
+
+sigc::slot0<void>::~slot0() (struct slot0 * const this)
+{
+  struct slot_base * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &this_2(D)->D.126379;
+  sigc::slot_base::~slot_base (_1);
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function sigc::slot<void>::~slot() (_ZN4sigc4slotIvNS_3nilES1_S1_S1_S1_S1_S1_ED2Ev, funcdef_no=6627, decl_uid=126454, cgraph_uid=1578, symbol_order=1588)
+
+sigc::slot<void>::~slot() (struct slot * const this)
+{
+  struct slot0 * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &this_2(D)->D.126436;
+  sigc::slot0<void>::~slot0 (_1);
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function Glib::SignalProxy<void>::~SignalProxy() (_ZN4Glib11SignalProxyIvJEED2Ev, funcdef_no=10506, decl_uid=304264, cgraph_uid=4459, symbol_order=4479)
+
+Glib::SignalProxy<void>::~SignalProxy() (struct SignalProxy * const this)
+{
+  struct SignalProxyNormal * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &this_2(D)->D.304255;
+  Glib::SignalProxyNormal::~SignalProxyNormal (_1);
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function Menu::Menu() (_ZN4MenuC2Ev, funcdef_no=10508, decl_uid=304124, cgraph_uid=4462, symbol_order=4482)
+
+Menu::Menu() (struct Menu * const this, const void * * __vtt_parm)
+{
+  void * D.317182;
+  int D.316723;
+  struct RGBA * D.304697;
+  struct RefPtr limits;
+  struct RGBA * D.316653;
+  const struct ustring D.304696;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316670;
+  struct bound_mem_functor0 D.304695;
+  struct SlotType D.304694;
+  struct SignalProxy D.304693;
+  struct connection D.304692;
+  const struct ustring D.304691;
+  struct AccelLabel D.304690;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316669;
+  struct bound_mem_functor0 D.304689;
+  struct SlotType D.304688;
+  struct SignalProxy D.304687;
+  struct connection D.304686;
+  const struct ustring D.304685;
+  struct AccelLabel D.304684;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316668;
+  struct bound_mem_functor0 D.304682;
+  struct SlotType D.304681;
+  struct SignalProxy D.304680;
+  struct connection D.304679;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316667;
+  struct bound_mem_functor0 D.304678;
+  struct SlotType D.304677;
+  struct SignalProxy D.304676;
+  struct connection D.304675;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316666;
+  struct bound_mem_functor0 D.304674;
+  struct SlotType D.304673;
+  struct SignalProxy D.304672;
+  struct connection D.304671;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316665;
+  struct bound_mem_functor0 D.304670;
+  struct SlotType D.304669;
+  struct SignalProxy D.304668;
+  struct connection D.304667;
+  const struct ustring D.304666;
+  const struct ustring D.304665;
+  struct AccelLabel D.304664;
+  const struct ustring D.304663;
+  const struct ustring D.304662;
+  struct AccelLabel D.304661;
+  const struct ustring D.304660;
+  const struct ustring D.304659;
+  struct AccelLabel D.304658;
+  const struct ustring D.304657;
+  const struct ustring D.304656;
+  struct AccelLabel D.304655;
+  const struct ustring D.304654;
+  long int D.316652;
+  struct RGBA * D.316651;
+  struct RGBA * D.316650;
+  struct RGBA * retval.0;
+  struct Window * _1;
+  const void * * _2;
+  const void * _3;
+  int (*__vtbl_ptr_type) () * _4;
+  int (*__vtbl_ptr_type) () * _5;
+  long int _6;
+  sizetype _7;
+  struct ObjectBase * _8;
+  const void * _9;
+  const void * _10;
+  const void * _11;
+  struct Entry * _12;
+  long int _13;
+  sizetype _14;
+  sizetype _15;
+  struct Button * _16;
+  struct AccelLabel * _17;
+  struct AccelLabel * _18;
+  struct AccelLabel * _19;
+  struct AccelLabel * _20;
+  struct AccelLabel * _21;
+  struct AccelLabel * _22;
+  struct ColorButton * _23;
+  struct ColorButton * _24;
+  struct ColorButton * _25;
+  struct ColorButton * _26;
+  struct SpinButton * _27;
+  struct Grid * _28;
+  struct Window * _29;
+  struct Window * _30;
+  struct Grid * _31;
+  struct Grid * _32;
+  struct Grid * _33;
+  struct Grid * _34;
+  struct Window * _35;
+  struct AccelLabel * _36;
+  struct Label * _37;
+  struct Widget * _38;
+  struct Button * _39;
+  struct ColorButton * _40;
+  struct Grid * _41;
+  struct Widget * _42;
+  struct Grid * _43;
+  struct Widget * _44;
+  struct AccelLabel * _45;
+  struct Label * _46;
+  struct Widget * _47;
+  struct Button * _48;
+  struct ColorButton * _49;
+  struct Grid * _50;
+  struct Widget * _51;
+  struct Grid * _52;
+  struct Widget * _53;
+  struct AccelLabel * _54;
+  struct Label * _55;
+  struct Widget * _56;
+  struct Button * _57;
+  struct ColorButton * _58;
+  struct Grid * _59;
+  struct Widget * _60;
+  struct Grid * _61;
+  struct Widget * _62;
+  struct AccelLabel * _63;
+  struct Label * _64;
+  struct Widget * _65;
+  struct Button * _66;
+  struct ColorButton * _67;
+  struct Grid * _68;
+  struct Widget * _69;
+  struct Grid * _70;
+  struct Widget * _71;
+  struct ColorButton * _72;
+  struct ColorButton * _73;
+  struct ColorButton * _74;
+  struct ColorButton * _75;
+  struct AccelLabel * _76;
+  struct SpinButton * _77;
+  struct SpinButton * _78;
+  struct SpinButton * _79;
+  struct Label * _80;
+  struct Grid * _81;
+  struct Widget * _82;
+  struct Grid * _83;
+  struct Widget * _84;
+  struct SpinButton * _85;
+  int _86;
+  unsigned int _87;
+  struct Entry * _88;
+  struct AccelLabel * _89;
+  struct Label * _90;
+  struct Grid * _91;
+  struct Widget * _92;
+  struct Button * _93;
+  struct Button * _94;
+  struct Grid * _95;
+  struct Widget * _96;
+  struct Widget * _97;
+  struct Container * _98;
+  struct Widget * _99;
+  struct Grid * _100;
+  struct SpinButton * _101;
+  struct ColorButton * _102;
+  struct ColorButton * _103;
+  struct ColorButton * _104;
+  struct ColorButton * _105;
+  struct AccelLabel * _106;
+  struct AccelLabel * _107;
+  struct AccelLabel * _108;
+  struct AccelLabel * _109;
+  struct AccelLabel * _110;
+  struct AccelLabel * _111;
+  struct Button * _112;
+  struct RGBA[4] * _113;
+  struct RGBA[4] * _114;
+  struct RGBA[4] * _115;
+  struct Entry * _116;
+  struct Window * _117;
+  const void * * _118;
+  struct RGBA * _119;
+  struct RGBA * _120;
+  long int _121;
+  struct RGBA * _122;
+  struct RGBA * _167;
+  struct RGBA * _168;
+  long int _169;
+  struct RGBA * _171;
+  long int _172;
+  struct RGBA * _173;
+  struct RGBA * _174;
+  struct RGBA * retval.0_176;
+  int _343;
+  struct RGBA * _447;
+  struct RGBA * _448;
+
+  <bb 2> [0.00%]:
+  _1 = &this_157(D)->D.304128;
+  _2 = __vtt_parm_158(D) + 8;
+  Gtk::Window::Window (_1, _2, 0);
+  _3 = *__vtt_parm_158(D);
+  this_157(D)->D.304128.D.242663.D.241022.D.240856.D.239257.D.211871._vptr.Object = _3;
+  _4 = this_157(D)->D.304128.D.242663.D.241022.D.240856.D.239257.D.211871._vptr.Object;
+  _5 = _4 + 18446744073709551592;
+  _6 = MEM[(long int *)_5];
+  _7 = (sizetype) _6;
+  _8 = this_157(D) + _7;
+  _9 = MEM[(const void * *)__vtt_parm_158(D) + 232B];
+  _8->_vptr.ObjectBase = _9;
+  _10 = MEM[(const void * *)__vtt_parm_158(D) + 240B];
+  this_157(D)->D.304128.D.242663.D.241022.D.240856.D.239258.D.212009._vptr.Interface = _10;
+  _11 = MEM[(const void * *)__vtt_parm_158(D) + 248B];
+  this_157(D)->D.304128.D.242663.D.241022.D.240856.D.239259.D.211732._vptr.Interface = _11;
+  _12 = &this_157(D)->sequence;
+  Gtk::Entry::Entry (_12);
+
+  <bb 3> [0.00%]:
+  this_157(D)->precision = 100;
+  _167 = &this_157(D)->m_color;
+  _168 = _167;
+  _169 = 3;
+
+  <bb 4> [0.00%]:
+  # _120 = PHI <_168(3), _171(6)>
+  # _121 = PHI <_169(3), _172(6)>
+  if (_121 < 0)
+    goto <bb 7>; [0.00%]
+  else
+    goto <bb 5>; [0.00%]
+
+  <bb 5> [0.00%]:
+  Gdk::RGBA::RGBA (_120);
+
+  <bb 6> [0.00%]:
+  _171 = _120 + 8;
+  _172 = _121 + -1;
+  goto <bb 4>; [0.00%]
+
+  <bb 7> [0.00%]:
+  retval.0_176 = _167;
+  _16 = &this_157(D)->menu_quit;
+  Gtk::Button::Button (_16);
+
+  <bb 8> [0.00%]:
+  _17 = &this_157(D)->label_expoNegE;
+  Gtk::AccelLabel::AccelLabel (_17);
+
+  <bb 9> [0.00%]:
+  _18 = &this_157(D)->label_expoNegS;
+  Gtk::AccelLabel::AccelLabel (_18);
+
+  <bb 10> [0.00%]:
+  _19 = &this_157(D)->label_expoPosS;
+  Gtk::AccelLabel::AccelLabel (_19);
+
+  <bb 11> [0.00%]:
+  _20 = &this_157(D)->label_expoPosE;
+  Gtk::AccelLabel::AccelLabel (_20);
+
+  <bb 12> [0.00%]:
+  _21 = &this_157(D)->label_precision;
+  Gtk::AccelLabel::AccelLabel (_21);
+
+  <bb 13> [0.00%]:
+  _22 = &this_157(D)->label_sequence;
+  Gtk::AccelLabel::AccelLabel (_22);
+
+  <bb 14> [0.00%]:
+  _23 = &this_157(D)->m_color_button_neg_e;
+  Gtk::ColorButton::ColorButton (_23);
+
+  <bb 15> [0.00%]:
+  _24 = &this_157(D)->m_color_button_neg_s;
+  Gtk::ColorButton::ColorButton (_24);
+
+  <bb 16> [0.00%]:
+  _25 = &this_157(D)->m_color_button_pos_s;
+  Gtk::ColorButton::ColorButton (_25);
+
+  <bb 17> [0.00%]:
+  _26 = &this_157(D)->m_color_button_pos_e;
+  Gtk::ColorButton::ColorButton (_26);
+
+  <bb 18> [0.00%]:
+  _27 = &this_157(D)->m_select_precision;
+  Gtk::SpinButton::SpinButton (_27, 0.0, 0);
+
+  <bb 19> [0.00%]:
+  _28 = &this_157(D)->grid;
+  Gtk::Grid::Grid (_28);
+
+  <bb 20> [0.00%]:
+  _29 = &this_157(D)->D.304128;
+  Gtk::Window::set_position (_29, 1);
+
+  <bb 21> [0.00%]:
+  _30 = &this_157(D)->D.304128;
+  Gtk::Window::resize (_30, 450, 300);
+
+  <bb 22> [0.00%]:
+  _31 = &this_157(D)->grid;
+  Gtk::Grid::set_row_homogeneous (_31, 1);
+
+  <bb 23> [0.00%]:
+  _32 = &this_157(D)->grid;
+  Gtk::Grid::set_column_homogeneous (_32, 1);
+
+  <bb 24> [0.00%]:
+  _33 = &this_157(D)->grid;
+  Gtk::Grid::set_column_spacing (_33, 0);
+
+  <bb 25> [0.00%]:
+  _34 = &this_157(D)->grid;
+  Gtk::Grid::set_row_spacing (_34, 0);
+
+  <bb 26> [0.00%]:
+  _35 = &this_157(D)->D.304128;
+  Glib::ustring::ustring (&D.304654, "Param\xc3\xa8tres de la g\xc3\xa9n\xc3\xa9ration des fractales de Lyapunov");
+
+  <bb 27> [0.00%]:
+  Gtk::Window::set_title (_35, &D.304654);
+
+  <bb 28> [0.00%]:
+  Glib::ustring::~ustring (&D.304654);
+  D.304654 ={v} {CLOBBER};
+  Glib::ustring::ustring (&D.304656, "Borne Minimale N\xc3\xa9gative");
+
+  <bb 29> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304655, &D.304656, 0);
+
+  <bb 30> [0.00%]:
+  _36 = &this_157(D)->label_expoNegE;
+  Gtk::AccelLabel::operator= (_36, &D.304655);
+  Gtk::AccelLabel::~AccelLabel (&D.304655);
+  D.304655 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304656);
+  D.304656 ={v} {CLOBBER};
+  _37 = &this_157(D)->label_expoNegE.D.252633;
+  Gtk::Label::set_xalign (_37, 4.000000059604644775390625e-1);
+
+  <bb 31> [0.00%]:
+  _38 = &this_157(D)->m_color_button_neg_e.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Widget::set_can_focus (_38, 0);
+
+  <bb 32> [0.00%]:
+  _39 = &this_157(D)->m_color_button_neg_e.D.263526;
+  Gtk::Button::set_alignment (_39, 1.00000001490116119384765625e-1, 5.0e-1);
+
+  <bb 33> [0.00%]:
+  _40 = &this_157(D)->m_color_button_neg_e;
+  Glib::ustring::ustring (&D.304657, "Couleur Exposant Lyapunov N\xc3\xa9gatif loin de 0");
+
+  <bb 34> [0.00%]:
+  Gtk::ColorButton::set_title (_40, &D.304657);
+
+  <bb 35> [0.00%]:
+  Glib::ustring::~ustring (&D.304657);
+  D.304657 ={v} {CLOBBER};
+  _41 = &this_157(D)->grid;
+  _42 = &this_157(D)->m_color_button_neg_e.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_41, _42, 4, 0, 6, 1);
+
+  <bb 36> [0.00%]:
+  _43 = &this_157(D)->grid;
+  _44 = &this_157(D)->label_expoNegE.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_43, _44, 0, 0, 4, 1);
+
+  <bb 37> [0.00%]:
+  Glib::ustring::ustring (&D.304659, "Borne Maximale N\xc3\xa9gative");
+
+  <bb 38> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304658, &D.304659, 0);
+
+  <bb 39> [0.00%]:
+  _45 = &this_157(D)->label_expoNegS;
+  Gtk::AccelLabel::operator= (_45, &D.304658);
+  Gtk::AccelLabel::~AccelLabel (&D.304658);
+  D.304658 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304659);
+  D.304659 ={v} {CLOBBER};
+  _46 = &this_157(D)->label_expoNegS.D.252633;
+  Gtk::Label::set_xalign (_46, 4.090000092983245849609375e-1);
+
+  <bb 40> [0.00%]:
+  _47 = &this_157(D)->m_color_button_neg_s.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Widget::set_can_focus (_47, 0);
+
+  <bb 41> [0.00%]:
+  _48 = &this_157(D)->m_color_button_neg_s.D.263526;
+  Gtk::Button::set_alignment (_48, 1.00000001490116119384765625e-1, 5.0e-1);
+
+  <bb 42> [0.00%]:
+  _49 = &this_157(D)->m_color_button_neg_s;
+  Glib::ustring::ustring (&D.304660, "Couleur Exposant Lyapunov N\xc3\xa9gatif proche de 0");
+
+  <bb 43> [0.00%]:
+  Gtk::ColorButton::set_title (_49, &D.304660);
+
+  <bb 44> [0.00%]:
+  Glib::ustring::~ustring (&D.304660);
+  D.304660 ={v} {CLOBBER};
+  _50 = &this_157(D)->grid;
+  _51 = &this_157(D)->m_color_button_neg_s.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_50, _51, 4, 1, 6, 1);
+
+  <bb 45> [0.00%]:
+  _52 = &this_157(D)->grid;
+  _53 = &this_157(D)->label_expoNegS.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_52, _53, 0, 1, 4, 1);
+
+  <bb 46> [0.00%]:
+  Glib::ustring::ustring (&D.304662, "Borne Minimale Positive");
+
+  <bb 47> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304661, &D.304662, 0);
+
+  <bb 48> [0.00%]:
+  _54 = &this_157(D)->label_expoPosS;
+  Gtk::AccelLabel::operator= (_54, &D.304661);
+  Gtk::AccelLabel::~AccelLabel (&D.304661);
+  D.304661 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304662);
+  D.304662 ={v} {CLOBBER};
+  _55 = &this_157(D)->label_expoPosS.D.252633;
+  Gtk::Label::set_xalign (_55, 3.950000107288360595703125e-1);
+
+  <bb 49> [0.00%]:
+  _56 = &this_157(D)->m_color_button_pos_s.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Widget::set_can_focus (_56, 0);
+
+  <bb 50> [0.00%]:
+  _57 = &this_157(D)->m_color_button_pos_s.D.263526;
+  Gtk::Button::set_alignment (_57, 1.00000001490116119384765625e-1, 5.0e-1);
+
+  <bb 51> [0.00%]:
+  _58 = &this_157(D)->m_color_button_pos_s;
+  Glib::ustring::ustring (&D.304663, "Couleur Exposant Lyapunov Positif proche de 0");
+
+  <bb 52> [0.00%]:
+  Gtk::ColorButton::set_title (_58, &D.304663);
+
+  <bb 53> [0.00%]:
+  Glib::ustring::~ustring (&D.304663);
+  D.304663 ={v} {CLOBBER};
+  _59 = &this_157(D)->grid;
+  _60 = &this_157(D)->m_color_button_pos_s.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_59, _60, 4, 2, 6, 1);
+
+  <bb 54> [0.00%]:
+  _61 = &this_157(D)->grid;
+  _62 = &this_157(D)->label_expoPosS.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_61, _62, 0, 2, 4, 1);
+
+  <bb 55> [0.00%]:
+  Glib::ustring::ustring (&D.304665, "Borne Maximale Positive");
+
+  <bb 56> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304664, &D.304665, 0);
+
+  <bb 57> [0.00%]:
+  _63 = &this_157(D)->label_expoPosE;
+  Gtk::AccelLabel::operator= (_63, &D.304664);
+  Gtk::AccelLabel::~AccelLabel (&D.304664);
+  D.304664 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304665);
+  D.304665 ={v} {CLOBBER};
+  _64 = &this_157(D)->label_expoPosE.D.252633;
+  Gtk::Label::set_xalign (_64, 4.000000059604644775390625e-1);
+
+  <bb 58> [0.00%]:
+  _65 = &this_157(D)->m_color_button_pos_e.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Widget::set_can_focus (_65, 0);
+
+  <bb 59> [0.00%]:
+  _66 = &this_157(D)->m_color_button_pos_e.D.263526;
+  Gtk::Button::set_alignment (_66, 1.00000001490116119384765625e-1, 5.0e-1);
+
+  <bb 60> [0.00%]:
+  _67 = &this_157(D)->m_color_button_pos_e;
+  Glib::ustring::ustring (&D.304666, "Couleur Exposant Lyapunov Positif loin de 0");
+
+  <bb 61> [0.00%]:
+  Gtk::ColorButton::set_title (_67, &D.304666);
+
+  <bb 62> [0.00%]:
+  Glib::ustring::~ustring (&D.304666);
+  D.304666 ={v} {CLOBBER};
+  _68 = &this_157(D)->grid;
+  _69 = &this_157(D)->m_color_button_pos_e.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_68, _69, 4, 3, 6, 1);
+
+  <bb 63> [0.00%]:
+  _70 = &this_157(D)->grid;
+  _71 = &this_157(D)->label_expoPosE.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_70, _71, 0, 3, 4, 1);
+
+  <bb 64> [0.00%]:
+  _72 = &this_157(D)->m_color_button_neg_e;
+  D.304668 = Gtk::ColorButton::signal_color_set (_72); [return slot optimization]
+
+  <bb 65> [0.00%]:
+  D.316665.__pfn = setColorMinNegExpo;
+  D.316665.__delta = 0;
+  D.304670 = sigc::mem_fun<void, Menu, Menu> (this_157(D), D.316665); [return slot optimization]
+
+  <bb 66> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304669, &D.304670);
+
+  <bb 67> [0.00%]:
+  D.304667 = Glib::SignalProxy<void>::connect (&D.304668, &D.304669, 1); [return slot optimization]
+
+  <bb 68> [0.00%]:
+  sigc::connection::~connection (&D.304667);
+  D.304667 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304669);
+  D.304669 ={v} {CLOBBER};
+  D.304670 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304668);
+  D.304668 ={v} {CLOBBER};
+  _73 = &this_157(D)->m_color_button_neg_s;
+  D.304672 = Gtk::ColorButton::signal_color_set (_73); [return slot optimization]
+
+  <bb 69> [0.00%]:
+  D.316666.__pfn = setColorMaxNegExpo;
+  D.316666.__delta = 0;
+  D.304674 = sigc::mem_fun<void, Menu, Menu> (this_157(D), D.316666); [return slot optimization]
+
+  <bb 70> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304673, &D.304674);
+
+  <bb 71> [0.00%]:
+  D.304671 = Glib::SignalProxy<void>::connect (&D.304672, &D.304673, 1); [return slot optimization]
+
+  <bb 72> [0.00%]:
+  sigc::connection::~connection (&D.304671);
+  D.304671 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304673);
+  D.304673 ={v} {CLOBBER};
+  D.304674 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304672);
+  D.304672 ={v} {CLOBBER};
+  _74 = &this_157(D)->m_color_button_pos_s;
+  D.304676 = Gtk::ColorButton::signal_color_set (_74); [return slot optimization]
+
+  <bb 73> [0.00%]:
+  D.316667.__pfn = setColorMinPosExpo;
+  D.316667.__delta = 0;
+  D.304678 = sigc::mem_fun<void, Menu, Menu> (this_157(D), D.316667); [return slot optimization]
+
+  <bb 74> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304677, &D.304678);
+
+  <bb 75> [0.00%]:
+  D.304675 = Glib::SignalProxy<void>::connect (&D.304676, &D.304677, 1); [return slot optimization]
+
+  <bb 76> [0.00%]:
+  sigc::connection::~connection (&D.304675);
+  D.304675 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304677);
+  D.304677 ={v} {CLOBBER};
+  D.304678 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304676);
+  D.304676 ={v} {CLOBBER};
+  _75 = &this_157(D)->m_color_button_pos_e;
+  D.304680 = Gtk::ColorButton::signal_color_set (_75); [return slot optimization]
+
+  <bb 77> [0.00%]:
+  D.316668.__pfn = setColorMaxPosExpo;
+  D.316668.__delta = 0;
+  D.304682 = sigc::mem_fun<void, Menu, Menu> (this_157(D), D.316668); [return slot optimization]
+
+  <bb 78> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304681, &D.304682);
+
+  <bb 79> [0.00%]:
+  D.304679 = Glib::SignalProxy<void>::connect (&D.304680, &D.304681, 1); [return slot optimization]
+
+  <bb 80> [0.00%]:
+  sigc::connection::~connection (&D.304679);
+  D.304679 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304681);
+  D.304681 ={v} {CLOBBER};
+  D.304682 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304680);
+  D.304680 ={v} {CLOBBER};
+  limits = Gtk::Adjustment::create (1.0e+2, 1.0e+1, 5.0e+2, 1.0e+0, 1.0e+1, 0.0); [return slot optimization]
+
+  <bb 81> [0.00%]:
+  Glib::ustring::ustring (&D.304685, "Pr\xc3\xa9cision");
+
+  <bb 82> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304684, &D.304685, 0);
+
+  <bb 83> [0.00%]:
+  _76 = &this_157(D)->label_precision;
+  Gtk::AccelLabel::operator= (_76, &D.304684);
+  Gtk::AccelLabel::~AccelLabel (&D.304684);
+  D.304684 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304685);
+  D.304685 ={v} {CLOBBER};
+  _77 = &this_157(D)->m_select_precision;
+  Gtk::SpinButton::set_adjustment (_77, &limits);
+
+  <bb 84> [0.00%]:
+  _78 = &this_157(D)->m_select_precision;
+  Gtk::SpinButton::set_numeric (_78, 1);
+
+  <bb 85> [0.00%]:
+  _79 = &this_157(D)->m_select_precision;
+  D.304687 = Gtk::SpinButton::signal_value_changed (_79); [return slot optimization]
+
+  <bb 86> [0.00%]:
+  D.316669.__pfn = newPrecision;
+  D.316669.__delta = 0;
+  D.304689 = sigc::mem_fun<void, Menu, Menu> (this_157(D), D.316669); [return slot optimization]
+
+  <bb 87> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304688, &D.304689);
+
+  <bb 88> [0.00%]:
+  D.304686 = Glib::SignalProxy<void>::connect (&D.304687, &D.304688, 1); [return slot optimization]
+
+  <bb 89> [0.00%]:
+  sigc::connection::~connection (&D.304686);
+  D.304686 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304688);
+  D.304688 ={v} {CLOBBER};
+  D.304689 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304687);
+  D.304687 ={v} {CLOBBER};
+  _80 = &this_157(D)->label_precision.D.252633;
+  Gtk::Label::set_xalign (_80, 1.00000001490116119384765625e-1);
+
+  <bb 90> [0.00%]:
+  _81 = &this_157(D)->grid;
+  _82 = &this_157(D)->m_select_precision.D.292284.D.255118;
+  Gtk::Grid::attach (_81, _82, 4, 4, 6, 1);
+
+  <bb 91> [0.00%]:
+  _83 = &this_157(D)->grid;
+  _84 = &this_157(D)->label_precision.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_83, _84, 0, 4, 4, 1);
+
+  <bb 92> [0.00%]:
+  _85 = &this_157(D)->m_select_precision;
+  _343 = Gtk::SpinButton::get_value_as_int (_85);
+
+  <bb 93> [0.00%]:
+  _86 = _343;
+  _87 = (unsigned int) _86;
+  this_157(D)->precision = _87;
+  _88 = &this_157(D)->sequence;
+  Gtk::Entry::set_activates_default (_88, 0);
+
+  <bb 94> [0.00%]:
+  Glib::ustring::ustring (&D.304691, "S\xc3\xa9quence de A-B");
+
+  <bb 95> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304690, &D.304691, 0);
+
+  <bb 96> [0.00%]:
+  _89 = &this_157(D)->label_sequence;
+  Gtk::AccelLabel::operator= (_89, &D.304690);
+  Gtk::AccelLabel::~AccelLabel (&D.304690);
+  D.304690 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304691);
+  D.304691 ={v} {CLOBBER};
+  _90 = &this_157(D)->label_sequence.D.252633;
+  Gtk::Label::set_xalign (_90, 1.94999992847442626953125e-1);
+
+  <bb 97> [0.00%]:
+  _91 = &this_157(D)->grid;
+  _92 = &this_157(D)->label_sequence.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_91, _92, 0, 5, 4, 1);
+
+  <bb 98> [0.00%]:
+  _93 = &this_157(D)->menu_quit;
+  D.304693 = Gtk::Button::signal_clicked (_93); [return slot optimization]
+
+  <bb 99> [0.00%]:
+  D.316670.__pfn = writeFile;
+  D.316670.__delta = 0;
+  D.304695 = sigc::mem_fun<void, Menu, Menu> (this_157(D), D.316670); [return slot optimization]
+
+  <bb 100> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304694, &D.304695);
+
+  <bb 101> [0.00%]:
+  D.304692 = Glib::SignalProxy<void>::connect (&D.304693, &D.304694, 1); [return slot optimization]
+
+  <bb 102> [0.00%]:
+  sigc::connection::~connection (&D.304692);
+  D.304692 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304694);
+  D.304694 ={v} {CLOBBER};
+  D.304695 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304693);
+  D.304693 ={v} {CLOBBER};
+  _94 = &this_157(D)->menu_quit;
+  Glib::ustring::ustring (&D.304696, "Valider");
+
+  <bb 103> [0.00%]:
+  Gtk::Button::set_label (_94, &D.304696);
+
+  <bb 104> [0.00%]:
+  Glib::ustring::~ustring (&D.304696);
+  D.304696 ={v} {CLOBBER};
+  _95 = &this_157(D)->grid;
+  _96 = &this_157(D)->menu_quit.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_95, _96, 8, 6, 2, 1);
+
+  <bb 105> [0.00%]:
+  Menu::textArea (this_157(D));
+
+  <bb 106> [0.00%]:
+  _97 = &this_157(D)->grid.D.270676.D.240856;
+  Gtk::Widget::show_all (_97);
+
+  <bb 107> [0.00%]:
+  _98 = &this_157(D)->D.304128.D.242663.D.241022;
+  _99 = &this_157(D)->grid.D.270676.D.240856;
+  Gtk::Container::add (_98, _99);
+
+  <bb 108> [0.00%]:
+  Glib::RefPtr<Gtk::Adjustment>::~RefPtr (&limits);
+  limits ={v} {CLOBBER};
+  return;
+
+<L3> [0.00%]:
+  if (_167 != 0B)
+    goto <bb 110>; [0.00%]
+  else
+    goto <bb 113>; [0.00%]
+
+  <bb 110> [0.00%]:
+  _13 = 3 - _121;
+  _14 = (sizetype) _13;
+  _15 = _14 * 8;
+  _173 = _167 + _15;
+
+  <bb 111> [0.00%]:
+  # _122 = PHI <_173(110), _174(112)>
+  if (_122 == _167)
+    goto <bb 113>; [0.00%]
+  else
+    goto <bb 112>; [0.00%]
+
+  <bb 112> [0.00%]:
+  _174 = _122 + 18446744073709551608;
+  Gdk::RGBA::~RGBA (_174);
+  goto <bb 111>; [0.00%]
+
+  <bb 113> [0.00%]:
+  __builtin_eh_copy_values (2, 3);
+  goto <bb 157>; [100.00%]
+
+<L10> [0.00%]:
+  Glib::ustring::~ustring (&D.304654);
+  __builtin_eh_copy_values (18, 21);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L12> [0.00%]:
+  Glib::ustring::~ustring (&D.304656);
+  __builtin_eh_copy_values (18, 25);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L14> [0.00%]:
+  Glib::ustring::~ustring (&D.304657);
+  __builtin_eh_copy_values (18, 31);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L16> [0.00%]:
+  Glib::ustring::~ustring (&D.304659);
+  __builtin_eh_copy_values (18, 35);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L18> [0.00%]:
+  Glib::ustring::~ustring (&D.304660);
+  __builtin_eh_copy_values (18, 41);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L20> [0.00%]:
+  Glib::ustring::~ustring (&D.304662);
+  __builtin_eh_copy_values (18, 45);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L22> [0.00%]:
+  Glib::ustring::~ustring (&D.304663);
+  __builtin_eh_copy_values (18, 51);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L24> [0.00%]:
+  Glib::ustring::~ustring (&D.304665);
+  __builtin_eh_copy_values (18, 55);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L26> [0.00%]:
+  Glib::ustring::~ustring (&D.304666);
+  __builtin_eh_copy_values (18, 61);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L28> [0.00%]:
+  sigc::slot<void>::~slot (&D.304669);
+  __builtin_eh_copy_values (65, 68);
+
+<L31> [0.00%]:
+  D.304669 ={v} {CLOBBER};
+  D.304670 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304668);
+  __builtin_eh_copy_values (18, 65);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L33> [0.00%]:
+  sigc::slot<void>::~slot (&D.304673);
+  __builtin_eh_copy_values (76, 79);
+
+<L36> [0.00%]:
+  D.304673 ={v} {CLOBBER};
+  D.304674 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304672);
+  __builtin_eh_copy_values (18, 76);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L38> [0.00%]:
+  sigc::slot<void>::~slot (&D.304677);
+  __builtin_eh_copy_values (87, 90);
+
+<L41> [0.00%]:
+  D.304677 ={v} {CLOBBER};
+  D.304678 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304676);
+  __builtin_eh_copy_values (18, 87);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L43> [0.00%]:
+  sigc::slot<void>::~slot (&D.304681);
+  __builtin_eh_copy_values (98, 101);
+
+<L46> [0.00%]:
+  D.304681 ={v} {CLOBBER};
+  D.304682 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304680);
+  __builtin_eh_copy_values (18, 98);
+  goto <bb 139> (<L65>); [100.00%]
+
+<L48> [0.00%]:
+  Glib::ustring::~ustring (&D.304685);
+  __builtin_eh_copy_values (108, 110);
+  goto <bb 138> (<L64>); [100.00%]
+
+<L50> [0.00%]:
+  sigc::slot<void>::~slot (&D.304688);
+  __builtin_eh_copy_values (116, 119);
+
+<L53> [0.00%]:
+  D.304688 ={v} {CLOBBER};
+  D.304689 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304687);
+  __builtin_eh_copy_values (108, 116);
+  goto <bb 138> (<L64>); [100.00%]
+
+<L55> [0.00%]:
+  Glib::ustring::~ustring (&D.304691);
+  __builtin_eh_copy_values (108, 127);
+  goto <bb 138> (<L64>); [100.00%]
+
+<L57> [0.00%]:
+  sigc::slot<void>::~slot (&D.304694);
+  __builtin_eh_copy_values (133, 136);
+
+<L60> [0.00%]:
+  D.304694 ={v} {CLOBBER};
+  D.304695 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304693);
+  __builtin_eh_copy_values (108, 133);
+  goto <bb 138> (<L64>); [100.00%]
+
+<L62> [0.00%]:
+  Glib::ustring::~ustring (&D.304696);
+  __builtin_eh_copy_values (108, 144);
+
+<L64> [0.00%]:
+  D.304696 ={v} {CLOBBER};
+  D.304693 ={v} {CLOBBER};
+  D.304691 ={v} {CLOBBER};
+  D.304687 ={v} {CLOBBER};
+  D.304685 ={v} {CLOBBER};
+  Glib::RefPtr<Gtk::Adjustment>::~RefPtr (&limits);
+  __builtin_eh_copy_values (18, 108);
+
+<L65> [0.00%]:
+  D.304680 ={v} {CLOBBER};
+  D.304676 ={v} {CLOBBER};
+  D.304672 ={v} {CLOBBER};
+  D.304668 ={v} {CLOBBER};
+  D.304666 ={v} {CLOBBER};
+  D.304665 ={v} {CLOBBER};
+  D.304663 ={v} {CLOBBER};
+  D.304662 ={v} {CLOBBER};
+  D.304660 ={v} {CLOBBER};
+  D.304659 ={v} {CLOBBER};
+  D.304657 ={v} {CLOBBER};
+  D.304656 ={v} {CLOBBER};
+  D.304654 ={v} {CLOBBER};
+  limits ={v} {CLOBBER};
+  _100 = &this_157(D)->grid;
+  Gtk::Grid::~Grid (_100);
+  __builtin_eh_copy_values (17, 18);
+
+<L67> [0.00%]:
+  _101 = &this_157(D)->m_select_precision;
+  Gtk::SpinButton::~SpinButton (_101);
+  __builtin_eh_copy_values (16, 17);
+
+<L68> [0.00%]:
+  _102 = &this_157(D)->m_color_button_pos_e;
+  Gtk::ColorButton::~ColorButton (_102);
+  __builtin_eh_copy_values (15, 16);
+
+<L69> [0.00%]:
+  _103 = &this_157(D)->m_color_button_pos_s;
+  Gtk::ColorButton::~ColorButton (_103);
+  __builtin_eh_copy_values (14, 15);
+
+<L70> [0.00%]:
+  _104 = &this_157(D)->m_color_button_neg_s;
+  Gtk::ColorButton::~ColorButton (_104);
+  __builtin_eh_copy_values (13, 14);
+
+<L71> [0.00%]:
+  _105 = &this_157(D)->m_color_button_neg_e;
+  Gtk::ColorButton::~ColorButton (_105);
+  __builtin_eh_copy_values (12, 13);
+
+<L72> [0.00%]:
+  _106 = &this_157(D)->label_sequence;
+  Gtk::AccelLabel::~AccelLabel (_106);
+  __builtin_eh_copy_values (11, 12);
+
+<L73> [0.00%]:
+  _107 = &this_157(D)->label_precision;
+  Gtk::AccelLabel::~AccelLabel (_107);
+  __builtin_eh_copy_values (10, 11);
+
+<L74> [0.00%]:
+  _108 = &this_157(D)->label_expoPosE;
+  Gtk::AccelLabel::~AccelLabel (_108);
+  __builtin_eh_copy_values (9, 10);
+
+<L75> [0.00%]:
+  _109 = &this_157(D)->label_expoPosS;
+  Gtk::AccelLabel::~AccelLabel (_109);
+  __builtin_eh_copy_values (8, 9);
+
+<L76> [0.00%]:
+  _110 = &this_157(D)->label_expoNegS;
+  Gtk::AccelLabel::~AccelLabel (_110);
+  __builtin_eh_copy_values (7, 8);
+
+<L77> [0.00%]:
+  _111 = &this_157(D)->label_expoNegE;
+  Gtk::AccelLabel::~AccelLabel (_111);
+  __builtin_eh_copy_values (6, 7);
+
+<L78> [0.00%]:
+  _112 = &this_157(D)->menu_quit;
+  Gtk::Button::~Button (_112);
+  __builtin_eh_copy_values (5, 6);
+
+<L79> [0.00%]:
+  _113 = &this_157(D)->m_color;
+  if (_113 != 0B)
+    goto <bb 153>; [0.00%]
+  else
+    goto <bb 156>; [0.00%]
+
+  <bb 153> [0.00%]:
+  _114 = &this_157(D)->m_color;
+  _447 = _114 + 32;
+
+  <bb 154> [0.00%]:
+  # _119 = PHI <_447(153), _448(155)>
+  _115 = &this_157(D)->m_color;
+  if (_119 == _115)
+    goto <bb 156>; [0.00%]
+  else
+    goto <bb 155>; [0.00%]
+
+  <bb 155> [0.00%]:
+  _448 = _119 + 18446744073709551608;
+  Gdk::RGBA::~RGBA (_448);
+  goto <bb 154>; [0.00%]
+
+  <bb 156> [0.00%]:
+  __builtin_eh_copy_values (2, 5);
+
+  <bb 157> [0.00%]:
+  _116 = &this_157(D)->sequence;
+  Gtk::Entry::~Entry (_116);
+  __builtin_eh_copy_values (1, 2);
+
+<L87> [0.00%]:
+  _117 = &this_157(D)->D.304128;
+  _118 = __vtt_parm_158(D) + 8;
+  Gtk::Window::~Window (_117, _118);
+  _126 = __builtin_eh_pointer (1);
+  __builtin_unwind_resume (_126);
+
+}
+
+
+
+;; Function Menu::Menu() (_ZN4MenuC1Ev, funcdef_no=10509, decl_uid=304120, cgraph_uid=4463, symbol_order=4483)
+
+Menu::Menu() (struct Menu * const this)
+{
+  void * D.317218;
+  int D.316867;
+  struct RGBA * D.304749;
+  struct RefPtr limits;
+  struct RGBA * D.316797;
+  const struct ustring D.304748;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316814;
+  struct bound_mem_functor0 D.304747;
+  struct SlotType D.304746;
+  struct SignalProxy D.304745;
+  struct connection D.304744;
+  const struct ustring D.304743;
+  struct AccelLabel D.304742;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316813;
+  struct bound_mem_functor0 D.304741;
+  struct SlotType D.304740;
+  struct SignalProxy D.304739;
+  struct connection D.304738;
+  const struct ustring D.304737;
+  struct AccelLabel D.304736;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316812;
+  struct bound_mem_functor0 D.304734;
+  struct SlotType D.304733;
+  struct SignalProxy D.304732;
+  struct connection D.304731;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316811;
+  struct bound_mem_functor0 D.304730;
+  struct SlotType D.304729;
+  struct SignalProxy D.304728;
+  struct connection D.304727;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316810;
+  struct bound_mem_functor0 D.304726;
+  struct SlotType D.304725;
+  struct SignalProxy D.304724;
+  struct connection D.304723;
+  struct 
+  {
+    void Menu::<T3d4be> (struct Menu *) * __pfn;
+    long int __delta;
+  } D.316809;
+  struct bound_mem_functor0 D.304722;
+  struct SlotType D.304721;
+  struct SignalProxy D.304720;
+  struct connection D.304719;
+  const struct ustring D.304718;
+  const struct ustring D.304717;
+  struct AccelLabel D.304716;
+  const struct ustring D.304715;
+  const struct ustring D.304714;
+  struct AccelLabel D.304713;
+  const struct ustring D.304712;
+  const struct ustring D.304711;
+  struct AccelLabel D.304710;
+  const struct ustring D.304709;
+  const struct ustring D.304708;
+  struct AccelLabel D.304707;
+  const struct ustring D.304706;
+  long int D.316796;
+  struct RGBA * D.316795;
+  struct RGBA * D.316794;
+  struct RGBA * retval.2;
+  struct trackable * _1;
+  struct ObjectBase * _2;
+  const void * * _3;
+  struct Window * _4;
+  const void * * _5;
+  int (*__vtbl_ptr_type) () * _6;
+  struct ObjectBase * _7;
+  int (*__vtbl_ptr_type) () * _8;
+  int (*__vtbl_ptr_type) () * _9;
+  int (*__vtbl_ptr_type) () * _10;
+  struct Entry * _11;
+  long int _12;
+  sizetype _13;
+  sizetype _14;
+  struct Button * _15;
+  struct AccelLabel * _16;
+  struct AccelLabel * _17;
+  struct AccelLabel * _18;
+  struct AccelLabel * _19;
+  struct AccelLabel * _20;
+  struct AccelLabel * _21;
+  struct ColorButton * _22;
+  struct ColorButton * _23;
+  struct ColorButton * _24;
+  struct ColorButton * _25;
+  struct SpinButton * _26;
+  struct Grid * _27;
+  struct Window * _28;
+  struct Window * _29;
+  struct Grid * _30;
+  struct Grid * _31;
+  struct Grid * _32;
+  struct Grid * _33;
+  struct Window * _34;
+  struct AccelLabel * _35;
+  struct Label * _36;
+  struct Widget * _37;
+  struct Button * _38;
+  struct ColorButton * _39;
+  struct Grid * _40;
+  struct Widget * _41;
+  struct Grid * _42;
+  struct Widget * _43;
+  struct AccelLabel * _44;
+  struct Label * _45;
+  struct Widget * _46;
+  struct Button * _47;
+  struct ColorButton * _48;
+  struct Grid * _49;
+  struct Widget * _50;
+  struct Grid * _51;
+  struct Widget * _52;
+  struct AccelLabel * _53;
+  struct Label * _54;
+  struct Widget * _55;
+  struct Button * _56;
+  struct ColorButton * _57;
+  struct Grid * _58;
+  struct Widget * _59;
+  struct Grid * _60;
+  struct Widget * _61;
+  struct AccelLabel * _62;
+  struct Label * _63;
+  struct Widget * _64;
+  struct Button * _65;
+  struct ColorButton * _66;
+  struct Grid * _67;
+  struct Widget * _68;
+  struct Grid * _69;
+  struct Widget * _70;
+  struct ColorButton * _71;
+  struct ColorButton * _72;
+  struct ColorButton * _73;
+  struct ColorButton * _74;
+  struct AccelLabel * _75;
+  struct SpinButton * _76;
+  struct SpinButton * _77;
+  struct SpinButton * _78;
+  struct Label * _79;
+  struct Grid * _80;
+  struct Widget * _81;
+  struct Grid * _82;
+  struct Widget * _83;
+  struct SpinButton * _84;
+  int _85;
+  unsigned int _86;
+  struct Entry * _87;
+  struct AccelLabel * _88;
+  struct Label * _89;
+  struct Grid * _90;
+  struct Widget * _91;
+  struct Button * _92;
+  struct Button * _93;
+  struct Grid * _94;
+  struct Widget * _95;
+  struct Widget * _96;
+  struct Container * _97;
+  struct Widget * _98;
+  struct Grid * _99;
+  struct SpinButton * _100;
+  struct ColorButton * _101;
+  struct ColorButton * _102;
+  struct ColorButton * _103;
+  struct ColorButton * _104;
+  struct AccelLabel * _105;
+  struct AccelLabel * _106;
+  struct AccelLabel * _107;
+  struct AccelLabel * _108;
+  struct AccelLabel * _109;
+  struct AccelLabel * _110;
+  struct Button * _111;
+  struct RGBA[4] * _112;
+  struct RGBA[4] * _113;
+  struct RGBA[4] * _114;
+  struct Entry * _115;
+  struct Window * _116;
+  const void * * _117;
+  struct ObjectBase * _118;
+  const void * * _119;
+  struct trackable * _120;
+  struct RGBA * _121;
+  struct RGBA * _122;
+  long int _123;
+  struct RGBA * _124;
+  struct RGBA * _173;
+  struct RGBA * _174;
+  long int _175;
+  struct RGBA * _177;
+  long int _178;
+  struct RGBA * _179;
+  struct RGBA * _180;
+  struct RGBA * retval.2_182;
+  int _349;
+  struct RGBA * _453;
+  struct RGBA * _454;
+
+  <bb 2> [0.00%]:
+  *this_162(D) ={v} {CLOBBER};
+  _1 = &this_162(D)->D.304147;
+  sigc::trackable::trackable (_1);
+  _2 = &this_162(D)->D.304146;
+  _3 = &_ZTT4Menu + 256;
+  Glib::ObjectBase::ObjectBase (_2, _3);
+
+  <bb 3> [0.00%]:
+  _4 = &this_162(D)->D.304128;
+  _5 = &_ZTT4Menu + 8;
+  Gtk::Window::Window (_4, _5, 0);
+
+  <bb 4> [0.00%]:
+  _6 = &_ZTV4Menu + 32;
+  this_162(D)->D.304128.D.242663.D.241022.D.240856.D.239257.D.211871._vptr.Object = _6;
+  _7 = this_162(D) + 1168;
+  _8 = &_ZTV4Menu + 808;
+  _7->_vptr.ObjectBase = _8;
+  _9 = &_ZTV4Menu + 672;
+  this_162(D)->D.304128.D.242663.D.241022.D.240856.D.239258.D.212009._vptr.Interface = _9;
+  _10 = &_ZTV4Menu + 720;
+  this_162(D)->D.304128.D.242663.D.241022.D.240856.D.239259.D.211732._vptr.Interface = _10;
+  _11 = &this_162(D)->sequence;
+  Gtk::Entry::Entry (_11);
+
+  <bb 5> [0.00%]:
+  this_162(D)->precision = 100;
+  _173 = &this_162(D)->m_color;
+  _174 = _173;
+  _175 = 3;
+
+  <bb 6> [0.00%]:
+  # _122 = PHI <_174(5), _177(8)>
+  # _123 = PHI <_175(5), _178(8)>
+  if (_123 < 0)
+    goto <bb 9>; [0.00%]
+  else
+    goto <bb 7>; [0.00%]
+
+  <bb 7> [0.00%]:
+  Gdk::RGBA::RGBA (_122);
+
+  <bb 8> [0.00%]:
+  _177 = _122 + 8;
+  _178 = _123 + -1;
+  goto <bb 6>; [0.00%]
+
+  <bb 9> [0.00%]:
+  retval.2_182 = _173;
+  _15 = &this_162(D)->menu_quit;
+  Gtk::Button::Button (_15);
+
+  <bb 10> [0.00%]:
+  _16 = &this_162(D)->label_expoNegE;
+  Gtk::AccelLabel::AccelLabel (_16);
+
+  <bb 11> [0.00%]:
+  _17 = &this_162(D)->label_expoNegS;
+  Gtk::AccelLabel::AccelLabel (_17);
+
+  <bb 12> [0.00%]:
+  _18 = &this_162(D)->label_expoPosS;
+  Gtk::AccelLabel::AccelLabel (_18);
+
+  <bb 13> [0.00%]:
+  _19 = &this_162(D)->label_expoPosE;
+  Gtk::AccelLabel::AccelLabel (_19);
+
+  <bb 14> [0.00%]:
+  _20 = &this_162(D)->label_precision;
+  Gtk::AccelLabel::AccelLabel (_20);
+
+  <bb 15> [0.00%]:
+  _21 = &this_162(D)->label_sequence;
+  Gtk::AccelLabel::AccelLabel (_21);
+
+  <bb 16> [0.00%]:
+  _22 = &this_162(D)->m_color_button_neg_e;
+  Gtk::ColorButton::ColorButton (_22);
+
+  <bb 17> [0.00%]:
+  _23 = &this_162(D)->m_color_button_neg_s;
+  Gtk::ColorButton::ColorButton (_23);
+
+  <bb 18> [0.00%]:
+  _24 = &this_162(D)->m_color_button_pos_s;
+  Gtk::ColorButton::ColorButton (_24);
+
+  <bb 19> [0.00%]:
+  _25 = &this_162(D)->m_color_button_pos_e;
+  Gtk::ColorButton::ColorButton (_25);
+
+  <bb 20> [0.00%]:
+  _26 = &this_162(D)->m_select_precision;
+  Gtk::SpinButton::SpinButton (_26, 0.0, 0);
+
+  <bb 21> [0.00%]:
+  _27 = &this_162(D)->grid;
+  Gtk::Grid::Grid (_27);
+
+  <bb 22> [0.00%]:
+  _28 = &this_162(D)->D.304128;
+  Gtk::Window::set_position (_28, 1);
+
+  <bb 23> [0.00%]:
+  _29 = &this_162(D)->D.304128;
+  Gtk::Window::resize (_29, 450, 300);
+
+  <bb 24> [0.00%]:
+  _30 = &this_162(D)->grid;
+  Gtk::Grid::set_row_homogeneous (_30, 1);
+
+  <bb 25> [0.00%]:
+  _31 = &this_162(D)->grid;
+  Gtk::Grid::set_column_homogeneous (_31, 1);
+
+  <bb 26> [0.00%]:
+  _32 = &this_162(D)->grid;
+  Gtk::Grid::set_column_spacing (_32, 0);
+
+  <bb 27> [0.00%]:
+  _33 = &this_162(D)->grid;
+  Gtk::Grid::set_row_spacing (_33, 0);
+
+  <bb 28> [0.00%]:
+  _34 = &this_162(D)->D.304128;
+  Glib::ustring::ustring (&D.304706, "Param\xc3\xa8tres de la g\xc3\xa9n\xc3\xa9ration des fractales de Lyapunov");
+
+  <bb 29> [0.00%]:
+  Gtk::Window::set_title (_34, &D.304706);
+
+  <bb 30> [0.00%]:
+  Glib::ustring::~ustring (&D.304706);
+  D.304706 ={v} {CLOBBER};
+  Glib::ustring::ustring (&D.304708, "Borne Minimale N\xc3\xa9gative");
+
+  <bb 31> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304707, &D.304708, 0);
+
+  <bb 32> [0.00%]:
+  _35 = &this_162(D)->label_expoNegE;
+  Gtk::AccelLabel::operator= (_35, &D.304707);
+  Gtk::AccelLabel::~AccelLabel (&D.304707);
+  D.304707 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304708);
+  D.304708 ={v} {CLOBBER};
+  _36 = &this_162(D)->label_expoNegE.D.252633;
+  Gtk::Label::set_xalign (_36, 4.000000059604644775390625e-1);
+
+  <bb 33> [0.00%]:
+  _37 = &this_162(D)->m_color_button_neg_e.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Widget::set_can_focus (_37, 0);
+
+  <bb 34> [0.00%]:
+  _38 = &this_162(D)->m_color_button_neg_e.D.263526;
+  Gtk::Button::set_alignment (_38, 1.00000001490116119384765625e-1, 5.0e-1);
+
+  <bb 35> [0.00%]:
+  _39 = &this_162(D)->m_color_button_neg_e;
+  Glib::ustring::ustring (&D.304709, "Couleur Exposant Lyapunov N\xc3\xa9gatif loin de 0");
+
+  <bb 36> [0.00%]:
+  Gtk::ColorButton::set_title (_39, &D.304709);
+
+  <bb 37> [0.00%]:
+  Glib::ustring::~ustring (&D.304709);
+  D.304709 ={v} {CLOBBER};
+  _40 = &this_162(D)->grid;
+  _41 = &this_162(D)->m_color_button_neg_e.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_40, _41, 4, 0, 6, 1);
+
+  <bb 38> [0.00%]:
+  _42 = &this_162(D)->grid;
+  _43 = &this_162(D)->label_expoNegE.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_42, _43, 0, 0, 4, 1);
+
+  <bb 39> [0.00%]:
+  Glib::ustring::ustring (&D.304711, "Borne Maximale N\xc3\xa9gative");
+
+  <bb 40> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304710, &D.304711, 0);
+
+  <bb 41> [0.00%]:
+  _44 = &this_162(D)->label_expoNegS;
+  Gtk::AccelLabel::operator= (_44, &D.304710);
+  Gtk::AccelLabel::~AccelLabel (&D.304710);
+  D.304710 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304711);
+  D.304711 ={v} {CLOBBER};
+  _45 = &this_162(D)->label_expoNegS.D.252633;
+  Gtk::Label::set_xalign (_45, 4.090000092983245849609375e-1);
+
+  <bb 42> [0.00%]:
+  _46 = &this_162(D)->m_color_button_neg_s.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Widget::set_can_focus (_46, 0);
+
+  <bb 43> [0.00%]:
+  _47 = &this_162(D)->m_color_button_neg_s.D.263526;
+  Gtk::Button::set_alignment (_47, 1.00000001490116119384765625e-1, 5.0e-1);
+
+  <bb 44> [0.00%]:
+  _48 = &this_162(D)->m_color_button_neg_s;
+  Glib::ustring::ustring (&D.304712, "Couleur Exposant Lyapunov N\xc3\xa9gatif proche de 0");
+
+  <bb 45> [0.00%]:
+  Gtk::ColorButton::set_title (_48, &D.304712);
+
+  <bb 46> [0.00%]:
+  Glib::ustring::~ustring (&D.304712);
+  D.304712 ={v} {CLOBBER};
+  _49 = &this_162(D)->grid;
+  _50 = &this_162(D)->m_color_button_neg_s.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_49, _50, 4, 1, 6, 1);
+
+  <bb 47> [0.00%]:
+  _51 = &this_162(D)->grid;
+  _52 = &this_162(D)->label_expoNegS.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_51, _52, 0, 1, 4, 1);
+
+  <bb 48> [0.00%]:
+  Glib::ustring::ustring (&D.304714, "Borne Minimale Positive");
+
+  <bb 49> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304713, &D.304714, 0);
+
+  <bb 50> [0.00%]:
+  _53 = &this_162(D)->label_expoPosS;
+  Gtk::AccelLabel::operator= (_53, &D.304713);
+  Gtk::AccelLabel::~AccelLabel (&D.304713);
+  D.304713 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304714);
+  D.304714 ={v} {CLOBBER};
+  _54 = &this_162(D)->label_expoPosS.D.252633;
+  Gtk::Label::set_xalign (_54, 3.950000107288360595703125e-1);
+
+  <bb 51> [0.00%]:
+  _55 = &this_162(D)->m_color_button_pos_s.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Widget::set_can_focus (_55, 0);
+
+  <bb 52> [0.00%]:
+  _56 = &this_162(D)->m_color_button_pos_s.D.263526;
+  Gtk::Button::set_alignment (_56, 1.00000001490116119384765625e-1, 5.0e-1);
+
+  <bb 53> [0.00%]:
+  _57 = &this_162(D)->m_color_button_pos_s;
+  Glib::ustring::ustring (&D.304715, "Couleur Exposant Lyapunov Positif proche de 0");
+
+  <bb 54> [0.00%]:
+  Gtk::ColorButton::set_title (_57, &D.304715);
+
+  <bb 55> [0.00%]:
+  Glib::ustring::~ustring (&D.304715);
+  D.304715 ={v} {CLOBBER};
+  _58 = &this_162(D)->grid;
+  _59 = &this_162(D)->m_color_button_pos_s.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_58, _59, 4, 2, 6, 1);
+
+  <bb 56> [0.00%]:
+  _60 = &this_162(D)->grid;
+  _61 = &this_162(D)->label_expoPosS.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_60, _61, 0, 2, 4, 1);
+
+  <bb 57> [0.00%]:
+  Glib::ustring::ustring (&D.304717, "Borne Maximale Positive");
+
+  <bb 58> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304716, &D.304717, 0);
+
+  <bb 59> [0.00%]:
+  _62 = &this_162(D)->label_expoPosE;
+  Gtk::AccelLabel::operator= (_62, &D.304716);
+  Gtk::AccelLabel::~AccelLabel (&D.304716);
+  D.304716 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304717);
+  D.304717 ={v} {CLOBBER};
+  _63 = &this_162(D)->label_expoPosE.D.252633;
+  Gtk::Label::set_xalign (_63, 4.000000059604644775390625e-1);
+
+  <bb 60> [0.00%]:
+  _64 = &this_162(D)->m_color_button_pos_e.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Widget::set_can_focus (_64, 0);
+
+  <bb 61> [0.00%]:
+  _65 = &this_162(D)->m_color_button_pos_e.D.263526;
+  Gtk::Button::set_alignment (_65, 1.00000001490116119384765625e-1, 5.0e-1);
+
+  <bb 62> [0.00%]:
+  _66 = &this_162(D)->m_color_button_pos_e;
+  Glib::ustring::ustring (&D.304718, "Couleur Exposant Lyapunov Positif loin de 0");
+
+  <bb 63> [0.00%]:
+  Gtk::ColorButton::set_title (_66, &D.304718);
+
+  <bb 64> [0.00%]:
+  Glib::ustring::~ustring (&D.304718);
+  D.304718 ={v} {CLOBBER};
+  _67 = &this_162(D)->grid;
+  _68 = &this_162(D)->m_color_button_pos_e.D.263526.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_67, _68, 4, 3, 6, 1);
+
+  <bb 65> [0.00%]:
+  _69 = &this_162(D)->grid;
+  _70 = &this_162(D)->label_expoPosE.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_69, _70, 0, 3, 4, 1);
+
+  <bb 66> [0.00%]:
+  _71 = &this_162(D)->m_color_button_neg_e;
+  D.304720 = Gtk::ColorButton::signal_color_set (_71); [return slot optimization]
+
+  <bb 67> [0.00%]:
+  D.316809.__pfn = setColorMinNegExpo;
+  D.316809.__delta = 0;
+  D.304722 = sigc::mem_fun<void, Menu, Menu> (this_162(D), D.316809); [return slot optimization]
+
+  <bb 68> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304721, &D.304722);
+
+  <bb 69> [0.00%]:
+  D.304719 = Glib::SignalProxy<void>::connect (&D.304720, &D.304721, 1); [return slot optimization]
+
+  <bb 70> [0.00%]:
+  sigc::connection::~connection (&D.304719);
+  D.304719 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304721);
+  D.304721 ={v} {CLOBBER};
+  D.304722 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304720);
+  D.304720 ={v} {CLOBBER};
+  _72 = &this_162(D)->m_color_button_neg_s;
+  D.304724 = Gtk::ColorButton::signal_color_set (_72); [return slot optimization]
+
+  <bb 71> [0.00%]:
+  D.316810.__pfn = setColorMaxNegExpo;
+  D.316810.__delta = 0;
+  D.304726 = sigc::mem_fun<void, Menu, Menu> (this_162(D), D.316810); [return slot optimization]
+
+  <bb 72> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304725, &D.304726);
+
+  <bb 73> [0.00%]:
+  D.304723 = Glib::SignalProxy<void>::connect (&D.304724, &D.304725, 1); [return slot optimization]
+
+  <bb 74> [0.00%]:
+  sigc::connection::~connection (&D.304723);
+  D.304723 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304725);
+  D.304725 ={v} {CLOBBER};
+  D.304726 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304724);
+  D.304724 ={v} {CLOBBER};
+  _73 = &this_162(D)->m_color_button_pos_s;
+  D.304728 = Gtk::ColorButton::signal_color_set (_73); [return slot optimization]
+
+  <bb 75> [0.00%]:
+  D.316811.__pfn = setColorMinPosExpo;
+  D.316811.__delta = 0;
+  D.304730 = sigc::mem_fun<void, Menu, Menu> (this_162(D), D.316811); [return slot optimization]
+
+  <bb 76> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304729, &D.304730);
+
+  <bb 77> [0.00%]:
+  D.304727 = Glib::SignalProxy<void>::connect (&D.304728, &D.304729, 1); [return slot optimization]
+
+  <bb 78> [0.00%]:
+  sigc::connection::~connection (&D.304727);
+  D.304727 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304729);
+  D.304729 ={v} {CLOBBER};
+  D.304730 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304728);
+  D.304728 ={v} {CLOBBER};
+  _74 = &this_162(D)->m_color_button_pos_e;
+  D.304732 = Gtk::ColorButton::signal_color_set (_74); [return slot optimization]
+
+  <bb 79> [0.00%]:
+  D.316812.__pfn = setColorMaxPosExpo;
+  D.316812.__delta = 0;
+  D.304734 = sigc::mem_fun<void, Menu, Menu> (this_162(D), D.316812); [return slot optimization]
+
+  <bb 80> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304733, &D.304734);
+
+  <bb 81> [0.00%]:
+  D.304731 = Glib::SignalProxy<void>::connect (&D.304732, &D.304733, 1); [return slot optimization]
+
+  <bb 82> [0.00%]:
+  sigc::connection::~connection (&D.304731);
+  D.304731 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304733);
+  D.304733 ={v} {CLOBBER};
+  D.304734 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304732);
+  D.304732 ={v} {CLOBBER};
+  limits = Gtk::Adjustment::create (1.0e+2, 1.0e+1, 5.0e+2, 1.0e+0, 1.0e+1, 0.0); [return slot optimization]
+
+  <bb 83> [0.00%]:
+  Glib::ustring::ustring (&D.304737, "Pr\xc3\xa9cision");
+
+  <bb 84> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304736, &D.304737, 0);
+
+  <bb 85> [0.00%]:
+  _75 = &this_162(D)->label_precision;
+  Gtk::AccelLabel::operator= (_75, &D.304736);
+  Gtk::AccelLabel::~AccelLabel (&D.304736);
+  D.304736 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304737);
+  D.304737 ={v} {CLOBBER};
+  _76 = &this_162(D)->m_select_precision;
+  Gtk::SpinButton::set_adjustment (_76, &limits);
+
+  <bb 86> [0.00%]:
+  _77 = &this_162(D)->m_select_precision;
+  Gtk::SpinButton::set_numeric (_77, 1);
+
+  <bb 87> [0.00%]:
+  _78 = &this_162(D)->m_select_precision;
+  D.304739 = Gtk::SpinButton::signal_value_changed (_78); [return slot optimization]
+
+  <bb 88> [0.00%]:
+  D.316813.__pfn = newPrecision;
+  D.316813.__delta = 0;
+  D.304741 = sigc::mem_fun<void, Menu, Menu> (this_162(D), D.316813); [return slot optimization]
+
+  <bb 89> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304740, &D.304741);
+
+  <bb 90> [0.00%]:
+  D.304738 = Glib::SignalProxy<void>::connect (&D.304739, &D.304740, 1); [return slot optimization]
+
+  <bb 91> [0.00%]:
+  sigc::connection::~connection (&D.304738);
+  D.304738 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304740);
+  D.304740 ={v} {CLOBBER};
+  D.304741 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304739);
+  D.304739 ={v} {CLOBBER};
+  _79 = &this_162(D)->label_precision.D.252633;
+  Gtk::Label::set_xalign (_79, 1.00000001490116119384765625e-1);
+
+  <bb 92> [0.00%]:
+  _80 = &this_162(D)->grid;
+  _81 = &this_162(D)->m_select_precision.D.292284.D.255118;
+  Gtk::Grid::attach (_80, _81, 4, 4, 6, 1);
+
+  <bb 93> [0.00%]:
+  _82 = &this_162(D)->grid;
+  _83 = &this_162(D)->label_precision.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_82, _83, 0, 4, 4, 1);
+
+  <bb 94> [0.00%]:
+  _84 = &this_162(D)->m_select_precision;
+  _349 = Gtk::SpinButton::get_value_as_int (_84);
+
+  <bb 95> [0.00%]:
+  _85 = _349;
+  _86 = (unsigned int) _85;
+  this_162(D)->precision = _86;
+  _87 = &this_162(D)->sequence;
+  Gtk::Entry::set_activates_default (_87, 0);
+
+  <bb 96> [0.00%]:
+  Glib::ustring::ustring (&D.304743, "S\xc3\xa9quence de A-B");
+
+  <bb 97> [0.00%]:
+  Gtk::AccelLabel::AccelLabel (&D.304742, &D.304743, 0);
+
+  <bb 98> [0.00%]:
+  _88 = &this_162(D)->label_sequence;
+  Gtk::AccelLabel::operator= (_88, &D.304742);
+  Gtk::AccelLabel::~AccelLabel (&D.304742);
+  D.304742 ={v} {CLOBBER};
+  Glib::ustring::~ustring (&D.304743);
+  D.304743 ={v} {CLOBBER};
+  _89 = &this_162(D)->label_sequence.D.252633;
+  Gtk::Label::set_xalign (_89, 1.94999992847442626953125e-1);
+
+  <bb 99> [0.00%]:
+  _90 = &this_162(D)->grid;
+  _91 = &this_162(D)->label_sequence.D.252633.D.252453.D.252029;
+  Gtk::Grid::attach (_90, _91, 0, 5, 4, 1);
+
+  <bb 100> [0.00%]:
+  _92 = &this_162(D)->menu_quit;
+  D.304745 = Gtk::Button::signal_clicked (_92); [return slot optimization]
+
+  <bb 101> [0.00%]:
+  D.316814.__pfn = writeFile;
+  D.316814.__delta = 0;
+  D.304747 = sigc::mem_fun<void, Menu, Menu> (this_162(D), D.316814); [return slot optimization]
+
+  <bb 102> [0.00%]:
+  sigc::slot<void>::slot<sigc::bound_mem_functor0<void, Menu> > (&D.304746, &D.304747);
+
+  <bb 103> [0.00%]:
+  D.304744 = Glib::SignalProxy<void>::connect (&D.304745, &D.304746, 1); [return slot optimization]
+
+  <bb 104> [0.00%]:
+  sigc::connection::~connection (&D.304744);
+  D.304744 ={v} {CLOBBER};
+  sigc::slot<void>::~slot (&D.304746);
+  D.304746 ={v} {CLOBBER};
+  D.304747 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304745);
+  D.304745 ={v} {CLOBBER};
+  _93 = &this_162(D)->menu_quit;
+  Glib::ustring::ustring (&D.304748, "Valider");
+
+  <bb 105> [0.00%]:
+  Gtk::Button::set_label (_93, &D.304748);
+
+  <bb 106> [0.00%]:
+  Glib::ustring::~ustring (&D.304748);
+  D.304748 ={v} {CLOBBER};
+  _94 = &this_162(D)->grid;
+  _95 = &this_162(D)->menu_quit.D.243830.D.241022.D.240856;
+  Gtk::Grid::attach (_94, _95, 8, 6, 2, 1);
+
+  <bb 107> [0.00%]:
+  Menu::textArea (this_162(D));
+
+  <bb 108> [0.00%]:
+  _96 = &this_162(D)->grid.D.270676.D.240856;
+  Gtk::Widget::show_all (_96);
+
+  <bb 109> [0.00%]:
+  _97 = &this_162(D)->D.304128.D.242663.D.241022;
+  _98 = &this_162(D)->grid.D.270676.D.240856;
+  Gtk::Container::add (_97, _98);
+
+  <bb 110> [0.00%]:
+  Glib::RefPtr<Gtk::Adjustment>::~RefPtr (&limits);
+  limits ={v} {CLOBBER};
+  return;
+
+<L3> [0.00%]:
+  if (_173 != 0B)
+    goto <bb 112>; [0.00%]
+  else
+    goto <bb 115>; [0.00%]
+
+  <bb 112> [0.00%]:
+  _12 = 3 - _123;
+  _13 = (sizetype) _12;
+  _14 = _13 * 8;
+  _179 = _173 + _14;
+
+  <bb 113> [0.00%]:
+  # _124 = PHI <_179(112), _180(114)>
+  if (_124 == _173)
+    goto <bb 115>; [0.00%]
+  else
+    goto <bb 114>; [0.00%]
+
+  <bb 114> [0.00%]:
+  _180 = _124 + 18446744073709551608;
+  Gdk::RGBA::~RGBA (_180);
+  goto <bb 113>; [0.00%]
+
+  <bb 115> [0.00%]:
+  __builtin_eh_copy_values (4, 5);
+  goto <bb 159>; [100.00%]
+
+<L10> [0.00%]:
+  Glib::ustring::~ustring (&D.304706);
+  __builtin_eh_copy_values (20, 23);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L12> [0.00%]:
+  Glib::ustring::~ustring (&D.304708);
+  __builtin_eh_copy_values (20, 27);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L14> [0.00%]:
+  Glib::ustring::~ustring (&D.304709);
+  __builtin_eh_copy_values (20, 33);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L16> [0.00%]:
+  Glib::ustring::~ustring (&D.304711);
+  __builtin_eh_copy_values (20, 37);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L18> [0.00%]:
+  Glib::ustring::~ustring (&D.304712);
+  __builtin_eh_copy_values (20, 43);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L20> [0.00%]:
+  Glib::ustring::~ustring (&D.304714);
+  __builtin_eh_copy_values (20, 47);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L22> [0.00%]:
+  Glib::ustring::~ustring (&D.304715);
+  __builtin_eh_copy_values (20, 53);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L24> [0.00%]:
+  Glib::ustring::~ustring (&D.304717);
+  __builtin_eh_copy_values (20, 57);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L26> [0.00%]:
+  Glib::ustring::~ustring (&D.304718);
+  __builtin_eh_copy_values (20, 63);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L28> [0.00%]:
+  sigc::slot<void>::~slot (&D.304721);
+  __builtin_eh_copy_values (67, 70);
+
+<L31> [0.00%]:
+  D.304721 ={v} {CLOBBER};
+  D.304722 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304720);
+  __builtin_eh_copy_values (20, 67);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L33> [0.00%]:
+  sigc::slot<void>::~slot (&D.304725);
+  __builtin_eh_copy_values (78, 81);
+
+<L36> [0.00%]:
+  D.304725 ={v} {CLOBBER};
+  D.304726 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304724);
+  __builtin_eh_copy_values (20, 78);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L38> [0.00%]:
+  sigc::slot<void>::~slot (&D.304729);
+  __builtin_eh_copy_values (89, 92);
+
+<L41> [0.00%]:
+  D.304729 ={v} {CLOBBER};
+  D.304730 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304728);
+  __builtin_eh_copy_values (20, 89);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L43> [0.00%]:
+  sigc::slot<void>::~slot (&D.304733);
+  __builtin_eh_copy_values (100, 103);
+
+<L46> [0.00%]:
+  D.304733 ={v} {CLOBBER};
+  D.304734 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304732);
+  __builtin_eh_copy_values (20, 100);
+  goto <bb 141> (<L65>); [100.00%]
+
+<L48> [0.00%]:
+  Glib::ustring::~ustring (&D.304737);
+  __builtin_eh_copy_values (110, 112);
+  goto <bb 140> (<L64>); [100.00%]
+
+<L50> [0.00%]:
+  sigc::slot<void>::~slot (&D.304740);
+  __builtin_eh_copy_values (118, 121);
+
+<L53> [0.00%]:
+  D.304740 ={v} {CLOBBER};
+  D.304741 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304739);
+  __builtin_eh_copy_values (110, 118);
+  goto <bb 140> (<L64>); [100.00%]
+
+<L55> [0.00%]:
+  Glib::ustring::~ustring (&D.304743);
+  __builtin_eh_copy_values (110, 129);
+  goto <bb 140> (<L64>); [100.00%]
+
+<L57> [0.00%]:
+  sigc::slot<void>::~slot (&D.304746);
+  __builtin_eh_copy_values (135, 138);
+
+<L60> [0.00%]:
+  D.304746 ={v} {CLOBBER};
+  D.304747 ={v} {CLOBBER};
+  Glib::SignalProxy<void>::~SignalProxy (&D.304745);
+  __builtin_eh_copy_values (110, 135);
+  goto <bb 140> (<L64>); [100.00%]
+
+<L62> [0.00%]:
+  Glib::ustring::~ustring (&D.304748);
+  __builtin_eh_copy_values (110, 146);
+
+<L64> [0.00%]:
+  D.304748 ={v} {CLOBBER};
+  D.304745 ={v} {CLOBBER};
+  D.304743 ={v} {CLOBBER};
+  D.304739 ={v} {CLOBBER};
+  D.304737 ={v} {CLOBBER};
+  Glib::RefPtr<Gtk::Adjustment>::~RefPtr (&limits);
+  __builtin_eh_copy_values (20, 110);
+
+<L65> [0.00%]:
+  D.304732 ={v} {CLOBBER};
+  D.304728 ={v} {CLOBBER};
+  D.304724 ={v} {CLOBBER};
+  D.304720 ={v} {CLOBBER};
+  D.304718 ={v} {CLOBBER};
+  D.304717 ={v} {CLOBBER};
+  D.304715 ={v} {CLOBBER};
+  D.304714 ={v} {CLOBBER};
+  D.304712 ={v} {CLOBBER};
+  D.304711 ={v} {CLOBBER};
+  D.304709 ={v} {CLOBBER};
+  D.304708 ={v} {CLOBBER};
+  D.304706 ={v} {CLOBBER};
+  limits ={v} {CLOBBER};
+  _99 = &this_162(D)->grid;
+  Gtk::Grid::~Grid (_99);
+  __builtin_eh_copy_values (19, 20);
+
+<L67> [0.00%]:
+  _100 = &this_162(D)->m_select_precision;
+  Gtk::SpinButton::~SpinButton (_100);
+  __builtin_eh_copy_values (18, 19);
+
+<L68> [0.00%]:
+  _101 = &this_162(D)->m_color_button_pos_e;
+  Gtk::ColorButton::~ColorButton (_101);
+  __builtin_eh_copy_values (17, 18);
+
+<L69> [0.00%]:
+  _102 = &this_162(D)->m_color_button_pos_s;
+  Gtk::ColorButton::~ColorButton (_102);
+  __builtin_eh_copy_values (16, 17);
+
+<L70> [0.00%]:
+  _103 = &this_162(D)->m_color_button_neg_s;
+  Gtk::ColorButton::~ColorButton (_103);
+  __builtin_eh_copy_values (15, 16);
+
+<L71> [0.00%]:
+  _104 = &this_162(D)->m_color_button_neg_e;
+  Gtk::ColorButton::~ColorButton (_104);
+  __builtin_eh_copy_values (14, 15);
+
+<L72> [0.00%]:
+  _105 = &this_162(D)->label_sequence;
+  Gtk::AccelLabel::~AccelLabel (_105);
+  __builtin_eh_copy_values (13, 14);
+
+<L73> [0.00%]:
+  _106 = &this_162(D)->label_precision;
+  Gtk::AccelLabel::~AccelLabel (_106);
+  __builtin_eh_copy_values (12, 13);
+
+<L74> [0.00%]:
+  _107 = &this_162(D)->label_expoPosE;
+  Gtk::AccelLabel::~AccelLabel (_107);
+  __builtin_eh_copy_values (11, 12);
+
+<L75> [0.00%]:
+  _108 = &this_162(D)->label_expoPosS;
+  Gtk::AccelLabel::~AccelLabel (_108);
+  __builtin_eh_copy_values (10, 11);
+
+<L76> [0.00%]:
+  _109 = &this_162(D)->label_expoNegS;
+  Gtk::AccelLabel::~AccelLabel (_109);
+  __builtin_eh_copy_values (9, 10);
+
+<L77> [0.00%]:
+  _110 = &this_162(D)->label_expoNegE;
+  Gtk::AccelLabel::~AccelLabel (_110);
+  __builtin_eh_copy_values (8, 9);
+
+<L78> [0.00%]:
+  _111 = &this_162(D)->menu_quit;
+  Gtk::Button::~Button (_111);
+  __builtin_eh_copy_values (7, 8);
+
+<L79> [0.00%]:
+  _112 = &this_162(D)->m_color;
+  if (_112 != 0B)
+    goto <bb 155>; [0.00%]
+  else
+    goto <bb 158>; [0.00%]
+
+  <bb 155> [0.00%]:
+  _113 = &this_162(D)->m_color;
+  _453 = _113 + 32;
+
+  <bb 156> [0.00%]:
+  # _121 = PHI <_453(155), _454(157)>
+  _114 = &this_162(D)->m_color;
+  if (_121 == _114)
+    goto <bb 158>; [0.00%]
+  else
+    goto <bb 157>; [0.00%]
+
+  <bb 157> [0.00%]:
+  _454 = _121 + 18446744073709551608;
+  Gdk::RGBA::~RGBA (_454);
+  goto <bb 156>; [0.00%]
+
+  <bb 158> [0.00%]:
+  __builtin_eh_copy_values (4, 7);
+
+  <bb 159> [0.00%]:
+  _115 = &this_162(D)->sequence;
+  Gtk::Entry::~Entry (_115);
+  __builtin_eh_copy_values (3, 4);
+
+<L87> [0.00%]:
+  _116 = &this_162(D)->D.304128;
+  _117 = &_ZTT4Menu + 8;
+  Gtk::Window::~Window (_116, _117);
+  __builtin_eh_copy_values (2, 3);
+
+<L88> [0.00%]:
+  _118 = &this_162(D)->D.304146;
+  _119 = &_ZTT4Menu + 256;
+  Glib::ObjectBase::~ObjectBase (_118, _119);
+  __builtin_eh_copy_values (1, 2);
+
+<L89> [0.00%]:
+  _120 = &this_162(D)->D.304147;
+  sigc::trackable::~trackable (_120);
+  _128 = __builtin_eh_pointer (1);
+  __builtin_unwind_resume (_128);
+
+}
+
+
+
+;; Function void Menu::setColorMinNegExpo() (_ZN4Menu18setColorMinNegExpoEv, funcdef_no=10510, decl_uid=304078, cgraph_uid=4464, symbol_order=4484)
+
+void Menu::setColorMinNegExpo() (struct Menu * const this)
+{
+  struct RGBA D.304753;
+  struct ColorButton * _1;
+  struct RGBA * _2;
+
+  <bb 2> [0.00%]:
+  _1 = &this_3(D)->m_color_button_neg_e;
+  D.304753 = Gtk::ColorButton::get_rgba (_1); [return slot optimization]
+  _2 = &this_3(D)->m_color[0];
+  Gdk::RGBA::operator= (_2, &D.304753);
+  Gdk::RGBA::~RGBA (&D.304753);
+  D.304753 ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function void Menu::setColorMaxNegExpo() (_ZN4Menu18setColorMaxNegExpoEv, funcdef_no=10511, decl_uid=304076, cgraph_uid=4465, symbol_order=4485)
+
+void Menu::setColorMaxNegExpo() (struct Menu * const this)
+{
+  struct RGBA D.304757;
+  struct ColorButton * _1;
+  struct RGBA * _2;
+
+  <bb 2> [0.00%]:
+  _1 = &this_3(D)->m_color_button_neg_s;
+  D.304757 = Gtk::ColorButton::get_rgba (_1); [return slot optimization]
+  _2 = &this_3(D)->m_color[1];
+  Gdk::RGBA::operator= (_2, &D.304757);
+  Gdk::RGBA::~RGBA (&D.304757);
+  D.304757 ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function void Menu::setColorMinPosExpo() (_ZN4Menu18setColorMinPosExpoEv, funcdef_no=10512, decl_uid=304080, cgraph_uid=4466, symbol_order=4486)
+
+void Menu::setColorMinPosExpo() (struct Menu * const this)
+{
+  struct RGBA D.304761;
+  struct ColorButton * _1;
+  struct RGBA * _2;
+
+  <bb 2> [0.00%]:
+  _1 = &this_3(D)->m_color_button_pos_s;
+  D.304761 = Gtk::ColorButton::get_rgba (_1); [return slot optimization]
+  _2 = &this_3(D)->m_color[2];
+  Gdk::RGBA::operator= (_2, &D.304761);
+  Gdk::RGBA::~RGBA (&D.304761);
+  D.304761 ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function void Menu::setColorMaxPosExpo() (_ZN4Menu18setColorMaxPosExpoEv, funcdef_no=10513, decl_uid=304082, cgraph_uid=4467, symbol_order=4487)
+
+void Menu::setColorMaxPosExpo() (struct Menu * const this)
+{
+  struct RGBA D.304765;
+  struct ColorButton * _1;
+  struct RGBA * _2;
+
+  <bb 2> [0.00%]:
+  _1 = &this_3(D)->m_color_button_pos_e;
+  D.304765 = Gtk::ColorButton::get_rgba (_1); [return slot optimization]
+  _2 = &this_3(D)->m_color[3];
+  Gdk::RGBA::operator= (_2, &D.304765);
+  Gdk::RGBA::~RGBA (&D.304765);
+  D.304765 ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function void Menu::textArea() (_ZN4Menu8textAreaEv, funcdef_no=10514, decl_uid=304096, cgraph_uid=4468, symbol_order=4488)
+
+void Menu::textArea() (struct Menu * const this)
+{
+  void * D.317248;
+  const struct ustring D.304769;
+  struct Entry * _1;
+  struct Entry * _2;
+  struct Entry * _3;
+  unsigned int _4;
+  int _5;
+  struct Entry * _6;
+  struct Grid * _7;
+  struct Widget * _8;
+
+  <bb 2> [0.00%]:
+  _1 = &this_9(D)->sequence;
+  Gtk::Entry::set_activates_default (_1, 0);
+  _2 = &this_9(D)->sequence;
+  Glib::ustring::ustring (&D.304769, "Entrez la s\xc3\xa9quence voulue de A et B");
+  Gtk::Entry::set_placeholder_text (_2, &D.304769);
+
+  <bb 3> [0.00%]:
+  Glib::ustring::~ustring (&D.304769);
+  D.304769 ={v} {CLOBBER};
+  _3 = &this_9(D)->sequence;
+  _4 = this_9(D)->precision;
+  _5 = (int) _4;
+  Gtk::Entry::set_max_length (_3, _5);
+  _6 = &this_9(D)->sequence;
+  Gtk::Entry::set_alignment (_6, 3);
+  _7 = &this_9(D)->grid;
+  _8 = &this_9(D)->sequence.D.255118;
+  Gtk::Grid::attach (_7, _8, 4, 5, 6, 1);
+  return;
+
+<L0> [0.00%]:
+  Glib::ustring::~ustring (&D.304769);
+  _20 = __builtin_eh_pointer (2);
+  __builtin_unwind_resume (_20);
+
+}
+
+
+
+;; Function void Menu::getSequence(std::ofstream&) (_ZN4Menu11getSequenceERSt14basic_ofstreamIcSt11char_traitsIcEE, funcdef_no=10515, decl_uid=304088, cgraph_uid=4469, symbol_order=4489)
+
+void Menu::getSequence(std::ofstream&) (struct Menu * const this, struct ofstream & file)
+{
+  void * D.317252;
+  void * D.317251;
+  struct string seq;
+  struct basic_string D.304777;
+  struct ustring D.304775;
+  struct Entry * _1;
+  struct basic_ostream * _2;
+
+  <bb 2> [0.00%]:
+  _1 = &this_5(D)->sequence;
+  D.304775 = Gtk::Entry::get_text (_1); [return slot optimization]
+  seq = Glib::ustring::operator std::__cxx11::string (&D.304775); [return slot optimization]
+
+  <bb 3> [0.00%]:
+  Glib::ustring::~ustring (&D.304775);
+  D.304775 ={v} {CLOBBER};
+  _2 = &file_11(D)->D.303300;
+  D.304777 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("sequence= ", &seq); [return slot optimization]
+
+  <bb 4> [0.00%]:
+  std::operator<< <char, std::char_traits<char>, std::allocator<char> > (_2, &D.304777);
+
+  <bb 5> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.304777);
+  D.304777 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&seq);
+  seq ={v} {CLOBBER};
+  return;
+
+<L0> [0.00%]:
+  Glib::ustring::~ustring (&D.304775);
+  _4 = __builtin_eh_pointer (3);
+  __builtin_unwind_resume (_4);
+
+<L2> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.304777);
+  __builtin_eh_copy_values (7, 9);
+
+<L4> [0.00%]:
+  D.304777 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&seq);
+  _22 = __builtin_eh_pointer (7);
+  __builtin_unwind_resume (_22);
+
+}
+
+
+
+;; Function void Menu::newPrecision() (_ZN4Menu12newPrecisionEv, funcdef_no=10516, decl_uid=304098, cgraph_uid=4470, symbol_order=4490)
+
+void Menu::newPrecision() (struct Menu * const this)
+{
+  void * D.317259;
+  struct ustring D.304877;
+  struct Entry * _1;
+  struct Entry * _2;
+
+  <bb 2> [0.00%]:
+  _1 = &this_3(D)->m_select_precision.D.292284;
+  _2 = &this_3(D)->m_select_precision.D.292284;
+  D.304877 = Gtk::Entry::get_text (_2); [return slot optimization]
+  Gtk::Entry::set_text (_1, &D.304877);
+
+  <bb 3> [0.00%]:
+  Glib::ustring::~ustring (&D.304877);
+  D.304877 ={v} {CLOBBER};
+  return;
+
+<L0> [0.00%]:
+  Glib::ustring::~ustring (&D.304877);
+  _10 = __builtin_eh_pointer (2);
+  __builtin_unwind_resume (_10);
+
+}
+
+
+
+;; Function std::__cxx11::string Menu::colorToString(Gdk::RGBA) (_ZN4Menu13colorToStringB5cxx11EN3Gdk4RGBAE, funcdef_no=10517, decl_uid=304085, cgraph_uid=4471, symbol_order=4491)
+
+__attribute__((abi_tag ("cxx11")))
+std::__cxx11::string Menu::colorToString(Gdk::RGBA) (struct Menu * const this, struct RGBA & restrict color)
+{
+  void * D.317262;
+  double D.316970;
+  double D.316969;
+  double D.316968;
+  struct string str [value-expr: *<retval>];
+  struct stringstream convertBlue;
+  struct stringstream convertGreen;
+  struct stringstream convertRed;
+  struct __string_type D.304972;
+  struct basic_string D.304976;
+  struct __string_type D.304977;
+  struct basic_string D.304978;
+  struct basic_string D.304979;
+  struct __string_type D.304980;
+  _Ios_Openmode _1;
+  _Ios_Openmode _2;
+  _Ios_Openmode _3;
+  double _4;
+  double _5;
+  int _6;
+  double _7;
+  double _8;
+  int _9;
+  double _10;
+  double _11;
+  int _12;
+  double _31;
+  double _34;
+  double _37;
+
+  <bb 2> [0.00%]:
+  _1 = std::operator| (16, 8);
+  std::__cxx11::basic_stringstream<char>::basic_stringstream (&convertRed, _1);
+  _2 = std::operator| (16, 8);
+  std::__cxx11::basic_stringstream<char>::basic_stringstream (&convertGreen, _2);
+
+  <bb 3> [0.00%]:
+  _3 = std::operator| (16, 8);
+  std::__cxx11::basic_stringstream<char>::basic_stringstream (&convertBlue, _3);
+
+  <bb 4> [0.00%]:
+  _31 = Gdk::RGBA::get_red (color_29(D));
+
+  <bb 5> [0.00%]:
+  _4 = _31;
+  _5 = _4 * 2.55e+2;
+  _6 = (int) _5;
+  std::basic_ostream<char>::operator<< (&convertRed.D.44663.D.42824, _6);
+
+  <bb 6> [0.00%]:
+  _34 = Gdk::RGBA::get_green (color_29(D));
+
+  <bb 7> [0.00%]:
+  _7 = _34;
+  _8 = _7 * 2.55e+2;
+  _9 = (int) _8;
+  std::basic_ostream<char>::operator<< (&convertGreen.D.44663.D.42824, _9);
+
+  <bb 8> [0.00%]:
+  _37 = Gdk::RGBA::get_blue (color_29(D));
+
+  <bb 9> [0.00%]:
+  _10 = _37;
+  _11 = _10 * 2.55e+2;
+  _12 = (int) _11;
+  std::basic_ostream<char>::operator<< (&convertBlue.D.44663.D.42824, _12);
+
+  <bb 10> [0.00%]:
+  D.304980 = std::__cxx11::basic_stringstream<char>::str (&convertBlue); [return slot optimization]
+
+  <bb 11> [0.00%]:
+  D.304977 = std::__cxx11::basic_stringstream<char>::str (&convertGreen); [return slot optimization]
+
+  <bb 12> [0.00%]:
+  D.304972 = std::__cxx11::basic_stringstream<char>::str (&convertRed); [return slot optimization]
+
+  <bb 13> [0.00%]:
+  D.304976 = std::operator+<char, std::char_traits<char>, std::allocator<char> > (&D.304972, " "); [return slot optimization]
+
+  <bb 14> [0.00%]:
+  D.304978 = std::operator+<char, std::char_traits<char>, std::allocator<char> > (&D.304976, &D.304977); [return slot optimization]
+
+  <bb 15> [0.00%]:
+  D.304979 = std::operator+<char, std::char_traits<char>, std::allocator<char> > (&D.304978, " "); [return slot optimization]
+
+  <bb 16> [0.00%]:
+  *str_45(D) = std::operator+<char, std::char_traits<char>, std::allocator<char> > (&D.304979, &D.304980); [return slot optimization]
+
+  <bb 17> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.304979);
+  D.304979 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304978);
+  D.304978 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304976);
+  D.304976 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304972);
+  D.304972 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304977);
+  D.304977 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304980);
+  D.304980 ={v} {CLOBBER};
+
+  <bb 18> [0.00%]:
+  std::__cxx11::basic_stringstream<char>::~basic_stringstream (&convertBlue);
+  std::__cxx11::basic_stringstream<char>::~basic_stringstream (&convertGreen);
+  std::__cxx11::basic_stringstream<char>::~basic_stringstream (&convertRed);
+  convertRed ={v} {CLOBBER};
+  convertGreen ={v} {CLOBBER};
+  convertBlue ={v} {CLOBBER};
+
+<L4> [0.00%]:
+  return str_45(D);
+
+<L5> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.304979);
+  __builtin_eh_copy_values (14, 16);
+
+<L7> [0.00%]:
+  D.304979 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304978);
+  __builtin_eh_copy_values (12, 14);
+
+<L9> [0.00%]:
+  D.304978 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304976);
+  __builtin_eh_copy_values (10, 12);
+
+<L11> [0.00%]:
+  D.304976 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304972);
+  __builtin_eh_copy_values (8, 10);
+
+<L13> [0.00%]:
+  D.304972 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304977);
+  __builtin_eh_copy_values (6, 8);
+
+<L15> [0.00%]:
+  D.304977 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304980);
+  __builtin_eh_copy_values (4, 6);
+
+<L17> [0.00%]:
+  D.304980 ={v} {CLOBBER};
+  std::__cxx11::basic_stringstream<char>::~basic_stringstream (&convertBlue);
+  __builtin_eh_copy_values (3, 4);
+
+<L18> [0.00%]:
+  std::__cxx11::basic_stringstream<char>::~basic_stringstream (&convertGreen);
+  __builtin_eh_copy_values (2, 3);
+
+<L19> [0.00%]:
+  std::__cxx11::basic_stringstream<char>::~basic_stringstream (&convertRed);
+  _21 = __builtin_eh_pointer (2);
+  __builtin_unwind_resume (_21);
+
+}
+
+
+
+;; Function void Menu::getColor(std::ofstream&) (_ZN4Menu8getColorERSt14basic_ofstreamIcSt11char_traitsIcEE, funcdef_no=10518, decl_uid=304091, cgraph_uid=4472, symbol_order=4492)
+
+void Menu::getColor(std::ofstream&) (struct Menu * const this, struct ofstream & file)
+{
+  void * D.317276;
+  void * D.317275;
+  void * D.317274;
+  void * D.317273;
+  struct basic_ostream & D.317045;
+  struct basic_ostream & D.317038;
+  struct basic_ostream & D.317031;
+  struct basic_ostream & D.317024;
+  struct RGBA D.305466;
+  struct string D.305467;
+  struct basic_string D.305468;
+  struct RGBA D.305463;
+  struct string D.305464;
+  struct basic_string D.305465;
+  struct RGBA D.305460;
+  struct string D.305461;
+  struct basic_string D.305462;
+  struct RGBA D.304987;
+  struct string D.304988;
+  struct basic_string D.304989;
+  struct basic_ostream * _1;
+  struct RGBA * _2;
+  struct basic_ostream & _3;
+  struct basic_ostream * _4;
+  struct RGBA * _5;
+  struct basic_ostream & _6;
+  struct basic_ostream * _7;
+  struct RGBA * _8;
+  struct basic_ostream & _9;
+  struct basic_ostream * _10;
+  struct RGBA * _11;
+  struct basic_ostream & _12;
+  struct basic_ostream & _32;
+  struct basic_ostream & _44;
+  struct basic_ostream & _56;
+  struct basic_ostream & _68;
+
+  <bb 2> [0.00%]:
+  _1 = &file_25(D)->D.303300;
+  _2 = &this_26(D)->m_color[0];
+  Gdk::RGBA::RGBA (&D.304987, _2);
+  D.304988 = Menu::colorToString (this_26(D), &D.304987); [return slot optimization]
+
+  <bb 3> [0.00%]:
+  D.304989 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("color_neg_+= ", &D.304988); [return slot optimization]
+
+  <bb 4> [0.00%]:
+  _32 = std::operator<< <char, std::char_traits<char>, std::allocator<char> > (_1, &D.304989);
+
+  <bb 5> [0.00%]:
+  _3 = _32;
+  std::basic_ostream<char>::operator<< (_3, endl);
+
+  <bb 6> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.304989);
+  D.304989 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304988);
+  D.304988 ={v} {CLOBBER};
+  Gdk::RGBA::~RGBA (&D.304987);
+  D.304987 ={v} {CLOBBER};
+  _4 = &file_25(D)->D.303300;
+  _5 = &this_26(D)->m_color[1];
+  Gdk::RGBA::RGBA (&D.305460, _5);
+  D.305461 = Menu::colorToString (this_26(D), &D.305460); [return slot optimization]
+
+  <bb 7> [0.00%]:
+  D.305462 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("color_neg_-= ", &D.305461); [return slot optimization]
+
+  <bb 8> [0.00%]:
+  _44 = std::operator<< <char, std::char_traits<char>, std::allocator<char> > (_4, &D.305462);
+
+  <bb 9> [0.00%]:
+  _6 = _44;
+  std::basic_ostream<char>::operator<< (_6, endl);
+
+  <bb 10> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.305462);
+  D.305462 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.305461);
+  D.305461 ={v} {CLOBBER};
+  Gdk::RGBA::~RGBA (&D.305460);
+  D.305460 ={v} {CLOBBER};
+  _7 = &file_25(D)->D.303300;
+  _8 = &this_26(D)->m_color[2];
+  Gdk::RGBA::RGBA (&D.305463, _8);
+  D.305464 = Menu::colorToString (this_26(D), &D.305463); [return slot optimization]
+
+  <bb 11> [0.00%]:
+  D.305465 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("color_pos_-= ", &D.305464); [return slot optimization]
+
+  <bb 12> [0.00%]:
+  _56 = std::operator<< <char, std::char_traits<char>, std::allocator<char> > (_7, &D.305465);
+
+  <bb 13> [0.00%]:
+  _9 = _56;
+  std::basic_ostream<char>::operator<< (_9, endl);
+
+  <bb 14> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.305465);
+  D.305465 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.305464);
+  D.305464 ={v} {CLOBBER};
+  Gdk::RGBA::~RGBA (&D.305463);
+  D.305463 ={v} {CLOBBER};
+  _10 = &file_25(D)->D.303300;
+  _11 = &this_26(D)->m_color[3];
+  Gdk::RGBA::RGBA (&D.305466, _11);
+  D.305467 = Menu::colorToString (this_26(D), &D.305466); [return slot optimization]
+
+  <bb 15> [0.00%]:
+  D.305468 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("color_pos_+= ", &D.305467); [return slot optimization]
+
+  <bb 16> [0.00%]:
+  _68 = std::operator<< <char, std::char_traits<char>, std::allocator<char> > (_10, &D.305468);
+
+  <bb 17> [0.00%]:
+  _12 = _68;
+  std::basic_ostream<char>::operator<< (_12, endl);
+
+  <bb 18> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.305468);
+  D.305468 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.305467);
+  D.305467 ={v} {CLOBBER};
+  Gdk::RGBA::~RGBA (&D.305466);
+  D.305466 ={v} {CLOBBER};
+  return;
+
+<L0> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.304989);
+  __builtin_eh_copy_values (4, 6);
+
+<L2> [0.00%]:
+  D.304989 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.304988);
+  __builtin_eh_copy_values (2, 4);
+
+<L4> [0.00%]:
+  D.304988 ={v} {CLOBBER};
+  Gdk::RGBA::~RGBA (&D.304987);
+  _81 = __builtin_eh_pointer (2);
+  __builtin_unwind_resume (_81);
+
+<L6> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.305462);
+  __builtin_eh_copy_values (16, 18);
+
+<L8> [0.00%]:
+  D.305462 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.305461);
+  __builtin_eh_copy_values (14, 16);
+
+<L10> [0.00%]:
+  D.305461 ={v} {CLOBBER};
+  Gdk::RGBA::~RGBA (&D.305460);
+  _87 = __builtin_eh_pointer (14);
+  __builtin_unwind_resume (_87);
+
+<L12> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.305465);
+  __builtin_eh_copy_values (28, 30);
+
+<L14> [0.00%]:
+  D.305465 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.305464);
+  __builtin_eh_copy_values (26, 28);
+
+<L16> [0.00%]:
+  D.305464 ={v} {CLOBBER};
+  Gdk::RGBA::~RGBA (&D.305463);
+  _93 = __builtin_eh_pointer (26);
+  __builtin_unwind_resume (_93);
+
+<L18> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.305468);
+  __builtin_eh_copy_values (40, 42);
+
+<L20> [0.00%]:
+  D.305468 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.305467);
+  __builtin_eh_copy_values (38, 40);
+
+<L22> [0.00%]:
+  D.305467 ={v} {CLOBBER};
+  Gdk::RGBA::~RGBA (&D.305466);
+  _99 = __builtin_eh_pointer (38);
+  __builtin_unwind_resume (_99);
+
+}
+
+
+
+;; Function void Menu::getPrecision(std::ofstream&) (_ZN4Menu12getPrecisionERSt14basic_ofstreamIcSt11char_traitsIcEE, funcdef_no=10519, decl_uid=304094, cgraph_uid=4473, symbol_order=4493)
+
+void Menu::getPrecision(std::ofstream&) (struct Menu * const this, struct ofstream & file)
+{
+  void * D.317291;
+  struct basic_ostream & D.317056;
+  double D.317055;
+  struct stringstream precis;
+  struct __string_type D.305484;
+  struct basic_string D.305485;
+  _Ios_Openmode _1;
+  struct SpinButton * _2;
+  double _3;
+  struct basic_ostream * _4;
+  struct basic_ostream & _5;
+  double _15;
+  struct basic_ostream & _21;
+
+  <bb 2> [0.00%]:
+  _1 = std::operator| (16, 8);
+  std::__cxx11::basic_stringstream<char>::basic_stringstream (&precis, _1);
+  _2 = &this_13(D)->m_select_precision;
+  _15 = Gtk::SpinButton::get_value (_2);
+
+  <bb 3> [0.00%]:
+  _3 = _15;
+  std::basic_ostream<char>::operator<< (&precis.D.44663.D.42824, _3);
+
+  <bb 4> [0.00%]:
+  _4 = &file_17(D)->D.303300;
+  D.305484 = std::__cxx11::basic_stringstream<char>::str (&precis); [return slot optimization]
+
+  <bb 5> [0.00%]:
+  D.305485 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("precision= ", &D.305484); [return slot optimization]
+
+  <bb 6> [0.00%]:
+  _21 = std::operator<< <char, std::char_traits<char>, std::allocator<char> > (_4, &D.305485);
+
+  <bb 7> [0.00%]:
+  _5 = _21;
+  std::basic_ostream<char>::operator<< (_5, endl);
+
+  <bb 8> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.305485);
+  D.305485 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.305484);
+  D.305484 ={v} {CLOBBER};
+  std::__cxx11::basic_stringstream<char>::~basic_stringstream (&precis);
+  precis ={v} {CLOBBER};
+  return;
+
+<L0> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (&D.305485);
+  __builtin_eh_copy_values (4, 6);
+
+<L2> [0.00%]:
+  D.305485 ={v} {CLOBBER};
+  std::__cxx11::basic_string<char>::~basic_string (&D.305484);
+  __builtin_eh_copy_values (2, 4);
+
+<L4> [0.00%]:
+  D.305484 ={v} {CLOBBER};
+  std::__cxx11::basic_stringstream<char>::~basic_stringstream (&precis);
+  _9 = __builtin_eh_pointer (2);
+  __builtin_unwind_resume (_9);
+
+}
+
+
+
+;; Function void Menu::writeFile() (_ZN4Menu9writeFileEv, funcdef_no=10520, decl_uid=304100, cgraph_uid=4474, symbol_order=4494)
+
+void Menu::writeFile() (struct Menu * const this)
+{
+  void * D.317296;
+  struct basic_ostream & D.317068;
+  bool D.317067;
+  struct ofstream file;
+  bool retval.14;
+  _Ios_Openmode _1;
+  bool _2;
+  struct basic_ostream & _3;
+  bool _11;
+  bool retval.14_12;
+  struct basic_ostream & _18;
+
+  <bb 2> [0.00%]:
+  _1 = std::operator| (16, 32);
+  std::basic_ofstream<char>::basic_ofstream (&file, "config.txt", _1);
+  _11 = std::basic_ofstream<char>::is_open (&file);
+
+  <bb 3> [0.00%]:
+  _2 = _11;
+  retval.14_12 = ~_2;
+  if (retval.14_12 != 0)
+    goto <bb 4>; [0.00%]
+  else
+    goto <bb 7>; [0.00%]
+
+  <bb 4> [0.00%]:
+  _18 = std::operator<< <std::char_traits<char> > (&cout, "Error : Cannot open file config ");
+
+  <bb 5> [0.00%]:
+  _3 = _18;
+  std::basic_ostream<char>::operator<< (_3, endl);
+
+  <bb 6> [0.00%]:
+  goto <bb 11>; [0.00%]
+
+  <bb 7> [0.00%]:
+  Menu::getColor (this_13(D), &file);
+
+  <bb 8> [0.00%]:
+  Menu::getPrecision (this_13(D), &file);
+
+  <bb 9> [0.00%]:
+  Menu::getSequence (this_13(D), &file);
+
+  <bb 10> [0.00%]:
+
+  <bb 11> [0.00%]:
+  std::basic_ofstream<char>::~basic_ofstream (&file);
+  file ={v} {CLOBBER};
+
+<L4> [0.00%]:
+  return;
+
+<L5> [0.00%]:
+  std::basic_ofstream<char>::~basic_ofstream (&file);
+  _6 = __builtin_eh_pointer (2);
+  __builtin_unwind_resume (_6);
+
+}
+
+
+
+;; Function std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>] (_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_S9_, funcdef_no=10699, decl_uid=33094, cgraph_uid=4653, symbol_order=4673)
+
+std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>] (struct basic_string & __lhs, struct basic_string & __rhs)
+{
+  struct basic_string & D.317023;
+  struct basic_string & D.317022;
+  const bool __cond;
+  const long unsigned int __size;
+  struct type & iftmp.13;
+  bool iftmp.12;
+  long unsigned int _1;
+  long unsigned int _2;
+  long unsigned int _3;
+  long unsigned int _4;
+  struct basic_string & _5;
+  struct basic_string & _6;
+  bool iftmp.12_7;
+  struct type & iftmp.13_8;
+  bool iftmp.12_20;
+  bool iftmp.12_21;
+  struct basic_string & _24;
+  struct type & iftmp.13_26;
+  struct basic_string & _28;
+  struct type & iftmp.13_30;
+
+  <bb 2> [0.00%]:
+  _1 = std::__cxx11::basic_string<char>::size (__lhs_13(D));
+  _2 = std::__cxx11::basic_string<char>::size (__rhs_15(D));
+  __size_17 = _1 + _2;
+  _3 = std::__cxx11::basic_string<char>::capacity (__lhs_13(D));
+  if (__size_17 > _3)
+    goto <bb 3>; [0.00%]
+  else
+    goto <bb 5>; [0.00%]
+
+  <bb 3> [0.00%]:
+  _4 = std::__cxx11::basic_string<char>::capacity (__rhs_15(D));
+  if (__size_17 <= _4)
+    goto <bb 4>; [0.00%]
+  else
+    goto <bb 5>; [0.00%]
+
+  <bb 4> [0.00%]:
+  iftmp.12_20 = 1;
+  goto <bb 6>; [0.00%]
+
+  <bb 5> [0.00%]:
+  iftmp.12_21 = 0;
+
+  <bb 6> [0.00%]:
+  # iftmp.12_7 = PHI <iftmp.12_20(4), iftmp.12_21(5)>
+  __cond_22 = iftmp.12_7;
+  if (__cond_22 != 0)
+    goto <bb 7>; [0.00%]
+  else
+    goto <bb 8>; [0.00%]
+
+  <bb 7> [0.00%]:
+  _28 = std::__cxx11::basic_string<char>::insert (__rhs_15(D), 0, __lhs_13(D));
+  _5 = _28;
+  iftmp.13_30 = std::move<std::__cxx11::basic_string<char>&> (_5);
+  goto <bb 9>; [0.00%]
+
+  <bb 8> [0.00%]:
+  _24 = std::__cxx11::basic_string<char>::append (__lhs_13(D), __rhs_15(D));
+  _6 = _24;
+  iftmp.13_26 = std::move<std::__cxx11::basic_string<char>&> (_6);
+
+  <bb 9> [0.00%]:
+  # iftmp.13_8 = PHI <iftmp.13_30(7), iftmp.13_26(8)>
+  std::__cxx11::basic_string<char>::basic_string (_31(D), iftmp.13_8);
+
+<L7> [0.00%]:
+  return _31(D);
+
+}
+
+
+
+;; Function std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>] (_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_OS8_, funcdef_no=10700, decl_uid=33114, cgraph_uid=4654, symbol_order=4674)
+
+std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>] (const char * __lhs, struct basic_string & __rhs)
+{
+  struct basic_string & D.317054;
+  struct basic_string & _1;
+  struct type & _2;
+  struct basic_string & _7;
+
+  <bb 2> [0.00%]:
+  _7 = std::__cxx11::basic_string<char>::insert (__rhs_4(D), 0, __lhs_5(D));
+  _1 = _7;
+  _2 = std::move<std::__cxx11::basic_string<char>&> (_1);
+  std::__cxx11::basic_string<char>::basic_string (_9(D), _2);
+
+<L0> [0.00%]:
+  return _9(D);
+
+}
+
+
+
+;; Function sigc::bound_mem_functor0<T_return, T_obj> sigc::mem_fun(T_obj&, T_return (T_obj2::*)()) [with T_return = void; T_obj = Menu; T_obj2 = Menu] (_ZN4sigc7mem_funIv4MenuS1_EENS_18bound_mem_functor0IT_T0_EERS4_MT1_FS3_vE, funcdef_no=11000, decl_uid=304278, cgraph_uid=4954, symbol_order=4974)
+
+sigc::bound_mem_functor0<T_return, T_obj> sigc::mem_fun(T_obj&, T_return (T_obj2::*)()) [with T_return = void; T_obj = Menu; T_obj2 = Menu] (struct Menu & _A_obj, struct 
+{
+  void Menu::<T3d4be> (struct Menu *) * __pfn;
+  long int __delta;
+} _A_func)
+{
+  <bb 2> [0.00%]:
+  sigc::bound_mem_functor0<void, Menu>::bound_mem_functor0 (&<retval>, _A_obj_2(D), _A_func);
+
+<L0> [0.00%]:
+  return <retval>;
+
+}
+
+
+
+;; Function sigc::slot<T_return, sigc::nil, sigc::nil, sigc::nil, sigc::nil, sigc::nil, sigc::nil, sigc::nil>::slot(const T_functor&) [with T_functor = sigc::bound_mem_functor0<void, Menu>; T_return = void] (_ZN4sigc4slotIvNS_3nilES1_S1_S1_S1_S1_S1_EC2INS_18bound_mem_functor0Iv4MenuEEEERKT_, funcdef_no=11002, decl_uid=304396, cgraph_uid=4956, symbol_order=4976)
+
+sigc::slot<T_return, sigc::nil, sigc::nil, sigc::nil, sigc::nil, sigc::nil, sigc::nil, sigc::nil>::slot(const T_functor&) [with T_functor = sigc::bound_mem_functor0<void, Menu>; T_return = void] (struct slot * const this, const struct bound_mem_functor0 & _A_func)
+{
+  struct slot0 * _1;
+  struct slot0 * _2;
+
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_4(D)] ={v} {CLOBBER};
+  _1 = &this_4(D)->D.126436;
+  sigc::slot0<void>::slot0<sigc::bound_mem_functor0<void, Menu> > (_1, _A_func_6(D));
+  return;
+
+}
+
+
+
+;; Function constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = sigc::slot<void>&] (_ZSt4moveIRN4sigc4slotIvNS0_3nilES2_S2_S2_S2_S2_S2_EEEONSt16remove_referenceIT_E4typeEOS6_, funcdef_no=11005, decl_uid=310174, cgraph_uid=4958, symbol_order=4978)
+
+constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = sigc::slot<void>&] (struct slot & __t)
+{
+  struct type & D.316789;
+  struct type & _2;
+
+  <bb 2> [0.00%]:
+  _2 = __t_1(D);
+
+<L0> [0.00%]:
+  return _2;
+
+}
+
+
+
+;; Function sigc::connection Glib::SignalProxy<R, T>::connect(Glib::SignalProxy<R, T>::SlotType&&, bool) [with R = void; T = {}] (_ZN4Glib11SignalProxyIvJEE7connectEON4sigc4slotIvNS2_3nilES4_S4_S4_S4_S4_S4_EEb, funcdef_no=11004, decl_uid=304235, cgraph_uid=4959, symbol_order=4979)
+
+sigc::connection Glib::SignalProxy<R, T>::connect(Glib::SignalProxy<R, T>::SlotType&&, bool) [with R = void; T = {}] (struct SignalProxy * const this, struct SlotType & slot, bool after)
+{
+  struct slot_base & D.316788;
+  struct SignalProxyNormal * _1;
+  int _2;
+  struct type & _3;
+  struct slot_base * _4;
+  struct slot_base & _5;
+  struct slot_base & _12;
+
+  <bb 2> [0.00%]:
+  _1 = &this_6(D)->D.304255;
+  _2 = (int) after_7(D);
+  _3 = std::move<sigc::slot<void>&> (slot_9(D));
+  _4 = &_3->D.126436.D.126379;
+  _12 = Glib::SignalProxyNormal::connect_impl_ (_1, 0, _4, _2);
+  _5 = _12;
+  sigc::connection::connection (_13(D), _5);
+
+<L0> [0.00%]:
+  return _13(D);
+
+}
+
+
+
+;; Function Glib::RefPtr<T_CppObject>::~RefPtr() [with T_CppObject = Gtk::Adjustment] (_ZN4Glib6RefPtrIN3Gtk10AdjustmentEED2Ev, funcdef_no=11007, decl_uid=304610, cgraph_uid=4961, symbol_order=4981)
+
+Glib::RefPtr<T_CppObject>::~RefPtr() [with T_CppObject = Gtk::Adjustment] (struct RefPtr * const this)
+{
+  struct Adjustment * _1;
+  struct Adjustment * _2;
+  struct Adjustment * _3;
+  int (*__vtbl_ptr_type) () * _4;
+  int (*__vtbl_ptr_type) () * _5;
+  long int _6;
+  sizetype _7;
+  struct ObjectBase * _8;
+  struct Adjustment * _9;
+  struct Adjustment * _10;
+  int (*__vtbl_ptr_type) () * _11;
+  int (*__vtbl_ptr_type) () * _12;
+  long int _13;
+  sizetype _14;
+  struct ObjectBase * _15;
+  struct Adjustment * _16;
+  struct Adjustment * _17;
+  int (*__vtbl_ptr_type) () * _18;
+  int (*__vtbl_ptr_type) () * _19;
+  long int _20;
+  sizetype _21;
+  struct ObjectBase * _22;
+  int (*__vtbl_ptr_type) () * _23;
+  int (*__vtbl_ptr_type) () * _24;
+  int (*__vtbl_ptr_type) () _25;
+
+  <bb 2> [0.00%]:
+  _1 = this_28(D)->pCppObject_;
+  if (_1 != 0B)
+    goto <bb 3>; [0.00%]
+  else
+    goto <bb 4>; [0.00%]
+
+  <bb 3> [0.00%]:
+  _2 = this_28(D)->pCppObject_;
+  _3 = this_28(D)->pCppObject_;
+  _4 = _3->D.245792._vptr.Object;
+  _5 = _4 + 18446744073709551592;
+  _6 = MEM[(long int *)_5];
+  _7 = (sizetype) _6;
+  _8 = _2 + _7;
+  _9 = this_28(D)->pCppObject_;
+  _10 = this_28(D)->pCppObject_;
+  _11 = _10->D.245792._vptr.Object;
+  _12 = _11 + 18446744073709551592;
+  _13 = MEM[(long int *)_12];
+  _14 = (sizetype) _13;
+  _15 = _9 + _14;
+  _16 = this_28(D)->pCppObject_;
+  _17 = this_28(D)->pCppObject_;
+  _18 = _17->D.245792._vptr.Object;
+  _19 = _18 + 18446744073709551592;
+  _20 = MEM[(long int *)_19];
+  _21 = (sizetype) _20;
+  _22 = _16 + _21;
+  _23 = _22->_vptr.ObjectBase;
+  _24 = _23 + 24;
+  _25 = *_24;
+  OBJ_TYPE_REF(_25;(const struct ObjectBase)_15->3) (_8);
+
+  <bb 4> [0.00%]:
+  MEM[(struct  &)this_28(D)] ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>] (_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_RKS8_, funcdef_no=11012, decl_uid=33117, cgraph_uid=4966, symbol_order=4986)
+
+std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(const _CharT*, const std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>] (const char * __lhs, const struct basic_string & __rhs)
+{
+  void * D.317304;
+  struct __string_type __str [value-expr: *<retval>];
+  const __size_type __len;
+  long unsigned int _1;
+  long unsigned int _2;
+
+  <bb 2> [0.00%]:
+  __len_7 = std::char_traits<char>::length (__lhs_5(D));
+  std::__cxx11::basic_string<char>::basic_string (__str_8(D));
+  _1 = std::__cxx11::basic_string<char>::size (__rhs_10(D));
+  _2 = __len_7 + _1;
+  std::__cxx11::basic_string<char>::reserve (__str_8(D), _2);
+
+  <bb 3> [0.00%]:
+  std::__cxx11::basic_string<char>::append (__str_8(D), __lhs_5(D), __len_7);
+
+  <bb 4> [0.00%]:
+  std::__cxx11::basic_string<char>::append (__str_8(D), __rhs_10(D));
+
+  <bb 5> [0.00%]:
+
+<L0> [0.00%]:
+  return __str_8(D);
+
+<L1> [0.00%]:
+  std::__cxx11::basic_string<char>::~basic_string (__str_8(D));
+  _16 = __builtin_eh_pointer (1);
+  __builtin_unwind_resume (_16);
+
+}
+
+
+
+;; Function std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>] (_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEOS8_PKS5_, funcdef_no=11026, decl_uid=304973, cgraph_uid=4980, symbol_order=5000)
+
+std::__cxx11::basic_string<_CharT, _Traits, _Alloc> std::operator+(std::__cxx11::basic_string<_CharT, _Traits, _Alloc>&&, const _CharT*) [with _CharT = char; _Traits = std::char_traits<char>; _Alloc = std::allocator<char>] (struct basic_string & __lhs, const char * __rhs)
+{
+  struct basic_string & D.316995;
+  struct basic_string & _1;
+  struct type & _2;
+  struct basic_string & _7;
+
+  <bb 2> [0.00%]:
+  _7 = std::__cxx11::basic_string<char>::append (__lhs_4(D), __rhs_5(D));
+  _1 = _7;
+  _2 = std::move<std::__cxx11::basic_string<char>&> (_1);
+  std::__cxx11::basic_string<char>::basic_string (_9(D), _2);
+
+<L0> [0.00%]:
+  return _9(D);
+
+}
+
+
+
+;; Function constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::__cxx11::basic_string<char>&] (_ZSt4moveIRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEONSt16remove_referenceIT_E4typeEOS8_, funcdef_no=11083, decl_uid=307185, cgraph_uid=5037, symbol_order=5057)
+
+constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&) [with _Tp = std::__cxx11::basic_string<char>&] (struct basic_string & __t)
+{
+  struct type & D.316996;
+  struct type & _2;
+
+  <bb 2> [0.00%]:
+  _2 = __t_1(D);
+
+<L0> [0.00%]:
+  return _2;
+
+}
+
+
+
+;; Function sigc::bound_mem_functor0<T_return, T_obj>::bound_mem_functor0(T_obj&, sigc::bound_mem_functor0<T_return, T_obj>::function_type) [with T_return = void; T_obj = Menu] (_ZN4sigc18bound_mem_functor0Iv4MenuEC2ERS1_MS1_FvvE, funcdef_no=11240, decl_uid=304347, cgraph_uid=5194, symbol_order=5214)
+
+sigc::bound_mem_functor0<T_return, T_obj>::bound_mem_functor0(T_obj&, sigc::bound_mem_functor0<T_return, T_obj>::function_type) [with T_return = void; T_obj = Menu] (struct bound_mem_functor0 * const this, struct Menu & _A_obj, struct function_type _A_func)
+{
+  struct mem_functor0 * _1;
+  struct limit_reference * _2;
+
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_4(D)] ={v} {CLOBBER};
+  _1 = &this_4(D)->D.304359;
+  sigc::mem_functor0<void, Menu>::mem_functor0 (_1, _A_func);
+  _2 = &this_4(D)->obj_;
+  sigc::limit_reference<Menu, true>::limit_reference (_2, _A_obj_7(D));
+  return;
+
+}
+
+
+
+;; Function sigc::slot0<T_return>::slot0(const T_functor&) [with T_functor = sigc::bound_mem_functor0<void, Menu>; T_return = void] (_ZN4sigc5slot0IvEC2INS_18bound_mem_functor0Iv4MenuEEEERKT_, funcdef_no=11243, decl_uid=310164, cgraph_uid=5197, symbol_order=5217)
+
+sigc::slot0<T_return>::slot0(const T_functor&) [with T_functor = sigc::bound_mem_functor0<void, Menu>; T_return = void] (struct slot0 * const this, const struct bound_mem_functor0 & _A_func)
+{
+  void * D.317308;
+  void * D.316754;
+  void * D.312319;
+  struct slot_base * _1;
+  struct rep_type * _2;
+  void * (*<Ta23>) (void *) _3;
+  struct slot_base * _4;
+  void * _9;
+  void * _10;
+
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_6(D)] ={v} {CLOBBER};
+  _1 = &this_6(D)->D.126379;
+  _9 = operator new (88);
+  _10 = _9;
+  sigc::internal::typed_slot_rep<sigc::bound_mem_functor0<void, Menu> >::typed_slot_rep (_10, _A_func_11(D));
+
+  <bb 3> [0.00%]:
+  sigc::slot_base::slot_base (_1, _10);
+  _2 = this_6(D)->D.126379.rep_;
+  _3 = sigc::internal::slot_call0<sigc::bound_mem_functor0<void, Menu>, void>::address ();
+  _2->call_ = _3;
+  return;
+
+<L0> [0.00%]:
+  operator delete (_10);
+  _17 = __builtin_eh_pointer (1);
+  __builtin_unwind_resume (_17);
+
+}
+
+
+
+;; Function sigc::mem_functor0<T_return, T_obj>::mem_functor0(sigc::mem_functor0<T_return, T_obj>::function_type) [with T_return = void; T_obj = Menu] (_ZN4sigc12mem_functor0Iv4MenuEC2EMS1_FvvE, funcdef_no=11446, decl_uid=304300, cgraph_uid=5400, symbol_order=5420)
+
+sigc::mem_functor0<T_return, T_obj>::mem_functor0(sigc::mem_functor0<T_return, T_obj>::function_type) [with T_return = void; T_obj = Menu] (struct mem_functor0 * const this, struct function_type _A_func)
+{
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  this_2(D)->func_ptr_ = _A_func;
+  return;
+
+}
+
+
+
+;; Function sigc::limit_reference<T_type, true>::limit_reference(T_type&) [with T_type = Menu] (_ZN4sigc15limit_referenceI4MenuLb1EEC2ERS1_, funcdef_no=11449, decl_uid=304338, cgraph_uid=5403, symbol_order=5423)
+
+sigc::limit_reference<T_type, true>::limit_reference(T_type&) [with T_type = Menu] (struct limit_reference * const this, struct Menu & _A_target)
+{
+  int (*__vtbl_ptr_type) () * _1;
+  int (*__vtbl_ptr_type) () * _2;
+  long int _3;
+  sizetype _4;
+  struct trackable & _5;
+
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_7(D)] ={v} {CLOBBER};
+  _1 = _A_target_9(D)->D.304128.D.242663.D.241022.D.240856.D.239257.D.211871._vptr.Object;
+  _2 = _1 + 18446744073709551584;
+  _3 = MEM[(long int *)_2];
+  _4 = (sizetype) _3;
+  _5 = _A_target_9(D) + _4;
+  this_7(D)->visited = _5;
+  this_7(D)->invoked = _A_target_9(D);
+  return;
+
+}
+
+
+
+;; Function sigc::internal::typed_slot_rep<T_functor>::typed_slot_rep(const T_functor&) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc8internal14typed_slot_repINS_18bound_mem_functor0Iv4MenuEEEC2ERKS4_, funcdef_no=11452, decl_uid=312299, cgraph_uid=5406, symbol_order=5426)
+
+sigc::internal::typed_slot_rep<T_functor>::typed_slot_rep(const T_functor&) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (struct typed_slot_rep * const this, const struct bound_mem_functor0 & functor)
+{
+  void * D.317309;
+  struct slot_do_bind D.313525;
+  struct slot_rep * _1;
+  struct adaptor_type * _2;
+  struct adaptor_type * _3;
+  struct slot_rep * _4;
+  struct slot_rep * _5;
+
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_7(D)] ={v} {CLOBBER};
+  _1 = &this_7(D)->D.312308;
+  sigc::internal::slot_rep::slot_rep (_1, 0B, destroy, dup);
+  _2 = &this_7(D)->functor_;
+  sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >::adaptor_functor (_2, functor_10(D));
+  _3 = &this_7(D)->functor_;
+  _4 = &this_7(D)->D.312308;
+  sigc::internal::slot_do_bind::slot_do_bind (&D.313525, _4);
+  sigc::visit_each_type<sigc::trackable*, sigc::internal::slot_do_bind, sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> > > (&D.313525, _3);
+
+  <bb 3> [0.00%]:
+  D.313525 ={v} {CLOBBER};
+  return;
+
+<L1> [0.00%]:
+  D.313525 ={v} {CLOBBER};
+  _5 = &this_7(D)->D.312308;
+  sigc::internal::slot_rep::~slot_rep (_5);
+  _17 = __builtin_eh_pointer (1);
+  __builtin_unwind_resume (_17);
+
+}
+
+
+
+;; Function static void* (* sigc::internal::slot_call0<T_functor, T_return>::address())(void*) [with T_functor = sigc::bound_mem_functor0<void, Menu>; T_return = void] (_ZN4sigc8internal10slot_call0INS_18bound_mem_functor0Iv4MenuEEvE7addressEv, funcdef_no=11454, decl_uid=312316, cgraph_uid=5408, symbol_order=5428)
+
+static void* (* sigc::internal::slot_call0<T_functor, T_return>::address())(void*) [with T_functor = sigc::bound_mem_functor0<void, Menu>; T_return = void] ()
+{
+  void * (*hook) (void *) D.316774;
+  void * (*hook) (void *) _1;
+
+  <bb 2> [0.00%]:
+  _1 = call_it;
+
+<L0> [0.00%]:
+  return _1;
+
+}
+
+
+
+;; Function static void* sigc::internal::typed_slot_rep<T_functor>::destroy(void*) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc8internal14typed_slot_repINS_18bound_mem_functor0Iv4MenuEEE7destroyEPv, funcdef_no=11557, decl_uid=312280, cgraph_uid=5511, symbol_order=5531)
+
+static void* sigc::internal::typed_slot_rep<T_functor>::destroy(void*) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (void * data)
+{
+  struct self * self_;
+  void * D.316764;
+  struct slot_do_unbind D.314557;
+  struct adaptor_type * _1;
+  void * _10;
+
+  <bb 2> [0.00%]:
+  self__3 = data_2(D);
+  self__3->D.312308.call_ = 0B;
+  self__3->D.312308.destroy_ = 0B;
+  _1 = &self__3->functor_;
+  sigc::internal::slot_do_unbind::slot_do_unbind (&D.314557, self__3);
+  sigc::visit_each_type<sigc::trackable*, sigc::internal::slot_do_unbind, sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> > > (&D.314557, _1);
+  D.314557 ={v} {CLOBBER};
+  _10 = 0B;
+
+<L0> [0.00%]:
+  return _10;
+
+}
+
+
+
+;; Function static void* sigc::internal::typed_slot_rep<T_functor>::dup(void*) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc8internal14typed_slot_repINS_18bound_mem_functor0Iv4MenuEEE3dupEPv, funcdef_no=11558, decl_uid=312282, cgraph_uid=5512, symbol_order=5532)
+
+static void* sigc::internal::typed_slot_rep<T_functor>::dup(void*) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (void * data)
+{
+  void * D.317312;
+  void * D.316760;
+  struct slot_rep * a_rep;
+  void * D.314563;
+  void * D.316758;
+  void * _5;
+  void * _6;
+  void * _8;
+
+  <bb 2> [0.00%]:
+  a_rep_2 = data_1(D);
+  _5 = operator new (88);
+  _6 = _5;
+  sigc::internal::typed_slot_rep<sigc::bound_mem_functor0<void, Menu> >::typed_slot_rep (_6, a_rep_2);
+
+  <bb 3> [0.00%]:
+  _8 = _6;
+
+<L0> [0.00%]:
+  return _8;
+
+<L1> [0.00%]:
+  operator delete (_6);
+  _10 = __builtin_eh_pointer (1);
+  __builtin_unwind_resume (_10);
+
+}
+
+
+
+;; Function sigc::adaptor_functor<T_functor>::adaptor_functor(const T_functor&) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc15adaptor_functorINS_18bound_mem_functor0Iv4MenuEEEC2ERKS3_, funcdef_no=11560, decl_uid=312254, cgraph_uid=5514, symbol_order=5534)
+
+sigc::adaptor_functor<T_functor>::adaptor_functor(const T_functor&) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (struct adaptor_functor * const this, const struct bound_mem_functor0 & _A_functor)
+{
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  this_2(D)->functor_ = *_A_functor_4(D);
+  return;
+
+}
+
+
+
+;; Function void sigc::visit_each_type(const T_action&, const T_functor&) [with T_type = sigc::trackable*; T_action = sigc::internal::slot_do_bind; T_functor = sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >] (_ZN4sigc15visit_each_typeIPNS_9trackableENS_8internal12slot_do_bindENS_15adaptor_functorINS_18bound_mem_functor0Iv4MenuEEEEEEvRKT0_RKT1_, funcdef_no=11562, decl_uid=313521, cgraph_uid=5516, symbol_order=5536)
+
+void sigc::visit_each_type(const T_action&, const T_functor&) [with T_type = sigc::trackable*; T_action = sigc::internal::slot_do_bind; T_functor = sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >] (const struct slot_do_bind & _A_action, const struct adaptor_functor & _A_functor)
+{
+  struct type_limited_action limited_action;
+
+  <bb 2> [0.00%]:
+  sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>::limit_derived_target (&limited_action, _A_action_2(D));
+  sigc::visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>, sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> > > (&limited_action, _A_functor_4(D));
+  limited_action ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function static T_return sigc::internal::slot_call0<T_functor, T_return>::call_it(sigc::internal::slot_rep*) [with T_functor = sigc::bound_mem_functor0<void, Menu>; T_return = void] (_ZN4sigc8internal10slot_call0INS_18bound_mem_functor0Iv4MenuEEvE7call_itEPNS0_8slot_repE, funcdef_no=11563, decl_uid=312314, cgraph_uid=5517, symbol_order=5537)
+
+static T_return sigc::internal::slot_call0<T_functor, T_return>::call_it(sigc::internal::slot_rep*) [with T_functor = sigc::bound_mem_functor0<void, Menu>; T_return = void] (struct slot_rep * rep)
+{
+  struct typed_slot * typed_rep;
+  struct adaptor_type * _1;
+
+  <bb 2> [0.00%]:
+  typed_rep_3 = rep_2(D);
+  _1 = &typed_rep_3->functor_;
+  sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >::operator() (_1);
+
+<L0> [0.00%]:
+  return;
+
+}
+
+
+
+;; Function sigc::internal::limit_derived_target<T_target*, T_action>::limit_derived_target(const T_action&) [with T_target = sigc::trackable; T_action = sigc::internal::slot_do_bind] (_ZN4sigc8internal20limit_derived_targetIPNS_9trackableENS0_12slot_do_bindEEC2ERKS4_, funcdef_no=11609, decl_uid=59827, cgraph_uid=5563, symbol_order=5583)
+
+sigc::internal::limit_derived_target<T_target*, T_action>::limit_derived_target(const T_action&) [with T_target = sigc::trackable; T_action = sigc::internal::slot_do_bind] (struct limit_derived_target * const this, const struct slot_do_bind & _A_action)
+{
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  this_2(D)->action_ = *_A_action_4(D);
+  return;
+
+}
+
+
+
+;; Function void sigc::visit_each_type(const T_action&, const T_functor&) [with T_type = sigc::trackable*; T_action = sigc::internal::slot_do_unbind; T_functor = sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >] (_ZN4sigc15visit_each_typeIPNS_9trackableENS_8internal14slot_do_unbindENS_15adaptor_functorINS_18bound_mem_functor0Iv4MenuEEEEEEvRKT0_RKT1_, funcdef_no=11629, decl_uid=314558, cgraph_uid=5583, symbol_order=5603)
+
+void sigc::visit_each_type(const T_action&, const T_functor&) [with T_type = sigc::trackable*; T_action = sigc::internal::slot_do_unbind; T_functor = sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >] (const struct slot_do_unbind & _A_action, const struct adaptor_functor & _A_functor)
+{
+  struct type_limited_action limited_action;
+
+  <bb 2> [0.00%]:
+  sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>::limit_derived_target (&limited_action, _A_action_2(D));
+  sigc::visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>, sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> > > (&limited_action, _A_functor_4(D));
+  limited_action ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function sigc::internal::typed_slot_rep<T_functor>::typed_slot_rep(const sigc::internal::typed_slot_rep<T_functor>&) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc8internal14typed_slot_repINS_18bound_mem_functor0Iv4MenuEEEC2ERKS5_, funcdef_no=11631, decl_uid=312293, cgraph_uid=5585, symbol_order=5605)
+
+sigc::internal::typed_slot_rep<T_functor>::typed_slot_rep(const sigc::internal::typed_slot_rep<T_functor>&) [with T_functor = sigc::bound_mem_functor0<void, Menu>] (struct typed_slot_rep * const this, const struct typed_slot_rep & cl)
+{
+  void * D.317315;
+  struct slot_do_bind D.315768;
+  struct slot_rep * _1;
+  void * (*<Ta23>) (void *) _2;
+  struct adaptor_type * _3;
+  struct slot_rep * _4;
+  struct slot_rep * _5;
+
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_7(D)] ={v} {CLOBBER};
+  _1 = &this_7(D)->D.312308;
+  _2 = cl_9(D)->D.312308.call_;
+  sigc::internal::slot_rep::slot_rep (_1, _2, destroy, dup);
+  this_7(D)->functor_ = cl_9(D)->functor_;
+  _3 = &this_7(D)->functor_;
+  _4 = &this_7(D)->D.312308;
+  sigc::internal::slot_do_bind::slot_do_bind (&D.315768, _4);
+  sigc::visit_each_type<sigc::trackable*, sigc::internal::slot_do_bind, sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> > > (&D.315768, _3);
+
+  <bb 3> [0.00%]:
+  D.315768 ={v} {CLOBBER};
+  return;
+
+<L1> [0.00%]:
+  D.315768 ={v} {CLOBBER};
+  _5 = &this_7(D)->D.312308;
+  sigc::internal::slot_rep::~slot_rep (_5);
+  _17 = __builtin_eh_pointer (1);
+  __builtin_unwind_resume (_17);
+
+}
+
+
+
+;; Function void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >] (_ZN4sigc10visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS1_12slot_do_bindEEENS_15adaptor_functorINS_18bound_mem_functor0Iv4MenuEEEEEEvRKT_RKT0_, funcdef_no=11633, decl_uid=314570, cgraph_uid=5587, symbol_order=5607)
+
+void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >] (const struct limit_derived_target & _A_action, const struct adaptor_functor & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::visitor<sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> > >::do_visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind> > (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function sigc::adaptor_functor<T_functor>::result_type sigc::adaptor_functor<T_functor>::operator()() const [with T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZNK4sigc15adaptor_functorINS_18bound_mem_functor0Iv4MenuEEEclEv, funcdef_no=11634, decl_uid=311906, cgraph_uid=5588, symbol_order=5608)
+
+sigc::adaptor_functor<T_functor>::result_type sigc::adaptor_functor<T_functor>::operator()() const [with T_functor = sigc::bound_mem_functor0<void, Menu>] (const struct adaptor_functor * const this)
+{
+  struct bound_mem_functor0 * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &this_2(D)->functor_;
+  sigc::bound_mem_functor0<void, Menu>::operator() (_1);
+
+<L0> [0.00%]:
+  return;
+
+}
+
+
+
+;; Function sigc::internal::limit_derived_target<T_target*, T_action>::limit_derived_target(const T_action&) [with T_target = sigc::trackable; T_action = sigc::internal::slot_do_unbind] (_ZN4sigc8internal20limit_derived_targetIPNS_9trackableENS0_14slot_do_unbindEEC2ERKS4_, funcdef_no=11659, decl_uid=59850, cgraph_uid=5613, symbol_order=5633)
+
+sigc::internal::limit_derived_target<T_target*, T_action>::limit_derived_target(const T_action&) [with T_target = sigc::trackable; T_action = sigc::internal::slot_do_unbind] (struct limit_derived_target * const this, const struct slot_do_unbind & _A_action)
+{
+  <bb 2> [0.00%]:
+  MEM[(struct  &)this_2(D)] ={v} {CLOBBER};
+  this_2(D)->action_ = *_A_action_4(D);
+  return;
+
+}
+
+
+
+;; Function void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >] (_ZN4sigc10visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS1_14slot_do_unbindEEENS_15adaptor_functorINS_18bound_mem_functor0Iv4MenuEEEEEEvRKT_RKT0_, funcdef_no=11675, decl_uid=315753, cgraph_uid=5629, symbol_order=5649)
+
+void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> >] (const struct limit_derived_target & _A_action, const struct adaptor_functor & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::visitor<sigc::adaptor_functor<sigc::bound_mem_functor0<void, Menu> > >::do_visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind> > (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function static void sigc::visitor<sigc::adaptor_functor<T_functor> >::do_visit_each(const T_action&, const sigc::adaptor_functor<T_functor>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc7visitorINS_15adaptor_functorINS_18bound_mem_functor0Iv4MenuEEEEE13do_visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS8_12slot_do_bindEEEEEvRKT_RKS5_, funcdef_no=11676, decl_uid=315783, cgraph_uid=5630, symbol_order=5650)
+
+static void sigc::visitor<sigc::adaptor_functor<T_functor> >::do_visit_each(const T_action&, const sigc::adaptor_functor<T_functor>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::bound_mem_functor0<void, Menu>] (const struct limit_derived_target & _A_action, const struct adaptor_functor & _A_target)
+{
+  struct bound_mem_functor0 * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &_A_target_2(D)->functor_;
+  sigc::visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>, sigc::bound_mem_functor0<void, Menu> > (_A_action_4(D), _1);
+  return;
+
+}
+
+
+
+;; Function T_return sigc::bound_mem_functor0<T_return, T_obj>::operator()() const [with T_return = void; T_obj = Menu] (_ZNK4sigc18bound_mem_functor0Iv4MenuEclEv, funcdef_no=11677, decl_uid=304319, cgraph_uid=5631, symbol_order=5651)
+
+T_return sigc::bound_mem_functor0<T_return, T_obj>::operator()() const [with T_return = void; T_obj = Menu] (const struct bound_mem_functor0 * const this)
+{
+  void Menu::<T3d4be> (struct Menu *) * iftmp.1;
+  struct Menu & D.316778;
+  const struct limit_reference * _1;
+  long int _2;
+  sizetype _3;
+  struct Menu * _4;
+  void Menu::<T3d4be> (struct Menu *) * _5;
+  long int _6;
+  long int _7;
+  long int _8;
+  sizetype _9;
+  struct Menu * _10;
+  int (*__vtbl_ptr_type) () * _11;
+  void Menu::<T3d4be> (struct Menu *) * _12;
+  long int _13;
+  long int _14;
+  sizetype _15;
+  int (*__vtbl_ptr_type) () * _16;
+  void Menu::<T3d4be> (struct Menu *) * iftmp.1_17;
+  struct Menu & _21;
+  void Menu::<T3d4be> (struct Menu *) * iftmp.1_22;
+  void Menu::<T3d4be> (struct Menu *) * iftmp.1_23;
+
+  <bb 2> [0.00%]:
+  _1 = &this_18(D)->obj_;
+  _21 = sigc::limit_reference<Menu, true>::invoke (_1);
+  _2 = this_18(D)->D.304359.func_ptr_.__delta;
+  _3 = (sizetype) _2;
+  _4 = _21 + _3;
+  _5 = this_18(D)->D.304359.func_ptr_.__pfn;
+  _6 = (long int) _5;
+  _7 = _6 & 1;
+  if (_7 != 0)
+    goto <bb 3>; [0.00%]
+  else
+    goto <bb 4>; [0.00%]
+
+  <bb 3> [0.00%]:
+  _8 = this_18(D)->D.304359.func_ptr_.__delta;
+  _9 = (sizetype) _8;
+  _10 = _21 + _9;
+  _11 = MEM[(int (*__vtbl_ptr_type) () * *)_10];
+  _12 = this_18(D)->D.304359.func_ptr_.__pfn;
+  _13 = (long int) _12;
+  _14 = _13 + -1;
+  _15 = (sizetype) _14;
+  _16 = _11 + _15;
+  iftmp.1_23 = *_16;
+  goto <bb 5>; [0.00%]
+
+  <bb 4> [0.00%]:
+  iftmp.1_22 = this_18(D)->D.304359.func_ptr_.__pfn;
+
+  <bb 5> [0.00%]:
+  # iftmp.1_17 = PHI <iftmp.1_23(3), iftmp.1_22(4)>
+  iftmp.1_17 (_4);
+
+<L3> [0.00%]:
+  return;
+
+}
+
+
+
+;; Function static void sigc::visitor<sigc::adaptor_functor<T_functor> >::do_visit_each(const T_action&, const sigc::adaptor_functor<T_functor>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc7visitorINS_15adaptor_functorINS_18bound_mem_functor0Iv4MenuEEEEE13do_visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS8_14slot_do_unbindEEEEEvRKT_RKS5_, funcdef_no=11696, decl_uid=315950, cgraph_uid=5650, symbol_order=5670)
+
+static void sigc::visitor<sigc::adaptor_functor<T_functor> >::do_visit_each(const T_action&, const sigc::adaptor_functor<T_functor>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::bound_mem_functor0<void, Menu>] (const struct limit_derived_target & _A_action, const struct adaptor_functor & _A_target)
+{
+  struct bound_mem_functor0 * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &_A_target_2(D)->functor_;
+  sigc::visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>, sigc::bound_mem_functor0<void, Menu> > (_A_action_4(D), _1);
+  return;
+
+}
+
+
+
+;; Function void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc10visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS1_12slot_do_bindEEENS_18bound_mem_functor0Iv4MenuEEEEvRKT_RKT0_, funcdef_no=11697, decl_uid=315954, cgraph_uid=5651, symbol_order=5671)
+
+void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::bound_mem_functor0<void, Menu>] (const struct limit_derived_target & _A_action, const struct bound_mem_functor0 & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::visitor<sigc::bound_mem_functor0<void, Menu> >::do_visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind> > (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function T_type& sigc::limit_reference<T_type, true>::invoke() const [with T_type = Menu] (_ZNK4sigc15limit_referenceI4MenuLb1EE6invokeEv, funcdef_no=11698, decl_uid=304331, cgraph_uid=5652, symbol_order=5672)
+
+T_type& sigc::limit_reference<T_type, true>::invoke() const [with T_type = Menu] (const struct limit_reference * const this)
+{
+  struct Menu & D.316784;
+  struct Menu & _3;
+
+  <bb 2> [0.00%]:
+  _3 = this_2(D)->invoked;
+
+<L0> [0.00%]:
+  return _3;
+
+}
+
+
+
+;; Function void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::bound_mem_functor0<void, Menu>] (_ZN4sigc10visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS1_14slot_do_unbindEEENS_18bound_mem_functor0Iv4MenuEEEEvRKT_RKT0_, funcdef_no=11711, decl_uid=316109, cgraph_uid=5665, symbol_order=5685)
+
+void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::bound_mem_functor0<void, Menu>] (const struct limit_derived_target & _A_action, const struct bound_mem_functor0 & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::visitor<sigc::bound_mem_functor0<void, Menu> >::do_visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind> > (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function static void sigc::visitor<sigc::bound_mem_functor0<T_return, T_obj> >::do_visit_each(const T_action&, const sigc::bound_mem_functor0<T_return, T_obj>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_return = void; T_obj = Menu] (_ZN4sigc7visitorINS_18bound_mem_functor0Iv4MenuEEE13do_visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS6_12slot_do_bindEEEEEvRKT_RKS3_, funcdef_no=11712, decl_uid=316125, cgraph_uid=5666, symbol_order=5686)
+
+static void sigc::visitor<sigc::bound_mem_functor0<T_return, T_obj> >::do_visit_each(const T_action&, const sigc::bound_mem_functor0<T_return, T_obj>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_return = void; T_obj = Menu] (const struct limit_derived_target & _A_action, const struct bound_mem_functor0 & _A_target)
+{
+  const struct limit_reference * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &_A_target_2(D)->obj_;
+  sigc::visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>, sigc::limit_reference<Menu, true> > (_A_action_4(D), _1);
+  return;
+
+}
+
+
+
+;; Function static void sigc::visitor<sigc::bound_mem_functor0<T_return, T_obj> >::do_visit_each(const T_action&, const sigc::bound_mem_functor0<T_return, T_obj>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_return = void; T_obj = Menu] (_ZN4sigc7visitorINS_18bound_mem_functor0Iv4MenuEEE13do_visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS6_14slot_do_unbindEEEEEvRKT_RKS3_, funcdef_no=11726, decl_uid=316184, cgraph_uid=5680, symbol_order=5700)
+
+static void sigc::visitor<sigc::bound_mem_functor0<T_return, T_obj> >::do_visit_each(const T_action&, const sigc::bound_mem_functor0<T_return, T_obj>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_return = void; T_obj = Menu] (const struct limit_derived_target & _A_action, const struct bound_mem_functor0 & _A_target)
+{
+  const struct limit_reference * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &_A_target_2(D)->obj_;
+  sigc::visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>, sigc::limit_reference<Menu, true> > (_A_action_4(D), _1);
+  return;
+
+}
+
+
+
+;; Function void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::limit_reference<Menu, true>] (_ZN4sigc10visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS1_12slot_do_bindEEENS_15limit_referenceI4MenuLb1EEEEEvRKT_RKT0_, funcdef_no=11727, decl_uid=316188, cgraph_uid=5681, symbol_order=5701)
+
+void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::limit_reference<Menu, true>] (const struct limit_derived_target & _A_action, const struct limit_reference & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::visitor<sigc::limit_reference<Menu, true> >::do_visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind> > (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::limit_reference<Menu, true>] (_ZN4sigc10visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS1_14slot_do_unbindEEENS_15limit_referenceI4MenuLb1EEEEEvRKT_RKT0_, funcdef_no=11738, decl_uid=316289, cgraph_uid=5692, symbol_order=5712)
+
+void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::limit_reference<Menu, true>] (const struct limit_derived_target & _A_action, const struct limit_reference & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::visitor<sigc::limit_reference<Menu, true> >::do_visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind> > (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function static void sigc::visitor<sigc::limit_reference<T_type, I_derives_trackable> >::do_visit_each(const T_action&, const sigc::limit_reference<T_type, I_derives_trackable>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_type = Menu; bool I_derives_trackable = true] (_ZN4sigc7visitorINS_15limit_referenceI4MenuLb1EEEE13do_visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS6_12slot_do_bindEEEEEvRKT_RKS3_, funcdef_no=11739, decl_uid=316305, cgraph_uid=5693, symbol_order=5713)
+
+static void sigc::visitor<sigc::limit_reference<T_type, I_derives_trackable> >::do_visit_each(const T_action&, const sigc::limit_reference<T_type, I_derives_trackable>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_type = Menu; bool I_derives_trackable = true] (const struct limit_derived_target & _A_action, const struct limit_reference & _A_target)
+{
+  const struct trackable & _1;
+
+  <bb 2> [0.00%]:
+  _1 = sigc::limit_reference<Menu, true>::visit (_A_target_3(D));
+  sigc::visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>, sigc::trackable> (_A_action_5(D), _1);
+  return;
+
+}
+
+
+
+;; Function static void sigc::visitor<sigc::limit_reference<T_type, I_derives_trackable> >::do_visit_each(const T_action&, const sigc::limit_reference<T_type, I_derives_trackable>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_type = Menu; bool I_derives_trackable = true] (_ZN4sigc7visitorINS_15limit_referenceI4MenuLb1EEEE13do_visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS6_14slot_do_unbindEEEEEvRKT_RKS3_, funcdef_no=11749, decl_uid=316358, cgraph_uid=5703, symbol_order=5723)
+
+static void sigc::visitor<sigc::limit_reference<T_type, I_derives_trackable> >::do_visit_each(const T_action&, const sigc::limit_reference<T_type, I_derives_trackable>&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_type = Menu; bool I_derives_trackable = true] (const struct limit_derived_target & _A_action, const struct limit_reference & _A_target)
+{
+  const struct trackable & _1;
+
+  <bb 2> [0.00%]:
+  _1 = sigc::limit_reference<Menu, true>::visit (_A_target_3(D));
+  sigc::visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>, sigc::trackable> (_A_action_5(D), _1);
+  return;
+
+}
+
+
+
+;; Function const sigc::trackable& sigc::limit_reference<T_type, true>::visit() const [with T_type = Menu] (_ZNK4sigc15limit_referenceI4MenuLb1EE5visitEv, funcdef_no=11750, decl_uid=304329, cgraph_uid=5704, symbol_order=5724)
+
+const sigc::trackable& sigc::limit_reference<T_type, true>::visit() const [with T_type = Menu] (const struct limit_reference * const this)
+{
+  const struct trackable & D.316768;
+  const struct trackable & _3;
+
+  <bb 2> [0.00%]:
+  _3 = this_2(D)->visited;
+
+<L0> [0.00%]:
+  return _3;
+
+}
+
+
+
+;; Function void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::trackable] (_ZN4sigc10visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS1_12slot_do_bindEEES3_EEvRKT_RKT0_, funcdef_no=11751, decl_uid=316362, cgraph_uid=5705, symbol_order=5725)
+
+void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::trackable] (const struct limit_derived_target & _A_action, const struct trackable & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::visitor<sigc::trackable>::do_visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind> > (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::trackable] (_ZN4sigc10visit_eachINS_8internal20limit_derived_targetIPNS_9trackableENS1_14slot_do_unbindEEES3_EEvRKT_RKT0_, funcdef_no=11760, decl_uid=316425, cgraph_uid=5714, symbol_order=5734)
+
+void sigc::visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::trackable] (const struct limit_derived_target & _A_action, const struct trackable & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::visitor<sigc::trackable>::do_visit_each<sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind> > (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function static void sigc::visitor<T_functor>::do_visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::trackable] (_ZN4sigc7visitorINS_9trackableEE13do_visit_eachINS_8internal20limit_derived_targetIPS1_NS4_12slot_do_bindEEEEEvRKT_RKS1_, funcdef_no=11761, decl_uid=316442, cgraph_uid=5715, symbol_order=5735)
+
+static void sigc::visitor<T_functor>::do_visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>; T_functor = sigc::trackable] (const struct limit_derived_target & _A_action, const struct trackable & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>::operator()<sigc::trackable> (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function static void sigc::visitor<T_functor>::do_visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::trackable] (_ZN4sigc7visitorINS_9trackableEE13do_visit_eachINS_8internal20limit_derived_targetIPS1_NS4_14slot_do_unbindEEEEEvRKT_RKS1_, funcdef_no=11768, decl_uid=316487, cgraph_uid=5722, symbol_order=5742)
+
+static void sigc::visitor<T_functor>::do_visit_each(const T_action&, const T_functor&) [with T_action = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>; T_functor = sigc::trackable] (const struct limit_derived_target & _A_action, const struct trackable & _A_functor)
+{
+  <bb 2> [0.00%]:
+  sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>::operator()<sigc::trackable> (_A_action_2(D), _A_functor_3(D));
+  return;
+
+}
+
+
+
+;; Function void sigc::internal::limit_derived_target<T_target*, T_action>::operator()(const T_type&) const [with T_type = sigc::trackable; T_target = sigc::trackable; T_action = sigc::internal::slot_do_bind] (_ZNK4sigc8internal20limit_derived_targetIPNS_9trackableENS0_12slot_do_bindEEclIS2_EEvRKT_, funcdef_no=11769, decl_uid=316491, cgraph_uid=5723, symbol_order=5743)
+
+void sigc::internal::limit_derived_target<T_target*, T_action>::operator()(const T_type&) const [with T_type = sigc::trackable; T_target = sigc::trackable; T_action = sigc::internal::slot_do_bind] (const struct limit_derived_target * const this, const struct trackable & _A_type)
+{
+  <bb 2> [0.00%]:
+  sigc::internal::with_type_pointer<true, sigc::trackable, sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind> >::execute_ (_A_type_2(D), this_3(D));
+  return;
+
+}
+
+
+
+;; Function void sigc::internal::limit_derived_target<T_target*, T_action>::operator()(const T_type&) const [with T_type = sigc::trackable; T_target = sigc::trackable; T_action = sigc::internal::slot_do_unbind] (_ZNK4sigc8internal20limit_derived_targetIPNS_9trackableENS0_14slot_do_unbindEEclIS2_EEvRKT_, funcdef_no=11772, decl_uid=316507, cgraph_uid=5726, symbol_order=5746)
+
+void sigc::internal::limit_derived_target<T_target*, T_action>::operator()(const T_type&) const [with T_type = sigc::trackable; T_target = sigc::trackable; T_action = sigc::internal::slot_do_unbind] (const struct limit_derived_target * const this, const struct trackable & _A_type)
+{
+  <bb 2> [0.00%]:
+  sigc::internal::with_type_pointer<true, sigc::trackable, sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind> >::execute_ (_A_type_2(D), this_3(D));
+  return;
+
+}
+
+
+
+;; Function static void sigc::internal::with_type_pointer<true, T_type, T_limit>::execute_(const T_type&, const T_limit&) [with T_type = sigc::trackable; T_limit = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>] (_ZN4sigc8internal17with_type_pointerILb1ENS_9trackableENS0_20limit_derived_targetIPS2_NS0_12slot_do_bindEEEE8execute_ERKS2_RKS6_, funcdef_no=11773, decl_uid=316517, cgraph_uid=5727, symbol_order=5747)
+
+static void sigc::internal::with_type_pointer<true, T_type, T_limit>::execute_(const T_type&, const T_limit&) [with T_type = sigc::trackable; T_limit = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_bind>] (const struct trackable & _A_type, const struct limit_derived_target & _A_action)
+{
+  const struct slot_do_bind * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &_A_action_2(D)->action_;
+  sigc::internal::slot_do_bind::operator() (_1, _A_type_4(D));
+  return;
+
+}
+
+
+
+;; Function static void sigc::internal::with_type_pointer<true, T_type, T_limit>::execute_(const T_type&, const T_limit&) [with T_type = sigc::trackable; T_limit = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>] (_ZN4sigc8internal17with_type_pointerILb1ENS_9trackableENS0_20limit_derived_targetIPS2_NS0_14slot_do_unbindEEEE8execute_ERKS2_RKS6_, funcdef_no=11776, decl_uid=316539, cgraph_uid=5730, symbol_order=5750)
+
+static void sigc::internal::with_type_pointer<true, T_type, T_limit>::execute_(const T_type&, const T_limit&) [with T_type = sigc::trackable; T_limit = sigc::internal::limit_derived_target<sigc::trackable*, sigc::internal::slot_do_unbind>] (const struct trackable & _A_type, const struct limit_derived_target & _A_action)
+{
+  const struct slot_do_unbind * _1;
+
+  <bb 2> [0.00%]:
+  _1 = &_A_action_2(D)->action_;
+  sigc::internal::slot_do_unbind::operator() (_1, _A_type_4(D));
+  return;
+
+}
+
+
+
+;; Function virtual Menu::~Menu() (_ZN4MenuD1Ev, funcdef_no=11780, decl_uid=304112, cgraph_uid=5734, symbol_order=5767)
+
+virtual Menu::~Menu() (struct Menu * const this)
+{
+  struct RGBA * D.316563;
+  int (*__vtbl_ptr_type) () * _1;
+  struct ObjectBase * _2;
+  int (*__vtbl_ptr_type) () * _3;
+  int (*__vtbl_ptr_type) () * _4;
+  int (*__vtbl_ptr_type) () * _5;
+  struct Grid * _6;
+  struct SpinButton * _7;
+  struct ColorButton * _8;
+  struct ColorButton * _9;
+  struct ColorButton * _10;
+  struct ColorButton * _11;
+  struct AccelLabel * _12;
+  struct AccelLabel * _13;
+  struct AccelLabel * _14;
+  struct AccelLabel * _15;
+  struct AccelLabel * _16;
+  struct AccelLabel * _17;
+  struct Button * _18;
+  struct RGBA[4] * _19;
+  struct RGBA[4] * _20;
+  struct RGBA[4] * _21;
+  struct Entry * _22;
+  struct Window * _23;
+  const void * * _24;
+  struct ObjectBase * _25;
+  const void * * _26;
+  struct trackable * _27;
+  struct RGBA * _28;
+  struct RGBA * _50;
+  struct RGBA * _51;
+
+  <bb 2> [0.00%]:
+  _1 = &_ZTV4Menu + 32;
+  this_32(D)->D.304128.D.242663.D.241022.D.240856.D.239257.D.211871._vptr.Object = _1;
+  _2 = this_32(D) + 1168;
+  _3 = &_ZTV4Menu + 808;
+  _2->_vptr.ObjectBase = _3;
+  _4 = &_ZTV4Menu + 672;
+  this_32(D)->D.304128.D.242663.D.241022.D.240856.D.239258.D.212009._vptr.Interface = _4;
+  _5 = &_ZTV4Menu + 720;
+  this_32(D)->D.304128.D.242663.D.241022.D.240856.D.239259.D.211732._vptr.Interface = _5;
+  _6 = &this_32(D)->grid;
+  Gtk::Grid::~Grid (_6);
+  _7 = &this_32(D)->m_select_precision;
+  Gtk::SpinButton::~SpinButton (_7);
+  _8 = &this_32(D)->m_color_button_pos_e;
+  Gtk::ColorButton::~ColorButton (_8);
+  _9 = &this_32(D)->m_color_button_pos_s;
+  Gtk::ColorButton::~ColorButton (_9);
+  _10 = &this_32(D)->m_color_button_neg_s;
+  Gtk::ColorButton::~ColorButton (_10);
+  _11 = &this_32(D)->m_color_button_neg_e;
+  Gtk::ColorButton::~ColorButton (_11);
+  _12 = &this_32(D)->label_sequence;
+  Gtk::AccelLabel::~AccelLabel (_12);
+  _13 = &this_32(D)->label_precision;
+  Gtk::AccelLabel::~AccelLabel (_13);
+  _14 = &this_32(D)->label_expoPosE;
+  Gtk::AccelLabel::~AccelLabel (_14);
+  _15 = &this_32(D)->label_expoPosS;
+  Gtk::AccelLabel::~AccelLabel (_15);
+  _16 = &this_32(D)->label_expoNegS;
+  Gtk::AccelLabel::~AccelLabel (_16);
+  _17 = &this_32(D)->label_expoNegE;
+  Gtk::AccelLabel::~AccelLabel (_17);
+  _18 = &this_32(D)->menu_quit;
+  Gtk::Button::~Button (_18);
+  _19 = &this_32(D)->m_color;
+  if (_19 != 0B)
+    goto <bb 3>; [0.00%]
+  else
+    goto <bb 6>; [0.00%]
+
+  <bb 3> [0.00%]:
+  _20 = &this_32(D)->m_color;
+  _50 = _20 + 32;
+
+  <bb 4> [0.00%]:
+  # _28 = PHI <_50(3), _51(5)>
+  _21 = &this_32(D)->m_color;
+  if (_28 == _21)
+    goto <bb 6>; [0.00%]
+  else
+    goto <bb 5>; [0.00%]
+
+  <bb 5> [0.00%]:
+  _51 = _28 + 18446744073709551608;
+  Gdk::RGBA::~RGBA (_51);
+  goto <bb 4>; [0.00%]
+
+  <bb 6> [0.00%]:
+  _22 = &this_32(D)->sequence;
+  Gtk::Entry::~Entry (_22);
+  _23 = &this_32(D)->D.304128;
+  _24 = &_ZTT4Menu + 8;
+  Gtk::Window::~Window (_23, _24);
+  _25 = &this_32(D)->D.304146;
+  _26 = &_ZTT4Menu + 256;
+  Glib::ObjectBase::~ObjectBase (_25, _26);
+  _27 = &this_32(D)->D.304147;
+  sigc::trackable::~trackable (_27);
+  *this_32(D) ={v} {CLOBBER};
+  return;
+
+}
+
+
+
+;; Function virtual Menu::~Menu() (_ZN4MenuD0Ev, funcdef_no=11781, decl_uid=304108, cgraph_uid=5735, symbol_order=5768)
+
+virtual Menu::~Menu() (struct Menu * const this)
+{
+  <bb 2> [0.00%]:
+  Menu::~Menu (this_2(D));
+  operator delete (this_2(D));
+  return;
+
+}
+
+
+
+;; Function void __static_initialization_and_destruction_0(int, int) (_Z41__static_initialization_and_destruction_0ii, funcdef_no=11798, decl_uid=316637, cgraph_uid=5764, symbol_order=5942)
+
+void __static_initialization_and_destruction_0(int, int) (int __initialize_p, int __priority)
+{
+  <bb 2> [0.00%]:
+  if (__initialize_p_2(D) == 1)
+    goto <bb 3>; [0.00%]
+  else
+    goto <bb 5>; [0.00%]
+
+  <bb 3> [0.00%]:
+  if (__priority_4(D) == 65535)
+    goto <bb 4>; [0.00%]
+  else
+    goto <bb 5>; [0.00%]
+
+  <bb 4> [0.00%]:
+  std::ios_base::Init::Init (&__ioinit);
+  __cxa_atexit (__comp_dtor , &__ioinit, &__dso_handle);
+
+  <bb 5> [0.00%]:
+  return;
+
+}
+
+
+
+;; Function (static initializers for src/Menu.cpp) (_GLOBAL__sub_I__ZN4MenuC2Ev, funcdef_no=11799, decl_uid=316646, cgraph_uid=5765, symbol_order=6998)
+
+(static initializers for src/Menu.cpp) ()
+{
+  <bb 2> [0.00%]:
+  __static_initialization_and_destruction_0 (1, 65535);
+  return;
+
+}
+
+

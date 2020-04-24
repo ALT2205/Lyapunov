@@ -26,11 +26,12 @@ class Lyapunov : WindowManager {
     SDL_Rect m_size;                    // Taille de la fractale de Lyapunov
     Region m_curentRegion{0, 4, 0, 4};  // Correspond à la région d'affichage de la fractale
     int m_precision{100};               // Longueur de la séquence nécessaire au calcul de l'exposant
+    double maxExpo,minExpo;             // variables pour étirer les couleurs de la texture
     long m_lastMove{getCurrentTime()};  // Temps depuis
     int m_currentColor{0};              //
     bool m_stopColor{false};            // Determine si les couleurs de la fractale changent
     std::stack<Region> m_lastPosition;  // Pile qui contient les régions zoomées
-    Uint32 m_colorLyap[4];
+    Uint32 m_colorLyap[4];              // bornes de couleurs dans le même ordre que sur le menu
     int colorScale[6];                  // Tableau contenant les variations de couleurs
 
     void generateSequence();

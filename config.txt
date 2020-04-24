@@ -1,6 +1,6 @@
-color_neg_+= 0 0 0
-color_neg_-= 0 0 0
+color_neg_+= 0 255 255
+color_neg_-= 255 0 0
 color_pos_-= 0 0 0
-color_pos_+= 0 0 0
+color_pos_+= 255 255 255
 precision= 100
-sequence= 
+sequence= ABABAB

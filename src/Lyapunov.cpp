@@ -144,12 +144,13 @@ void Lyapunov::setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int 
 void Lyapunov::setColorScale(int tab, Uint32 max, Uint32 min){
     int currMax = max;
     int currMin = min;
-    for(int i = 2; i > 0; i--){
+    std::cout  << std::endl << "begin " << max << " " << min << std::endl;
+    for(int i = 2; i >= 0; i--){
         currMax = max % 256;
         currMin = min % 256;
         colorScale[tab + i] = currMax - currMin;
         max = (max - currMax) / 256;
-        min = (max - currMax) / 256;
+        min = (min - currMin) / 256;
     }
 }
 
@@ -158,37 +159,24 @@ void Lyapunov::setColorScale(int tab, Uint32 max, Uint32 min){
 // position dans le tableau des exposants 2D
 void Lyapunov::updatePixels(){
     std::vector<Uint32> pixels(m_size.w * m_size.h);
+    int red, green, blue,choixTab, couleur;
+    double diviseur;
     for(int i = 0, size = m_size.w * m_size.h; i < size; ++i){
         double exponent = m_exponents[i];
-        int red, green, blue;
-        int choixTab = 0;
         if(exponent > 0){
-            choixTab = 0;
+            choixTab = 3;
+            diviseur = maxExpo;
+            couleur = 3;
         }
-        red = (int) (colorScale[choixTab] * exponent) + m_colorLyap[1];
-        green = (int) (colorScale[choixTab + 1] * exponent) + m_colorLyap[1];
-        blue = (int) (colorScale[choixTab + 2] * exponent) + m_colorLyap[1];
-        /*
-        int green = ((int) (210 + exponent * 50) >= 0) ? (int) (210 + exponent * 50) :0 ;
-        int red = ((int) (255 + exponent * 52) >= 100) ? (int) (255 + exponent * 52) : 100;
-        int blue = ((int) (255 - exponent * 200) >= 0) ? (int) (255 - exponent * 200) : 0;
-        */
-        // Calcul des différentes couleurs d'après une série de tests.
-        // en fonction de la valeur de l'exposant de lyapunov
-
-        //int h = m_currentColor;
-        //setPixelHSV(pixels, i, greenLayer + h, 1, 1);
-        /*
-        if(exponent < -6){
-            setPixelRGB(pixels, i, 0, 0, 0);
-        } else if(exponent <= 0){ //entre -1 et 0
-
-            setPixelRGB(pixels, i, 0, green, 0);
-        } else if(exponent > 0){//entre 0 et 1
-            setPixelRGB(pixels, i, 0, 0, blue);
-        } else if(exponent >= 1){
-            setPixelRGB(pixels, i, 0, 0, 0);
-        }*/
+        else{
+            choixTab = 0;
+            diviseur = minExpo;
+            couleur = 1;
+        }
+        exponent =  exponent/diviseur;
+        red = (int) (colorScale[choixTab] * exponent) + m_colorLyap[couleur];
+        green = (int) (colorScale[choixTab + 1] * exponent) + m_colorLyap[couleur];
+        blue = (int) (colorScale[choixTab + 2] * exponent) + m_colorLyap[couleur];
 
         setPixelRGB(pixels, i, red, green, blue);
 
@@ -279,6 +267,8 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
     //Utilisation de variable local pour améliorer la performance
     unsigned int width = m_size.w, height = m_size.h, x, y, yPos, index, i, j;
     double a, b, expoLyap, xn, rn;
+    minExpo = 0;
+    maxExpo = 0;
     // Echelle d'espacement entre chaque a/b pour x/y
     double aStart = m_curentRegion.getFromX();
     double bStart = m_curentRegion.getFromY();
@@ -308,8 +298,18 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
                 product[i] = log2(product[i]);
                 expoLyap += product[i];
             }
-
-            m_exponents[index] = expoLyap / m_precision;
+            expoLyap = expoLyap / m_precision;
+            if(expoLyap < -30)
+                {
+                    expoLyap = minExpo;
+                }
+            else if(expoLyap > 30)
+                {
+                    expoLyap = maxExpo;
+                }
+            m_exponents[index] = expoLyap;
+            minExpo = (expoLyap < minExpo) ? expoLyap : minExpo;
+            maxExpo = (expoLyap > maxExpo) ? expoLyap : maxExpo;
         }
     }
 }
