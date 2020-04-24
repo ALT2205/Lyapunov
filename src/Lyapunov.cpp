@@ -159,12 +159,19 @@ void Lyapunov::generateSequence(){
     bool error = false;
     std::cout << m_sequence.length()<< std::endl;
     for(unsigned int i = 0;i< m_sequence.length();i++){
-      std::cout << m_sequence.at(i) << std::endl;
-      if (m_sequence.at(i) != 'A' || m_sequence.at(i) != 'B'){
-        std::cout << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB" << std::endl;
-        error = true;
-        break;
+      switch(m_sequence.at(i)){
+        case 'A' :
+          continue;
+          break;
+        case 'B' :
+          continue;
+          break;
+        default :
+          std::cout << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB" << std::endl;
+          error = true;
+          break;
       }
+      if(error){ break;}
     }
     if (m_sequence.empty() || error){
       m_sequence = "AB";
