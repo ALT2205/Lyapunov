@@ -427,12 +427,9 @@ int main(int argc, char* argv[]){
     Gtk::Main::run(m);
 
     // Recupère les saisies dans le fichier de config
-    if(m.writeFile() == 0){
-        Lyapunov lyapunov(1400, 1000, 1000, 1000);
-        lyapunov.generate();
-        lyapunov.startLoop();
-        return EXIT_SUCCESS;
-    } else {
-        return -1;
-    }
+    //m.writeFile();
+    Lyapunov lyapunov(1400, 1000, 1000, 1000);
+    lyapunov.generate();
+    lyapunov.startLoop();
+    return EXIT_SUCCESS;
 }

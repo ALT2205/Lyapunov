@@ -2,7 +2,7 @@
 
 
 // Constructeur de la classe Menu : crée les différents boutons nécessaires à la séléction des couleurs.
-Menu::Menu() : m_color_button_neg_s((Gtk::Stock::SELECT_COLOR)), m_color_button_neg_e((Gtk::Stock::SELECT_COLOR)), m_color_button_pos_s((Gtk::Stock::SELECT_COLOR)),m_color_button_pos_e(Gtk::Stock::SELECT_COLOR){
+Menu::Menu() : m_color_button_neg_s(), m_color_button_neg_e(), m_color_button_pos_s(),m_color_button_pos_e(),menu_quit(){
 
   // Créer une fenêtre centrée de taille 450 * 300
   Menu::set_position(Gtk::WIN_POS_CENTER);
@@ -16,63 +16,102 @@ Menu::Menu() : m_color_button_neg_s((Gtk::Stock::SELECT_COLOR)), m_color_button_
   grid.set_column_spacing(0);
   grid.set_row_spacing(0);
 
+
   // Nom de la fenêtre
   Menu::set_title("Paramètres de la génération des fractales de Lyapunov");
 
   //Positionnement des labels et du texte au sein du bouton
-   m_color_button_neg_s.set_can_focus(false);
-   m_color_button_neg_s.set_alignment(0.1,0.5);
-   m_color_button_neg_s.set_label("Couleur Exposant Lyapunov Négatif loin de 0 : ████");
-   // Evenement produit en cas de clic sur le Bouton
-   m_color_button_neg_s.signal_clicked().connect(sigc::mem_fun(*this, &Menu::setColorMaxNegExpo));
-   // Position du bouton dans la grille : Position 0 0 de largeur 10 et de hauteur 1
-   grid.attach(m_color_button_neg_s,0,0,10,1);
+  label_expoNegE = Gtk::AccelLabel("Borne Minimale Négative");
+  label_expoNegE.set_xalign(0.4);
 
-
-   //Positionnement des labels et du texte au sein du bouton
    m_color_button_neg_e.set_can_focus(false);
    m_color_button_neg_e.set_alignment(0.1,0.5);
-   m_color_button_neg_e.set_label("Couleur Exposant Lyapunov Négatif proche de 0 : ████");
+   m_color_button_neg_e.set_title("Couleur Exposant Lyapunov Négatif loin de 0");
+
+
    // Evenement produit en cas de clic sur le Bouton
-   m_color_button_neg_e.signal_clicked().connect(sigc::mem_fun(*this, &Menu::setColorMinNegExpo));
-   // Position du bouton dans la grille : Position 0 1 de largeur 10 et de hauteur 1
-   grid.attach(m_color_button_neg_e,0,1,10,1);
+   //m_color_button_neg_e.signal_clicked().connect(sigc::mem_fun(*this, &Menu::setColorMaxNegExpo));
+   // Position du bouton dans la grille : Position 0 0 de largeur 10 et de hauteur 1
+
+   grid.attach(m_color_button_neg_e,4,0,6,1);
+   grid.attach(label_expoNegE,0,0,4,1);
+
+
 
    //Positionnement des labels et du texte au sein du bouton
+   label_expoNegS = Gtk::AccelLabel("Borne Maximale Négative");
+   label_expoNegS.set_xalign(0.409);
+   m_color_button_neg_s.set_can_focus(false);
+   m_color_button_neg_s.set_alignment(0.1,0.5);
+   m_color_button_neg_s.set_title("Couleur Exposant Lyapunov Négatif proche de 0");
+   // Evenement produit en cas de clic sur le Bouton
+   //m_color_button_neg_e.signal_clicked().connect(sigc::mem_fun(*this, &Menu::setColorMinNegExpo));
+   // Position du bouton dans la grille : Position 0 1 de largeur 10 et de hauteur 1
+   grid.attach(m_color_button_neg_s,4,1,6,1);
+   grid.attach(label_expoNegS,0,1,4,1);
+
+   //Positionnement des labels et du texte au sein du bouton
+   label_expoPosS = Gtk::AccelLabel("Borne Minimale Positive");
+   label_expoPosS.set_xalign(0.395);
+
    m_color_button_pos_s.set_can_focus(false);
    m_color_button_pos_s.set_alignment(0.1,0.5);
-   m_color_button_pos_s.set_label("Couleur Exposant Lyapunov Positif proche de 0 : ████");
+   m_color_button_pos_s.set_title("Couleur Exposant Lyapunov Positif proche de 0");
    // Evenement produit en cas de clic sur le Bouton
-   m_color_button_pos_s.signal_clicked().connect(sigc::mem_fun(*this, &Menu::setColorMinPosExpo));
+   //m_color_button_pos_s.signal_clicked().connect(sigc::mem_fun(*this, &Menu::setColorMinPosExpo));
    // Position du bouton dans la grille : Position 0 2 de largeur 10 et de hauteur 1
-   grid.attach(m_color_button_pos_s,0,2,10,1);
+   grid.attach(m_color_button_pos_s,4,2,6,1);
+   grid.attach(label_expoPosS,0,2,4,1);
+
 
    //Positionnement des labels et du texte au sein du bouton
+   label_expoPosE = Gtk::AccelLabel("Borne Maximale Positive");
+   label_expoPosE.set_xalign(0.4);
+
    m_color_button_pos_e.set_can_focus(false);
    m_color_button_pos_e.set_alignment(0.1,0.5);
-   m_color_button_pos_e.set_label("Couleur Exposant Lyapunov Positif loin de 0 : ████");
+   m_color_button_pos_e.set_title("Couleur Exposant Lyapunov Positif loin de 0");
    // Evenement produit en cas de clic sur le Bouton
-   m_color_button_pos_e.signal_clicked().connect(sigc::mem_fun(*this, &Menu::setColorMaxPosExpo));
    // Position du bouton dans la grille : Position 0 3 de largeur 10 et de hauteur 1
-   grid.attach(m_color_button_pos_e,0,3,10,1);
+   grid.attach(m_color_button_pos_e,4,3,6,1);
+   grid.attach(label_expoPosE,0,3,4,1);
+
+   m_color_button_neg_e.signal_color_set().connect(sigc::mem_fun(*this, &Menu::setColorMinNegExpo));
+   m_color_button_neg_s.signal_color_set().connect(sigc::mem_fun(*this, &Menu::setColorMaxNegExpo));
+   m_color_button_pos_s.signal_color_set().connect(sigc::mem_fun(*this, &Menu::setColorMinPosExpo));
+   m_color_button_pos_e.signal_color_set().connect(sigc::mem_fun(*this, &Menu::setColorMaxPosExpo));
 
 
    // Création des limites pour le Spin Button : Valeur initiale, valeur minimale/maximale, pas
    Glib::RefPtr<Gtk::Adjustment> limits = Gtk::Adjustment::create(100, MINSPIN, MAXSPIN, 1);
+   label_precision = Gtk::AccelLabel("Précision");
    // Définie la limite du bouton
    m_select_precision.set_adjustment(limits);
    // Seulement des nombres peuvent être rentrés
    m_select_precision.set_numeric();
    // Evenement en cas de clic sur le bouton
    m_select_precision.signal_value_changed().connect(sigc::mem_fun(*this, &Menu::newPrecision));
-   // Position du bouton dans la grille : Position 0 4 de largeur 10 et de hauteur 1
-   grid.attach(m_select_precision,0,4,10,1);
+   // Position du bouton dans la grille : Position 0 4 de largeur 10 et de hauteur 1 à 10px du bord
+   label_precision.set_xalign(0.1);
+   grid.attach(m_select_precision,4,4,6,1);
+   grid.attach(label_precision,0,4,4,1);
 
    // Recupère la valeur du SpinButton pour l'affecter dans l'attribut Précision
    precision = m_select_precision.get_value_as_int();
 
    //Le champ de saisie de la séquence n'est pas activé par defaut pour afficher le place holder
    sequence.set_activates_default(false);
+   label_sequence = Gtk::AccelLabel("Séquence de A-B");
+   label_sequence.set_xalign(0.195);
+
+   grid.attach(label_sequence,0,5,4,1);
+
+
+   menu_quit.signal_clicked().connect(sigc::mem_fun(*this, &Menu::writeFile));
+   menu_quit.set_label("Valider");
+   grid.attach(menu_quit,8,6,2,1);
+
+
 
    Menu::textArea();
    // Affiche les différents éléments présents dans la grille
@@ -80,63 +119,21 @@ Menu::Menu() : m_color_button_neg_s((Gtk::Stock::SELECT_COLOR)), m_color_button_
 
    //Ajout de la grille dans le Menu
    add(grid);
+}
 
+void Menu::setColorMinNegExpo(){
+    m_color[0] = m_color_button_neg_e.get_rgba();
 }
 void Menu::setColorMaxNegExpo(){
-  // Titre de la boite de dialogue de sélection de couleur
-  Gtk::ColorSelectionDialog color("Couleur de la valeur négative du plus petit exposant de Lyapunov calculée ");
-
-  // Ouverture de la boite de dialogue
-  Gtk::ColorSelection* selectColor = color.get_color_selection();
-  // Selection de la couleur
-  selectColor->set_current_rgba(m_color[0]);
-  int end = color.run();
-  // Fermeture de la boîte si l'utilisateur est satisfait de son choix
-  if(end == Gtk::RESPONSE_OK) {
-    m_color[0] = selectColor->get_current_rgba();
-    // Remplace la couleur du label à l'intérieur du bouton par la couleur saisie par l'utilisateur
-    m_color_button_neg_s.override_color(m_color[0],Gtk::StateFlags::STATE_FLAG_NORMAL);
-  }
+    m_color[1] = m_color_button_neg_s.get_rgba();
 }
-
-// Comportement identique à la méthode Menu::setColorMaxNegExpo()
-void Menu::setColorMinNegExpo(){
-  Gtk::ColorSelectionDialog color("Couleur de la valeur négative du plus grand exposant de Lyapunov calculée ");
-
-  Gtk::ColorSelection* selectColor = color.get_color_selection();
-  selectColor->set_current_rgba(m_color[1]);
-  int end = color.run();
-  if(end == Gtk::RESPONSE_OK) {
-    m_color[1] = selectColor->get_current_rgba();
-    m_color_button_neg_e.override_color(m_color[1],Gtk::StateFlags::STATE_FLAG_NORMAL);
-  }
-}
-
-// Comportement identique à la méthode Menu::setColorMaxNegExpo()
 void Menu::setColorMinPosExpo(){
-  Gtk::ColorSelectionDialog color("Couleur de la valeur négative du plus grand exposant de Lyapunov calculée ");
-
-  Gtk::ColorSelection* selectColor = color.get_color_selection();
-  selectColor->set_current_rgba(m_color[2]);
-  int end = color.run();
-  if(end == Gtk::RESPONSE_OK) {
-    m_color[2] = selectColor->get_current_rgba();
-    m_color_button_pos_s.override_color(m_color[2],Gtk::StateFlags::STATE_FLAG_NORMAL);
-  }
+    m_color[2] = m_color_button_pos_s.get_rgba();
 }
-
-// Comportement identique à la méthode Menu::setColorMaxNegExpo()
 void Menu::setColorMaxPosExpo(){
-  Gtk::ColorSelectionDialog color("Couleur de la valeur négative du plus grand exposant de Lyapunov calculée ");
-
-  Gtk::ColorSelection* selectColor = color.get_color_selection();
-  selectColor->set_current_rgba(m_color[3]);
-  int end = color.run();
-  if(end == Gtk::RESPONSE_OK) {
-    m_color[3] = selectColor->get_current_rgba();
-    m_color_button_pos_e.override_color(m_color[3],Gtk::StateFlags::STATE_FLAG_NORMAL);
-  }
+    m_color[3] = m_color_button_pos_e.get_rgba();
 }
+
 // Champ de saisie de la séquence
 void Menu::textArea(){
   sequence.set_activates_default(false);
@@ -145,7 +142,7 @@ void Menu::textArea(){
   // Alignement du texte au centre du champ de saisie
   sequence.set_alignment(Gtk::ALIGN_CENTER);
   // Position du bouton dans la grille : Position 0 5 de largeur 10 et de hauteur 1
-  grid.attach(sequence,0,5,10,1);
+  grid.attach(sequence,4,5,6,1);
 }
 
 // Ecriture de la séquence rentrée dans un fichier de config
@@ -187,14 +184,14 @@ void Menu::getPrecision(std::ofstream& file){
 }
 
 
-int Menu::writeFile(){
+void Menu::writeFile(){
   std::ofstream file("config.txt");
   if (!file.is_open()){
     std::cout << "Error : Cannot open file config " <<std::endl;
-    return -1;
+    return;
   }
   getColor(file);
   getPrecision(file);
   getSequence(file);
-  return 0;
+  return;
 }
