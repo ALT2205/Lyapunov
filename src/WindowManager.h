@@ -23,6 +23,8 @@ class WindowManager {
     SDL_Rect m_texturePosition;         // Position de la texture de la fractale
     SDL_Rect m_textureOriginalSize;     // Position Originale de la texture
     SDL_Rect m_mousePosition;           // Position du pointeur de la souris
+    double angle = 0;
+    SDL_RendererFlip m_flip = SDL_FLIP_NONE;
 
 public:
     WindowManager(unsigned int w, unsigned int h);
@@ -39,6 +41,16 @@ public:
 
     const SDL_Rect& getMousePosition() const;
 
+    void addDegree(int degrees);
+
+    void rotateHorizontally();
+
+    void rotateVertically();
+
+    SDL_RendererFlip getFlip();
+
+    void setFlip(SDL_RendererFlip flip);
+
     virtual void onResized(unsigned int newWidth, unsigned int newHeight) = 0;
 
     virtual void onMouseClick(unsigned int x, unsigned int y, unsigned int button) = 0;
@@ -47,7 +59,9 @@ public:
 
     virtual void onMouseWheel() = 0;
 
-    virtual void onKeyboard(int c) = 0;
+    virtual void onKeyboardUp(int c) = 0;
+
+    virtual void onKeyboardDown(int c) = 0;
 
     virtual void onTick() = 0;
 
