@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+
 class Menu : public Gtk::Window {
 
     Gtk::Entry sequence;                  // Champ de saisie de la séquence
@@ -29,20 +30,32 @@ class Menu : public Gtk::Window {
     Gtk::SpinButton m_select_precision;        // Bouton qui permet de régler la précison : 10 à 500 pour le moment (MINSPIN - MAXSPIN)
     Gtk::Grid grid;                            // Grille d'affichage des différents boutons
 
-    public :
+public :
 
     Menu();
+
     void setColorMaxNegExpo();
+
     void setColorMinNegExpo();
+
     void setColorMinPosExpo();
+
     void setColorMaxPosExpo();
+
     std::string colorToString(Gdk::RGBA color);
+
     void getSequence(std::ofstream& file);
+
     void getColor(std::ofstream& file);
+
     void getPrecision(std::ofstream& file);
+
     void textArea();
+
     void newPrecision();
+
     void writeFile();
+
     void closeButton();
 };
 
