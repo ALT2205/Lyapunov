@@ -26,7 +26,7 @@ class Lyapunov : WindowManager {
     SDL_Rect m_size;                    // Taille de la fractale de Lyapunov
     Region m_curentRegion{0, 4, 0, 4};  // Correspond à la région d'affichage de la fractale
     int m_precision{100};               // Longueur de la séquence nécessaire au calcul de l'exposant
-    double maxExpo,minExpo;             // variables pour étirer les couleurs de la texture
+    double maxExpo, minExpo;             // variables pour étirer les couleurs de la texture
     long m_lastMove{getCurrentTime()};  // Temps depuis
     int m_currentColor{0};              //
     bool m_stopColor{false};            // Determine si les couleurs de la fractale changent
@@ -51,7 +51,7 @@ public:
 
     void setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int h, double s, double v);
 
-    void setColorScale(int tab,Uint32 max,Uint32 min);
+    void setColorScale(int tab, Uint32 max, Uint32 min);
 
     void updatePixels();
 

@@ -2,7 +2,7 @@
 
 
 // Constructeur de la classe Menu : crée les différents boutons nécessaires à la séléction des couleurs.
-Menu::Menu() : m_color_button_neg_s(), m_color_button_neg_e(), m_color_button_pos_s(),m_color_button_pos_e(),menu_quit(){
+Menu::Menu() : m_color_button_neg_s(), m_color_button_neg_e(), m_color_button_pos_s(),m_color_button_pos_e(),menu_write(){
 
   // Créer une fenêtre centrée de taille 450 * 300
   Menu::set_position(Gtk::WIN_POS_CENTER);
@@ -118,10 +118,10 @@ Menu::Menu() : m_color_button_neg_s(), m_color_button_neg_e(), m_color_button_po
 
 
    // Evenement produit en cas de clic sur le bouton valider : Ecrit la configuration voulue par l'utilisateur dans le fichier de config
-   menu_quit.signal_clicked().connect(sigc::mem_fun(*this, &Menu::writeFile));
-   menu_quit.set_label("Valider");
+   menu_write.signal_clicked().connect(sigc::mem_fun(*this, &Menu::writeFile));
+   menu_write.set_label("Valider");
     // Position du label dans la grille : Position 8 6 de largeur 2 et de hauteur 1
-   grid.attach(menu_quit,8,6,2,1);
+   grid.attach(menu_write,8,6,2,1);
 
 
 
