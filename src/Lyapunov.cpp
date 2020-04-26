@@ -17,7 +17,7 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
     // On recupère d'abord les couleurs stockées dans un  tableau de Pixels(Uint32)
     while(i < 4 && file >> str >> r >> g >> b){
         m_colorLyap[i] = (r << 16u) + (g << 8u) + b;
-        std::cout << r << g << b << std::endl;
+        std::cout << r << " " << g << " " << b << std::endl;
         i++;
     }
 
@@ -141,42 +141,44 @@ void Lyapunov::setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int 
 }
 
 // Met dans trois cases de colorScale l'intervalle entre deux couleurs
+// et 6 cases plus loin, les valeurs sur lesquelles doivent être appliqués les variations
 void Lyapunov::setColorScale(int tab, Uint32 max, Uint32 min){
     int currMax = max;
     int currMin = min;
-    std::cout  << std::endl << "begin " << max << " " << min << std::endl;
+    //std::cout  << std::endl << "begin " << max << " " << min << std::endl;
     for(int i = 2; i >= 0; i--){
         currMax = max % 256;
         currMin = min % 256;
         colorScale[tab + i] = currMax - currMin;
+        colorScale[tab + 6 + i] = currMin;
         max = (max - currMax) / 256;
         min = (min - currMin) / 256;
     }
 }
 
+
 // Modifie la couleur des pixels  dans un tableau en
 // fonction de la valeur de l'exposant associé à la même
 // position dans le tableau des exposants 2D
 void Lyapunov::updatePixels(){
+
     std::vector<Uint32> pixels(m_size.w * m_size.h);
-    int red, green, blue,choixTab, couleur;
+    int red, green, blue,choixTab;
     double diviseur;
     for(int i = 0, size = m_size.w * m_size.h; i < size; ++i){
         double exponent = m_exponents[i];
         if(exponent > 0){
             choixTab = 3;
-            diviseur = maxExpo;
-            couleur = 3;
+            diviseur =  maxExpo;
         }
         else{
             choixTab = 0;
             diviseur = minExpo;
-            couleur = 1;
         }
         exponent =  exponent/diviseur;
-        red = (int) (colorScale[choixTab] * exponent) + m_colorLyap[couleur];
-        green = (int) (colorScale[choixTab + 1] * exponent) + m_colorLyap[couleur];
-        blue = (int) (colorScale[choixTab + 2] * exponent) + m_colorLyap[couleur];
+        red = (int) (colorScale[choixTab] * exponent) + colorScale[choixTab + 6];
+        green = (int) (colorScale[choixTab + 1] * exponent) + colorScale[choixTab + 7];
+        blue = (int) (colorScale[choixTab + 2] * exponent) + colorScale[choixTab + 8];
 
         setPixelRGB(pixels, i, red, green, blue);
 
@@ -312,6 +314,7 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
             maxExpo = (expoLyap > maxExpo) ? expoLyap : maxExpo;
         }
     }
+//    std::cout<< "min " << minExpo << " max " << maxExpo << std::endl;
 }
 
 // Permet de modifier la taille de la fractale de Lyapunov
