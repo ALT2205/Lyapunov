@@ -14,7 +14,7 @@
 - ~~Trouver les bornes supérieures/inférieures autres que 0/4~~
 -  ~~Choisir l'orientation de l'image : Baptiste~~
 - ~~Multi threading : voir l'implementation avec <thread> depuis C++11~~
--  <span style="color: #0000FF">Régler les couleurs pour le degradé  : Baptiste</span>
+- ~~Régler les couleurs pour le degradé  : Baptiste~~
 - ~~Essayer de trouver une méthode de calcul plus rapide : Faire le produit puis calculer son log2 avant que le nombre ne soit trop grand: Adrien~~
 - ~~Redimensionner en fonction du coté de la fenêtre ( taille de la zone de rendu = côté le + petit)~~
 - ~~Dézoom~~
