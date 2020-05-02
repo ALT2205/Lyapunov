@@ -403,6 +403,7 @@ void Lyapunov::onKeyboardUp(int c){
 }
 
 void Lyapunov::onKeyboardDown(int c){
+    double distance = 0;
     switch(c){
         case SDLK_z:
             addDegree(90);
@@ -416,6 +417,32 @@ void Lyapunov::onKeyboardDown(int c){
         case SDLK_q:
             rotateHorizontally();
             break;
+            /* Différents déplacements (Pas optimisé) */
+        case SDLK_RIGHT:
+            distance =( m_curentRegion.getToX() - m_curentRegion.getFromX())/2;
+            m_curentRegion = {m_curentRegion.getFromX() + distance ,
+                            m_curentRegion.getToX() + distance, m_curentRegion.getFromY(), m_curentRegion.getToY()};
+            generate(m_curentRegion);
+            break;
+        case SDLK_LEFT:
+            distance =( m_curentRegion.getToX() - m_curentRegion.getFromX())/(-2);
+            m_curentRegion = {m_curentRegion.getFromX() + distance ,
+                            m_curentRegion.getToX() + distance, m_curentRegion.getFromY(), m_curentRegion.getToY()};
+            generate(m_curentRegion);
+            break;
+            case SDLK_DOWN:
+            distance =( m_curentRegion.getToY() - m_curentRegion.getFromY())/2;
+            m_curentRegion = {m_curentRegion.getFromX(),
+                            m_curentRegion.getToX(), m_curentRegion.getFromY() + distance, m_curentRegion.getToY() + distance};
+            generate(m_curentRegion);
+            break;
+            case SDLK_UP:
+            distance =( m_curentRegion.getToY() - m_curentRegion.getFromY())/(-2);
+            m_curentRegion = {m_curentRegion.getFromX(),
+                            m_curentRegion.getToX(), m_curentRegion.getFromY() + distance, m_curentRegion.getToY() + distance};
+            generate(m_curentRegion);
+            break;
+
     }
     blitTexture();
     updateScreen();
