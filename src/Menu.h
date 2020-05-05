@@ -57,6 +57,8 @@ public :
     void writeFile();
 
     void closeButton();
+
+    void setColorButton();
 };
 
 #endif

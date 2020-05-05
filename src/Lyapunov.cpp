@@ -10,6 +10,25 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
 
 
     // Ouverture en mode lecture du fichier de configuration
+    updateSettings();
+
+    m_size.w = (int) lyapunovWidth;
+    m_size.h = (int) lyapunovHeight;
+    SDL_Rect texturePosition;
+    //La texture fait la taille de l'écran
+    texturePosition.w = (int) windowWidth;
+    texturePosition.h = (int) windowHeight;
+    //Mais la texture est carrée
+    texturePosition.w = texturePosition.h =
+            texturePosition.w < texturePosition.h ? texturePosition.w : texturePosition.h;
+    //La texture est positionnée au milieu de l'écran
+    texturePosition.x = (int) ((windowWidth >> 1u) - ((unsigned int) texturePosition.w >> 1u));
+    texturePosition.y = (int) ((windowHeight >> 1u) - ((unsigned int) texturePosition.h >> 1u));
+    initRender(m_size, texturePosition);
+}
+
+
+void Lyapunov::updateSettings(){
     std::ifstream file("config.txt");
     std::string str;
     int r, g, b, i = 0, precis;
@@ -39,21 +58,7 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
     m_sequence = seq;
     std::cout << m_sequence << std::endl;
     generateSequence();
-    m_size.w = (int) lyapunovWidth;
-    m_size.h = (int) lyapunovHeight;
-    SDL_Rect texturePosition;
-    //La texture fait la taille de l'écran
-    texturePosition.w = (int) windowWidth;
-    texturePosition.h = (int) windowHeight;
-    //Mais la texture est carrée
-    texturePosition.w = texturePosition.h =
-            texturePosition.w < texturePosition.h ? texturePosition.w : texturePosition.h;
-    //La texture est positionnée au milieu de l'écran
-    texturePosition.x = (int) ((windowWidth >> 1u) - ((unsigned int) texturePosition.w >> 1u));
-    texturePosition.y = (int) ((windowHeight >> 1u) - ((unsigned int) texturePosition.h >> 1u));
-    initRender(m_size, texturePosition);
 }
-
 
 // Renvoie la région sur le plan Lyapunov (entre 0 et 4)
 // à partir de la région de l'écran
@@ -442,6 +447,19 @@ void Lyapunov::onKeyboardDown(int c){
                             m_curentRegion.getToX(), m_curentRegion.getFromY() + distance, m_curentRegion.getToY() + distance};
             generate(m_curentRegion);
             break;
+        case SDLK_ESCAPE: {
+            Menu k = Menu();
+            k.setColorButton();
+            Gtk::Main::run(k);
+
+            updateSettings();
+            updatePixels();
+            blitTexture();
+            updateScreen();
+        }
+            break;
+        default:
+            break;
 
     }
     blitTexture();
@@ -455,9 +473,9 @@ int main(int argc, char* argv[]){
     Menu m = Menu();
     // Ouvre le menu m
     Gtk::Main::run(m);
+    m.writeFile();
 
     // Recupère les saisies dans le fichier de config
-    //m.writeFile();
     Lyapunov lyapunov(1400, 1000, 1000, 1000);
     lyapunov.generate();
     lyapunov.startLoop();

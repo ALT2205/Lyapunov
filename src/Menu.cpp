@@ -140,6 +140,22 @@ Menu::Menu() : menu_write(){
    //Ajout de la grille dans le Menu
    add(grid);
 }
+void Menu::setColorButton() {
+    std::ifstream file("config.txt");
+    std::string str;
+    int r, g, b, i = 0;
+
+    // On recupère d'abord les couleurs stockées dans un  tableau de Pixels(Uint32)
+    while(i < 4 && file >> str >> r >> g >> b){
+        m_color[i].set_rgba(r/255.0,g/255.0,b/255.0);
+        i++;
+    }
+
+    m_color_button_neg_s.set_rgba(m_color[0]);
+    m_color_button_neg_e.set_rgba(m_color[1]);
+    m_color_button_pos_s.set_rgba(m_color[2]);
+    m_color_button_pos_e.set_rgba(m_color[3]);
+}
 
 // Fonction appelée lors d'un changement de couleur sur le bouton de la borne minimale négative
 void Menu::setColorMinNegExpo(){

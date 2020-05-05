@@ -56,6 +56,8 @@ public:
 
     void updatePixels();
 
+    void updateSettings();
+
     void onResized(unsigned int newWidth, unsigned int newHeight) override;
 
     void onMouseClick(unsigned int x, unsigned int y, unsigned int button) override;
