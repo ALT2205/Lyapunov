@@ -2,7 +2,7 @@
 
 
 // Constructeur de la classe Menu : crée les différents boutons nécessaires à la séléction des couleurs.
-Menu::Menu() : m_color_button_neg_s(), m_color_button_neg_e(), m_color_button_pos_s(),m_color_button_pos_e(),menu_write(){
+Menu::Menu() : menu_write(){
 
   // Créer une fenêtre centrée de taille 450 * 300
   Menu::set_position(Gtk::WIN_POS_CENTER);
@@ -16,9 +16,17 @@ Menu::Menu() : m_color_button_neg_s(), m_color_button_neg_e(), m_color_button_po
   grid.set_column_spacing(0);
   grid.set_row_spacing(0);
 
+    m_color[0].set_rgba(1.0,1.0,0);
+    m_color[1].set_rgba(0.196,0.118,0);
+    m_color[2].set_rgba(0,0.753,1.0);
+    m_color[3].set_rgba(0,0.11,0.337);
 
   // Nom de la fenêtre
   Menu::set_title("Paramètres de la génération des fractales de Lyapunov");
+    m_color_button_neg_s.set_rgba(m_color[0]);
+    m_color_button_neg_e.set_rgba(m_color[1]);
+    m_color_button_pos_s.set_rgba(m_color[2]);
+    m_color_button_pos_e.set_rgba(m_color[3]);
 
     //Configuration des labels et des boutons de couleurs
   label_expoNegE = Gtk::AccelLabel("Borne Minimale Négative");
