@@ -9,6 +9,9 @@
 #include <exception>
 #include <iostream>
 #include <vector>
+#include <iostream>
+#include <fstream>
+#include "Time.h"
 
 // Cette classe permet de s'occuper de tout ce qui est nécessaire
 // à l'affichage de la Fractale
@@ -23,7 +26,7 @@ class WindowManager {
     SDL_Rect m_texturePosition;         // Position de la texture de la fractale
     SDL_Rect m_textureOriginalSize;     // Position Originale de la texture
     SDL_Rect m_mousePosition;           // Position du pointeur de la souris
-    double angle = 0;
+    int angle = 0;
     SDL_RendererFlip m_flip = SDL_FLIP_NONE;
 
 public:
@@ -39,7 +42,11 @@ public:
 
     void updateScreen() const;
 
+    void screenShot() const;
+
     const SDL_Rect& getMousePosition() const;
+
+    int getDegree();
 
     void addDegree(int degrees);
 
@@ -72,7 +79,6 @@ public:
     void setTexturePosition(SDL_Rect texturePosition);
 
     ~WindowManager();
-
 };
 
 std::ostream& operator<<(std::ostream& flux, SDL_Rect rect);

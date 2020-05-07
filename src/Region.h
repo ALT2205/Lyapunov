@@ -6,6 +6,7 @@
 #define LYAPUNOV_REGION_H
 
 #include <ostream>
+#include <iostream>
 
 // Cette classe permet de créer des "régions" : une zone comprise entre 2 points
 class Region {
@@ -24,6 +25,8 @@ public:
     double getFromY() const;
 
     double getToY() const;
+
+    void rotate(int degrees, double length);
 };
 
 

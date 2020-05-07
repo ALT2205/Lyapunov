@@ -6,6 +6,7 @@
 #define LYAPUNOV_TIME_H
 
 #include <chrono>
+#include <string>
 
 // Classe qui s'occupe du temps. Utile au défilement des couleurs
 class Time {

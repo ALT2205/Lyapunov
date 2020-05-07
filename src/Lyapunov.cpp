@@ -7,8 +7,6 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
         : WindowManager(windowWidth, windowHeight), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
           m_lastPosition{}{
 
-
-
     // Ouverture en mode lecture du fichier de configuration
     updateSettings();
 
@@ -44,13 +42,10 @@ void Lyapunov::updateSettings(){
     setColorScale(0, m_colorLyap[1], m_colorLyap[0]); //Neg
     setColorScale(3, m_colorLyap[3], m_colorLyap[2]); //Pos
 
-
-
     // On recupère ensite la précision souhaitée
     file >> str >> precis;
     m_precision = precis;
     std::cout << m_precision << std::endl;
-
 
     // On récupère finalement la sequence
     std::string seq;
@@ -72,19 +67,19 @@ Region Lyapunov::getRegion(int fromX, int toX, int fromY, int toY){
             (double) (fromX < texturePosition.x ? 0 : fromX > texturePosition.x + texturePosition.w ? texturePosition.w
                                                                                                     : fromX -
                                                                                                       texturePosition.x) /
-            (double) texturePosition.w * (m_curentRegion.getToX() - m_curentRegion.getFromX()) +
-            m_curentRegion.getFromX(),
+            (double) texturePosition.w * (m_currentRegion.getToX() - m_currentRegion.getFromX()) +
+            m_currentRegion.getFromX(),
             (double) (toX < texturePosition.x ? 0 : toX > texturePosition.x + texturePosition.w ? texturePosition.w :
                                                     toX - texturePosition.x) / (double) texturePosition.w *
-            (m_curentRegion.getToX() - m_curentRegion.getFromX()) + m_curentRegion.getFromX(),
+            (m_currentRegion.getToX() - m_currentRegion.getFromX()) + m_currentRegion.getFromX(),
             (double) (fromY < texturePosition.y ? 0 : fromY > texturePosition.y + texturePosition.h ? texturePosition.h
                                                                                                     : fromY -
                                                                                                       texturePosition.y) /
-            (double) texturePosition.h * (m_curentRegion.getToY() - m_curentRegion.getFromY()) +
-            m_curentRegion.getFromY(),
+            (double) texturePosition.h * (m_currentRegion.getToY() - m_currentRegion.getFromY()) +
+            m_currentRegion.getFromY(),
             (double) (toY < texturePosition.y ? 0 : toY > texturePosition.y + texturePosition.h ? texturePosition.h :
                                                     toY - texturePosition.y) / (double) texturePosition.h *
-            (m_curentRegion.getToY() - m_curentRegion.getFromY()) + m_curentRegion.getFromY()};
+            (m_currentRegion.getToY() - m_currentRegion.getFromY()) + m_currentRegion.getFromY()};
     return region;
 }
 
@@ -168,19 +163,18 @@ void Lyapunov::setColorScale(int tab, Uint32 max, Uint32 min){
 void Lyapunov::updatePixels(){
 
     std::vector<Uint32> pixels(m_size.w * m_size.h);
-    int red, green, blue,choixTab;
+    int red, green, blue, choixTab;
     double diviseur;
     for(int i = 0, size = m_size.w * m_size.h; i < size; ++i){
         double exponent = m_exponents[i];
         if(exponent > 0){
             choixTab = 3;
-            diviseur =  maxExpo;
-        }
-        else{
+            diviseur = maxExpo;
+        } else {
             choixTab = 0;
             diviseur = minExpo;
         }
-        exponent =  exponent/diviseur;
+        exponent = exponent / diviseur;
         red = (int) (colorScale[choixTab] * exponent) + colorScale[choixTab + 6];
         green = (int) (colorScale[choixTab + 1] * exponent) + colorScale[choixTab + 7];
         blue = (int) (colorScale[choixTab + 2] * exponent) + colorScale[choixTab + 8];
@@ -225,7 +219,7 @@ void Lyapunov::generateSequence(){
 
 // Génère la fractale de Lyapunov dans une région donnée
 void Lyapunov::generate(Region region){
-    m_curentRegion = Region{region};
+    m_currentRegion = Region{region};
 
     if(region.getFromX() < 0 || region.getToX() > 4 || region.getFromY() < 0 || region.getToY() > 4){
         throw std::domain_error("Invalid domain to generate Lyapunov");
@@ -258,7 +252,6 @@ void Lyapunov::generate(Region region){
     for(auto& th : threads){
         th.join();
     }
-
     updatePixels();
     blitTexture();
     SDL_Rect mousePos = getMousePosition();
@@ -277,10 +270,10 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
     minExpo = 0;
     maxExpo = 0;
     // Echelle d'espacement entre chaque a/b pour x/y
-    double aStart = m_curentRegion.getFromX();
-    double bStart = m_curentRegion.getFromY();
-    double scaleOfA = ((m_curentRegion.getToX() - aStart) / (double) width);
-    double scaleOfB = ((m_curentRegion.getToY() - bStart) / (double) height);
+    double aStart = m_currentRegion.getFromX();
+    double bStart = m_currentRegion.getFromY();
+    double scaleOfA = ((m_currentRegion.getToX() - aStart) / (double) width);
+    double scaleOfB = ((m_currentRegion.getToY() - bStart) / (double) height);
     // Eviter un appel trop important de log2 : LOG2 (MN) = LOG2(M) + LOG2(N)
     unsigned int numberOfProducts;
     for(y = yStart; y < yEnd; ++y){
@@ -306,14 +299,11 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
                 expoLyap += product[i];
             }
             expoLyap = expoLyap / m_precision;
-            if(expoLyap < -30)
-                {
-                    expoLyap = minExpo;
-                }
-            else if(expoLyap > 30)
-                {
-                    expoLyap = maxExpo;
-                }
+            if(expoLyap < -30){
+                expoLyap = minExpo;
+            } else if(expoLyap > 30){
+                expoLyap = maxExpo;
+            }
             m_exponents[index] = expoLyap;
             minExpo = (expoLyap < minExpo) ? expoLyap : minExpo;
             maxExpo = (expoLyap > maxExpo) ? expoLyap : maxExpo;
@@ -339,9 +329,12 @@ void Lyapunov::onMouseClick(unsigned int x, unsigned int y, unsigned int button)
     switch(button){
         // Un Clic Gauche sur la souris permet de zoomer dans la fractale
         case SDL_BUTTON_LEFT:{
-            m_lastPosition.emplace(m_curentRegion);
-            Region newRegion = getRegion((int) x - 200, (int) x + 200, (int) y - 200, (int) y + 200);
-            generate(newRegion);
+            m_lastPosition.emplace(m_currentRegion);
+            m_currentRegion = getRegion((int) x - 200, (int) x + 200, (int) y - 200, (int) y + 200);
+            Region temp = Region{m_currentRegion};
+            m_currentRegion.rotate(getDegree(), m_currentRegion.getToX() - m_currentRegion.getFromX());
+            generate(m_currentRegion);
+            m_currentRegion = temp;
         }
             break;
 
@@ -424,28 +417,35 @@ void Lyapunov::onKeyboardDown(int c){
             break;
             /* Différents déplacements (Pas optimisé) */
         case SDLK_RIGHT:
-            distance =( m_curentRegion.getToX() - m_curentRegion.getFromX())/2;
-            m_curentRegion = {m_curentRegion.getFromX() + distance ,
-                            m_curentRegion.getToX() + distance, m_curentRegion.getFromY(), m_curentRegion.getToY()};
-            generate(m_curentRegion);
+            distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / 2;
+            m_currentRegion = {m_currentRegion.getFromX() + distance,
+                               m_currentRegion.getToX() + distance, m_currentRegion.getFromY(),
+                               m_currentRegion.getToY()};
+            generate(m_currentRegion);
             break;
         case SDLK_LEFT:
-            distance =( m_curentRegion.getToX() - m_curentRegion.getFromX())/(-2);
-            m_curentRegion = {m_curentRegion.getFromX() + distance ,
-                            m_curentRegion.getToX() + distance, m_curentRegion.getFromY(), m_curentRegion.getToY()};
-            generate(m_curentRegion);
+            distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / (-2);
+            m_currentRegion = {m_currentRegion.getFromX() + distance,
+                               m_currentRegion.getToX() + distance, m_currentRegion.getFromY(),
+                               m_currentRegion.getToY()};
+            generate(m_currentRegion);
             break;
-            case SDLK_DOWN:
-            distance =( m_curentRegion.getToY() - m_curentRegion.getFromY())/2;
-            m_curentRegion = {m_curentRegion.getFromX(),
-                            m_curentRegion.getToX(), m_curentRegion.getFromY() + distance, m_curentRegion.getToY() + distance};
-            generate(m_curentRegion);
+        case SDLK_DOWN:
+            distance = (m_currentRegion.getToY() - m_currentRegion.getFromY()) / 2;
+            m_currentRegion = {m_currentRegion.getFromX(),
+                               m_currentRegion.getToX(), m_currentRegion.getFromY() + distance,
+                               m_currentRegion.getToY() + distance};
+            generate(m_currentRegion);
             break;
-            case SDLK_UP:
-            distance =( m_curentRegion.getToY() - m_curentRegion.getFromY())/(-2);
-            m_curentRegion = {m_curentRegion.getFromX(),
-                            m_curentRegion.getToX(), m_curentRegion.getFromY() + distance, m_curentRegion.getToY() + distance};
-            generate(m_curentRegion);
+        case SDLK_UP:
+            distance = (m_currentRegion.getToY() - m_currentRegion.getFromY()) / (-2);
+            m_currentRegion = {m_currentRegion.getFromX(),
+                               m_currentRegion.getToX(), m_currentRegion.getFromY() + distance,
+                               m_currentRegion.getToY() + distance};
+            generate(m_currentRegion);
+            break;
+        case SDLK_RETURN:
+            screenShot();
             break;
         case SDLK_ESCAPE: {
             std::string seq = m_sequence;

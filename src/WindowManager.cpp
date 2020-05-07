@@ -3,7 +3,6 @@
 //
 
 #include "WindowManager.h"
-#include "Time.h"
 
 // Surchage de l'opérateur <<. Permet d'afficher les champs d'un SDL_Rect
 std::ostream& operator<<(std::ostream& flux, SDL_Rect rect){
@@ -145,7 +144,7 @@ void WindowManager::setFlip(SDL_RendererFlip flip){
 
 //Modifier l'angle en ajoutant des degrées
 void WindowManager::addDegree(int degrees){
-    this->angle += degrees;
+    (this->angle += degrees) %= 360;
 }
 
 //Obtenir le miroir actuel
@@ -183,6 +182,19 @@ void WindowManager::rotateVertically(){
     }
 }
 
+int WindowManager::getDegree(){
+    return angle;
+}
+
+void WindowManager::screenShot() const{
+    long currentTime = getCurrentTime();
+    std::string fileName = std::to_string(currentTime);
+    fileName = "screenshot/" + fileName + ".bmp";
+    SDL_Surface* screenShot = SDL_CreateRGBSurface(0, m_texturePosition.w, m_texturePosition.h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+    SDL_RenderReadPixels(m_renderer, &m_texturePosition, screenShot->format->format, screenShot->pixels, screenShot->pitch);
+    SDL_SaveBMP(screenShot, fileName.data());
+    SDL_FreeSurface(screenShot);
+}
 
 
 

@@ -32,3 +32,41 @@ std::ostream& operator<<(std::ostream& os, const Region& region){
     os << "fromX: " << region.fromX << " toX: " << region.toX << " fromY: " << region.fromY << " toY: " << region.toY;
     return os;
 }
+
+void Region::rotate(int degrees, double length){
+    std::cout << length << std::endl;
+    if(length != 4){
+        return;
+    }
+    if(length < 0){
+        length = -length;
+    }
+    double oldFromX;
+    double oldToX;
+    std::cout << *this << std::endl;
+    switch(degrees / 90){
+        case 1:
+            oldFromX = getFromX();
+            oldToX = getToX();
+            fromX = length - toY;
+            toX = length - fromY;
+            fromY = oldFromX;
+            toY = oldToX;
+        case 2:
+            oldFromX = getFromX();
+            oldToX = getToX();
+            fromX = length - toY;
+            toX = length - fromY;
+            fromY = oldFromX;
+            toY = oldToX;
+        case 3:
+            oldFromX = getFromX();
+            oldToX = getToX();
+            fromX = length - toY;
+            toX = length - fromY;
+            fromY = oldFromX;
+            toY = oldToX;
+            std::cout << *this << std::endl;
+            break;
+    }
+}
