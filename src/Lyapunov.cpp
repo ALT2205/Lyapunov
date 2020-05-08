@@ -219,11 +219,36 @@ void Lyapunov::generateSequence(){
 
 // Génère la fractale de Lyapunov dans une région donnée
 void Lyapunov::generate(Region region){
-    m_currentRegion = Region{region};
 
     if(region.getFromX() < 0 || region.getToX() > 4 || region.getFromY() < 0 || region.getToY() > 4){
-        throw std::domain_error("Invalid domain to generate Lyapunov");
+        double fx = region.getFromX();
+        double tx = region.getToX();
+        double fy = region.getFromY();
+        double ty = region.getToY();
+        double longueur =  tx - fx;
+        if (fx < 0) {
+            fx = 0;
+            tx = 0 + longueur;
+        }
+        else if(tx > 4){
+            tx = 4;
+            fx= 4 - longueur;
+        }
+        if(fy < 0){
+            fy = 0;
+            ty = 0 + longueur;
+        }
+        else if (ty > 4){
+            ty = 4;
+            fy = 4 - longueur;
+        }
+        m_currentRegion = Region(fx,tx,fy,ty);
     }
+    else{
+        m_currentRegion = Region{region};
+    }
+    
+    
     if(m_sequence.empty()){
         generateSequence();
     }
