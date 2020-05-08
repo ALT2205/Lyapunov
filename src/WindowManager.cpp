@@ -80,7 +80,7 @@ void WindowManager::eventLoop(){
                     onMouseClick(event.button.x, event.button.y, event.button.button);
                     break;
                 case SDL_MOUSEWHEEL:
-                    onMouseWheel();
+                    onMouseWheel(event.wheel.y);
                     break;
                 case SDL_MOUSEMOTION:
                     m_mousePosition.x = event.motion.x;

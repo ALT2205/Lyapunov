@@ -15,7 +15,7 @@ class Menu : public Gtk::Window {
 
     Gtk::Entry sequence;                       // Champ de saisie de la séquence
     unsigned int precision = 100;              // Précision (lien avec m_precision)
-    Gdk::RGBA m_color[4];                      // Tableau des couleurs selon la vlauer des exposants
+    Gdk::RGBA m_color[4];                      // Tableau des couleurs selon la valeur des exposants
     Gtk::Button menu_write;                    // Bouton de validation de la config des fractales
     Gtk::AccelLabel label_expoNegE;            // Texte affiché à côté de m_color_button_neg_e
     Gtk::AccelLabel label_expoNegS;            // Texte affiché à côté de m_color_button_neg_e
@@ -59,6 +59,8 @@ public :
     void closeButton();
 
     void setColorButton();
+
+    void validate();
 };
 
 #endif

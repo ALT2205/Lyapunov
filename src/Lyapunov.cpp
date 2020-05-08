@@ -6,10 +6,8 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
                    unsigned int lyapunovWidth, unsigned int lyapunovHeight)
         : WindowManager(windowWidth, windowHeight), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
           m_lastPosition{}{
-
     // Ouverture en mode lecture du fichier de configuration
     updateSettings();
-
     m_size.w = (int) lyapunovWidth;
     m_size.h = (int) lyapunovHeight;
     SDL_Rect texturePosition;
@@ -22,6 +20,7 @@ Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
     //La texture est positionnée au milieu de l'écran
     texturePosition.x = (int) ((windowWidth >> 1u) - ((unsigned int) texturePosition.w >> 1u));
     texturePosition.y = (int) ((windowHeight >> 1u) - ((unsigned int) texturePosition.h >> 1u));
+    //Initialisation des fonctions de render
     initRender(m_size, texturePosition);
 }
 
@@ -63,7 +62,6 @@ Region Lyapunov::getRegion(int fromX, int toX, int fromY, int toY){
             //Si x est négatif, alors 0, si x dépasse de la texture, alors la largeur de la texture
             //Ensuite on divise par la largeur de la texture, on multiplie par la largeur actuelle du plan de Lyapunov
             //Et on ajoute l'origine
-            //TODO: Faire une fonction pour simplifier cette partie lourde à lire ?
             (double) (fromX < texturePosition.x ? 0 : fromX > texturePosition.x + texturePosition.w ? texturePosition.w
                                                                                                     : fromX -
                                                                                                       texturePosition.x) /
@@ -157,11 +155,10 @@ void Lyapunov::setColorScale(int tab, Uint32 max, Uint32 min){
 }
 
 
-// Modifie la couleur des pixels  dans un tableau en
-// fonction de la valeur de l'exposant associé à la même
-// position dans le tableau des exposants 2D
+/*Modifie la couleur des pixels  dans un tableau en
+fonction de la valeur de l'exposant associé à la même
+position dans le tableau des exposants 2D*/
 void Lyapunov::updatePixels(){
-
     std::vector<Uint32> pixels(m_size.w * m_size.h);
     int red, green, blue, choixTab;
     double diviseur;
@@ -178,9 +175,7 @@ void Lyapunov::updatePixels(){
         red = (int) (colorScale[choixTab] * exponent) + colorScale[choixTab + 6];
         green = (int) (colorScale[choixTab + 1] * exponent) + colorScale[choixTab + 7];
         blue = (int) (colorScale[choixTab + 2] * exponent) + colorScale[choixTab + 8];
-
         setPixelRGB(pixels, i, red, green, blue);
-
     }
     updateTexture(pixels);
 }
@@ -191,26 +186,26 @@ void Lyapunov::updatePixels(){
 void Lyapunov::generateSequence(){
     std::string sequence;
     bool error = false;
-    std::cout << m_sequence.length()<< std::endl;
-    for(unsigned int i = 0;i< m_sequence.length();i++){
-      switch(m_sequence.at(i)){
-        case 'A' :
-          continue;
-          break;
-        case 'B' :
-          continue;
-          break;
-        default :
-          error = true;
-          break;
-      }
-      if(error){ break;}
+    std::cout << m_sequence.length() << std::endl;
+    for(char i : m_sequence){
+        switch(i){
+            case 'A' :
+            case 'B' :
+                continue;
+            default :
+                error = true;
+        }
+        //Si on arrive ici, alors on a quitté le switch, donc la séquence n'est pas valide
+        break;
     }
     if(m_sequence.empty() || error){
-        std::cout << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB" << std::endl;
+        std::cout
+                << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB"
+                << std::endl;
         m_sequence = "AB";
     }
     sequence = m_sequence;
+    //La séquence est multiplié autant de fois que nécesaire par rapport à la précision
     while((int) m_sequence.length() < m_precision){
         m_sequence += sequence;
     }
@@ -219,70 +214,56 @@ void Lyapunov::generateSequence(){
 
 // Génère la fractale de Lyapunov dans une région donnée
 void Lyapunov::generate(Region region){
-
+    //Si la région est en dehors des limites, on l'ajuste
     if(region.getFromX() < 0 || region.getToX() > 4 || region.getFromY() < 0 || region.getToY() > 4){
         double fx = region.getFromX();
         double tx = region.getToX();
         double fy = region.getFromY();
         double ty = region.getToY();
-        double longueur =  tx - fx;
-        if (fx < 0) {
+        double longueur = tx - fx;
+        if(fx < 0){
             fx = 0;
             tx = 0 + longueur;
-        }
-        else if(tx > 4){
+        } else if(tx > 4){
             tx = 4;
-            fx= 4 - longueur;
+            fx = 4 - longueur;
         }
         if(fy < 0){
             fy = 0;
             ty = 0 + longueur;
-        }
-        else if (ty > 4){
+        } else if(ty > 4){
             ty = 4;
             fy = 4 - longueur;
         }
-        m_currentRegion = Region(fx,tx,fy,ty);
-    }
-    else{
+        m_currentRegion = Region(fx, tx, fy, ty);
+    } else {
         m_currentRegion = Region{region};
     }
-    
-    
     if(m_sequence.empty()){
         generateSequence();
     }
-
-
-    // Cette partie de la focntion est responsable du multi-threading
-    // nécessaire à la création des fractales de Lyapunov
-
-
-    // Nombre de threads en fonction du nombre de threads du CPU
-    // On garde un thread libre pour gérer d'eventuels problèmes
+    /*Cette partie de la fonction est responsable du multi-threading
+    nécessaire à la création des fractales de Lyapunov
+    Nombre de threads en fonction du nombre de threads du CPU
+    On garde un thread libre pour gérer d'eventuels problèmes*/
     unsigned int nbThread = std::thread::hardware_concurrency();
-
     // Vector de threads afin de pouvoir géré le multi-threading
     std::vector<std::thread> threads(nbThread);
-
     // Création des différents threads générant une partie de la fractale de Lyapunov
     for(unsigned int i = 0; i < nbThread; i++){
         threads[i] = std::thread(&Lyapunov::generatePart, this, 0,
                                  i * m_size.w / nbThread, m_size.w,
                                  (i + 1) * m_size.h / nbThread);
     }
-
-    // Permet de synchroniser les différentes opérations gérées dans les threads.
-    // Met également fin aux threads.
+    /* Permet de synchroniser les différentes opérations gérées dans les threads.
+       Met également fin aux threads.*/
     for(auto& th : threads){
         th.join();
     }
     updatePixels();
-    blitTexture();
     SDL_Rect mousePos = getMousePosition();
     // Tracer du rectangle affichant la zone Zoomée
-    drawRect((int) mousePos.x - 200, (int) mousePos.y - 200, 400, 400);
-    updateScreen();
+    drawZoom();
 }
 
 // Permet de générer une partie de la fractale de Lyapunov
@@ -350,21 +331,21 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
 }
 
 // Permet de gérer les différents évenements liés à la souris
-void Lyapunov::onMouseClick(unsigned int x, unsigned int y, unsigned int button){
+void Lyapunov::onMouseClick(int mouseX, int mouseY, int button){
     switch(button){
-        // Un Clic Gauche sur la souris permet de zoomer dans la fractale
         case SDL_BUTTON_LEFT:{
+            // Un Clic Gauche sur la souris permet de zoomer dans la fractale
             m_lastPosition.emplace(m_currentRegion);
-            m_currentRegion = getRegion((int) x - 200, (int) x + 200, (int) y - 200, (int) y + 200);
-            Region temp = Region{m_currentRegion};
-            m_currentRegion.rotate(getDegree(), m_currentRegion.getToX() - m_currentRegion.getFromX());
+            //Décalage des coordonnées
+            int shift = (int) ((unsigned int) m_zoomPrecision >> 1u);
+            int x = mouseX - shift, y = mouseY - shift, w = m_zoomPrecision, h = w;
+            validateRegion(x, y, w, h);
+            m_currentRegion = getRegion(x, x + w, y, y + h);
             generate(m_currentRegion);
-            m_currentRegion = temp;
         }
             break;
-
-            // Un Clic Droit permet de dézoomer grâce à la pile
         case SDL_BUTTON_RIGHT:{
+            // Un Clic Droit permet de dézoomer grâce à la pile
             if(m_lastPosition.empty()){
                 return;
             }
@@ -381,15 +362,14 @@ void Lyapunov::onMouseClick(unsigned int x, unsigned int y, unsigned int button)
 
 // Appelée au moment où le pointeur de la souris est en mouvement
 // Affiche la région de la fractale dans lzquelle on zoome
-void Lyapunov::onMouseMove(unsigned int x, unsigned int y){
+void Lyapunov::onMouseMove(int x, int y){
     long time = getCurrentTime();
+    //60 fps
     if(time - m_lastMove < 16){
         return;
     }
     m_lastMove = time;
-    blitTexture();
-    drawRect((int) x - 200, (int) y - 200, 400, 400);
-    updateScreen();
+    drawZoom();
 }
 
 // S'occupe de la gestion des différents événements : clavier/souris/quit
@@ -398,12 +378,20 @@ void Lyapunov::startLoop(){
 }
 
 // Appelée au moment où la molette de la souris est en action
-void Lyapunov::onMouseWheel(){
-
+void Lyapunov::onMouseWheel(int amount){
+    int max = (int) (getTexturePosition().w * (3 / 4.0));
+    m_zoomPrecision += amount * 10;
+    //Limites
+    if(m_zoomPrecision < 5){
+        m_zoomPrecision = 10;
+    } else if(m_zoomPrecision > max){
+        m_zoomPrecision = max;
+    }
+    drawZoom();
 }
 
-// Permet de déterminer la couleur actuelle
 void Lyapunov::onTick(){
+    //test sur l'arc en ciel
     /*if(!m_stopColor){
         m_currentColor = (360 + (m_currentColor - 5 % 360)) % 360;
         std::cout << m_currentColor << std::endl;
@@ -415,18 +403,9 @@ void Lyapunov::onTick(){
 
 // Gère les différents évenements liés au clavier
 void Lyapunov::onKeyboardUp(int c){
-    switch(c){
-        // Appuyer sur ESPACE permet d'arrêter(reprendre) le défilement
-        // des couleurs dans la fractale : Effet Arc En Ciel
-        case SDLK_SPACE:
-            m_stopColor = !m_stopColor;
-            break;
-
-    }
 }
 
 void Lyapunov::onKeyboardDown(int c){
-    double distance = 0;
     switch(c){
         case SDLK_z:
             addDegree(90);
@@ -441,38 +420,42 @@ void Lyapunov::onKeyboardDown(int c){
             rotateHorizontally();
             break;
             /* Différents déplacements (Pas optimisé) */
-        case SDLK_RIGHT:
-            distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / 2;
+        case SDLK_RIGHT:{
+            double distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / 2;
             m_currentRegion = {m_currentRegion.getFromX() + distance,
                                m_currentRegion.getToX() + distance, m_currentRegion.getFromY(),
                                m_currentRegion.getToY()};
             generate(m_currentRegion);
+        }
             break;
-        case SDLK_LEFT:
-            distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / (-2);
+        case SDLK_LEFT:{
+            double distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / (-2);
             m_currentRegion = {m_currentRegion.getFromX() + distance,
                                m_currentRegion.getToX() + distance, m_currentRegion.getFromY(),
                                m_currentRegion.getToY()};
             generate(m_currentRegion);
+        }
             break;
-        case SDLK_DOWN:
-            distance = (m_currentRegion.getToY() - m_currentRegion.getFromY()) / 2;
+        case SDLK_DOWN:{
+            double distance = (m_currentRegion.getToY() - m_currentRegion.getFromY()) / 2;
             m_currentRegion = {m_currentRegion.getFromX(),
                                m_currentRegion.getToX(), m_currentRegion.getFromY() + distance,
                                m_currentRegion.getToY() + distance};
             generate(m_currentRegion);
+        }
             break;
-        case SDLK_UP:
-            distance = (m_currentRegion.getToY() - m_currentRegion.getFromY()) / (-2);
+        case SDLK_UP:{
+            double distance = (m_currentRegion.getToY() - m_currentRegion.getFromY()) / (-2);
             m_currentRegion = {m_currentRegion.getFromX(),
                                m_currentRegion.getToX(), m_currentRegion.getFromY() + distance,
                                m_currentRegion.getToY() + distance};
             generate(m_currentRegion);
+        }
             break;
         case SDLK_RETURN:
             screenShot();
             break;
-        case SDLK_ESCAPE: {
+        case SDLK_ESCAPE:{
             std::string seq = m_sequence;
             int precis = m_precision;
             Menu k = Menu();
@@ -480,7 +463,7 @@ void Lyapunov::onKeyboardDown(int c){
             Gtk::Main::run(k);
             updateSettings();
 
-            if (seq.compare(m_sequence) != 0 || precis != m_precision){
+            if(seq.compare(m_sequence) != 0 || precis != m_precision){
                 generate();
             }
             updatePixels();
@@ -494,6 +477,32 @@ void Lyapunov::onKeyboardDown(int c){
     }
     blitTexture();
     updateScreen();
+}
+
+void Lyapunov::drawZoom(){
+    SDL_Rect mouse = getMousePosition();
+    int shift = m_zoomPrecision >> 1;
+    int x = mouse.x - shift, y = mouse.y - shift, w = m_zoomPrecision, h = w;
+    validateRegion(x, y, w, h);
+    blitTexture();
+    drawRect(x, y, w, h);
+    updateScreen();
+}
+
+void Lyapunov::validateRegion(int& x, int& y, int& w, int& h){
+    SDL_Rect texture = getTexturePosition();
+    if(x < texture.x){
+        x = texture.x;
+    }
+    if(x + w > texture.x + texture.w){
+        x = texture.x + texture.w - w;
+    }
+    if(y < texture.y){
+        y = texture.y;
+    }
+    if(y + h > texture.y + texture.h){
+        y = texture.y + texture.h - h;
+    }
 }
 
 int main(int argc, char* argv[]){

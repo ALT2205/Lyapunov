@@ -34,7 +34,7 @@ class Lyapunov : WindowManager {
     Uint32 m_colorLyap[4];              // bornes de couleurs dans le même ordre que sur le menu
     int colorScale[12];                 /* Tableau contenant les variations de couleurs et
                                            les couleurs sur lesquelles l'appliquer */
-    long lastScreenshot = 0;
+    int m_zoomPrecision = 400;
 
     void generateSequence();
 
@@ -55,17 +55,21 @@ public:
 
     void setColorScale(int tab, Uint32 max, Uint32 min);
 
+    void drawZoom();
+
+    void validateRegion(int& x, int& y, int& w, int& h);
+
     void updatePixels();
 
     void updateSettings();
 
     void onResized(unsigned int newWidth, unsigned int newHeight) override;
 
-    void onMouseClick(unsigned int x, unsigned int y, unsigned int button) override;
+    void onMouseClick(int mouseX, int mouseY, int button) override;
 
-    void onMouseMove(unsigned int x, unsigned int y) override;
+    void onMouseMove(int x, int y) override;
 
-    void onMouseWheel() override;
+    void onMouseWheel(int amount) override;
 
     void onKeyboardUp(int c) override;
 

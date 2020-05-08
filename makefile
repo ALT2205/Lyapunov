@@ -1,4 +1,4 @@
-FLAGS = -Wall -Wextra -g -std=c++0x -pthread -fdump-tree-optimized
+FLAGS = -Wall -Wextra -g -std=c++0x -pthread
 GTKMM_LIBS = `pkg-config gtkmm-3.0 --cflags --libs`
 SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 SDL_LIBS = -lSDL2

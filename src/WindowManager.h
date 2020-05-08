@@ -60,11 +60,11 @@ public:
 
     virtual void onResized(unsigned int newWidth, unsigned int newHeight) = 0;
 
-    virtual void onMouseClick(unsigned int x, unsigned int y, unsigned int button) = 0;
+    virtual void onMouseClick(int x, int y, int button) = 0;
 
-    virtual void onMouseMove(unsigned int x, unsigned int y) = 0;
+    virtual void onMouseMove(int x, int y) = 0;
 
-    virtual void onMouseWheel() = 0;
+    virtual void onMouseWheel(int amount) = 0;
 
     virtual void onKeyboardUp(int c) = 0;
 
