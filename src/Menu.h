@@ -11,6 +11,7 @@
 #include <vector>
 #include <fstream>
 
+
 class Menu : public Gtk::Window {
 
     Gtk::Entry sequence;                       // Champ de saisie de la séquence

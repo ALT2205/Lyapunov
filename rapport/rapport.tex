@@ -58,7 +58,28 @@
 
 
 \section* {Partie 1 - Algorithmes}
-OUI
+    \subsection*{Gérer la SDL}
+    Pour afficher la fractale, il a fallu travailler avec la SDL, qui est une librairie écrite en C, et donc l'adapter en C++ avec un wrapper, qui est la classe Window Manager.
+    Le but de cette classe est ainsi de pouvoir travailler avec la SDL en évitant les pointeurs, et permettre un découplage entre la SDL et notre programme.
+    Cette classe utilise une texture pour modifier les pixels que l'on veut afficher rapidement, et un render, qui est un élément de la SDL, pour afficher la texture à l'écran.
+    On peut ainsi afficher la fractale facilement sans avoir à se préoccuper du fonctionnement au niveau de la SDL.
+    La SDL fonctionne avec une boucle d'évènement, et pour chaque évènement qui nous intéresse, on peut le traiter avec une fonction évènementielle en dehors de la classe.
+
+    \subsection*{Interactions avec l'utilisateur}
+
+    Afin de pouvoir interagir avec la fractale, on a besoin de pouvoir convertir les coordonnées écrans en coordonnées de Lyapunov.
+    Avec cela, on utilise une région, qui définit les coordonnées de départ et d'arrivée sur les deux axe.
+    Pour convertir, on divise, pour chaque coordonnées, la différence entre le nouveau et l'ancien point par la largeur de la texture, puis on pultiplie par la largeur actuelle et on ajoute l'origin
+
+    \subsubsection*{Le zoom}
+
+    Le zoom est représenté par un carré blanc réglable avec la molette de la souris.
+    En cliquant, on récupère la région en convertissant les coordonnées écrans, et on calcule la zone à afficher avec cette région.
+    Pour dézoomer, on conserve chaque région avant de zoomer que l'on place dans une pile.
+    À chaque clic droit, on récupère cette région et on recalcule pour ré-afficher la fractale
+
+    \subsubsection*{Le déplacement}
+
 
 \section* {Partie 2 - Les choix}
 OUI

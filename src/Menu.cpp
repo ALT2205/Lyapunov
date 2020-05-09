@@ -151,8 +151,8 @@ void Menu::setColorButton(){
         i++;
     }
 
-    m_color_button_neg_s.set_rgba(m_color[0]);
-    m_color_button_neg_e.set_rgba(m_color[1]);
+    m_color_button_neg_e.set_rgba(m_color[0]);
+    m_color_button_neg_s.set_rgba(m_color[1]);
     m_color_button_pos_s.set_rgba(m_color[2]);
     m_color_button_pos_e.set_rgba(m_color[3]);
 }

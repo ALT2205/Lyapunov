@@ -28,8 +28,6 @@ class Lyapunov : WindowManager {
     int m_precision{100};               // Longueur de la séquence nécessaire au calcul de l'exposant
     double maxExpo, minExpo;            // variables pour étirer les couleurs de la texture
     long m_lastMove{getCurrentTime()};  // Temps depuis
-    int m_currentColor{0};              //
-    bool m_stopColor{false};            // Determine si les couleurs de la fractale changent
     std::stack<Region> m_lastPosition;  // Pile qui contient les régions zoomées
     Uint32 m_colorLyap[4];              // bornes de couleurs dans le même ordre que sur le menu
     int colorScale[12];                 /* Tableau contenant les variations de couleurs et
@@ -40,8 +38,7 @@ class Lyapunov : WindowManager {
 
 public:
 
-    Lyapunov(unsigned int windowWidth, unsigned int windowHeight, unsigned int lyapunovWidth,
-             unsigned int lyapunovHeight);
+    Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight);
 
     void generate(Region region = {0, 4, 0, 4});
 
@@ -74,8 +71,6 @@ public:
     void onKeyboardUp(int c) override;
 
     void onKeyboardDown(int c) override;
-
-    void onTick() override;
 
     void startLoop();
 };

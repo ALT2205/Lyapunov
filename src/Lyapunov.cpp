@@ -2,26 +2,14 @@
 
 
 // Constructeur de la classe Lyapunov
-Lyapunov::Lyapunov(unsigned int windowWidth, unsigned int windowHeight,
-                   unsigned int lyapunovWidth, unsigned int lyapunovHeight)
-        : WindowManager(windowWidth, windowHeight), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
+Lyapunov::Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight)
+        : WindowManager(), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
           m_lastPosition{}{
     // Ouverture en mode lecture du fichier de configuration
     updateSettings();
     m_size.w = (int) lyapunovWidth;
     m_size.h = (int) lyapunovHeight;
-    SDL_Rect texturePosition;
-    //La texture fait la taille de l'écran
-    texturePosition.w = (int) windowWidth;
-    texturePosition.h = (int) windowHeight;
-    //Mais la texture est carrée
-    texturePosition.w = texturePosition.h =
-            texturePosition.w < texturePosition.h ? texturePosition.w : texturePosition.h;
-    //La texture est positionnée au milieu de l'écran
-    texturePosition.x = (int) ((windowWidth >> 1u) - ((unsigned int) texturePosition.w >> 1u));
-    texturePosition.y = (int) ((windowHeight >> 1u) - ((unsigned int) texturePosition.h >> 1u));
-    //Initialisation des fonctions de render
-    initRender(m_size, texturePosition);
+    initRender(m_size);
 }
 
 
@@ -63,21 +51,17 @@ Region Lyapunov::getRegion(int fromX, int toX, int fromY, int toY){
             //Ensuite on divise par la largeur de la texture, on multiplie par la largeur actuelle du plan de Lyapunov
             //Et on ajoute l'origine
             (double) (fromX < texturePosition.x ? 0 : fromX > texturePosition.x + texturePosition.w ? texturePosition.w
-                                                                                                    : fromX -
-                                                                                                      texturePosition.x) /
-            (double) texturePosition.w * (m_currentRegion.getToX() - m_currentRegion.getFromX()) +
+            : fromX - texturePosition.x) / (double) texturePosition.w * (m_currentRegion.getToX() - m_currentRegion.getFromX()) +
             m_currentRegion.getFromX(),
             (double) (toX < texturePosition.x ? 0 : toX > texturePosition.x + texturePosition.w ? texturePosition.w :
-                                                    toX - texturePosition.x) / (double) texturePosition.w *
-            (m_currentRegion.getToX() - m_currentRegion.getFromX()) + m_currentRegion.getFromX(),
+            toX - texturePosition.x) / (double) texturePosition.w *(m_currentRegion.getToX() - m_currentRegion.getFromX()) +
+            m_currentRegion.getFromX(),
             (double) (fromY < texturePosition.y ? 0 : fromY > texturePosition.y + texturePosition.h ? texturePosition.h
-                                                                                                    : fromY -
-                                                                                                      texturePosition.y) /
-            (double) texturePosition.h * (m_currentRegion.getToY() - m_currentRegion.getFromY()) +
+            : fromY - texturePosition.y) / (double) texturePosition.h * (m_currentRegion.getToY() - m_currentRegion.getFromY()) +
             m_currentRegion.getFromY(),
             (double) (toY < texturePosition.y ? 0 : toY > texturePosition.y + texturePosition.h ? texturePosition.h :
-                                                    toY - texturePosition.y) / (double) texturePosition.h *
-            (m_currentRegion.getToY() - m_currentRegion.getFromY()) + m_currentRegion.getFromY()};
+            toY - texturePosition.y) / (double) texturePosition.h * (m_currentRegion.getToY() - m_currentRegion.getFromY()) +
+            m_currentRegion.getFromY()};
     return region;
 }
 
@@ -390,36 +374,13 @@ void Lyapunov::onMouseWheel(int amount){
     drawZoom();
 }
 
-void Lyapunov::onTick(){
-    //test sur l'arc en ciel
-    /*if(!m_stopColor){
-        m_currentColor = (360 + (m_currentColor - 5 % 360)) % 360;
-        std::cout << m_currentColor << std::endl;
-        updatePixels();
-        blitTexture();
-        updateScreen();
-    }*/
-}
-
 // Gère les différents évenements liés au clavier
 void Lyapunov::onKeyboardUp(int c){
 }
 
 void Lyapunov::onKeyboardDown(int c){
     switch(c){
-        case SDLK_z:
-            addDegree(90);
-            break;
-        case SDLK_s:
-            addDegree(-90);
-            break;
-        case SDLK_d:
-            rotateVertically();
-            break;
-        case SDLK_q:
-            rotateHorizontally();
-            break;
-            /* Différents déplacements (Pas optimisé) */
+        /* Différents déplacements (Pas optimisé) */
         case SDLK_RIGHT:{
             double distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / 2;
             m_currentRegion = {m_currentRegion.getFromX() + distance,
@@ -515,7 +476,7 @@ int main(int argc, char* argv[]){
     m.writeFile();
 
     // Recupère les saisies dans le fichier de config
-    Lyapunov lyapunov(1400, 1000, 1000, 1000);
+    Lyapunov lyapunov(1000, 1000);
     lyapunov.generate();
     lyapunov.startLoop();
     return EXIT_SUCCESS;
