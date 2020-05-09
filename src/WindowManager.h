@@ -50,8 +50,6 @@ public:
 
     virtual void onMouseWheel(int amount) = 0;
 
-    virtual void onKeyboardUp(int c) = 0;
-
     virtual void onKeyboardDown(int c) = 0;
 
     void eventLoop();

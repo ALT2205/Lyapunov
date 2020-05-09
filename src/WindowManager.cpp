@@ -81,9 +81,6 @@ void WindowManager::eventLoop(){
                     m_mousePosition.y = event.motion.y;
                     onMouseMove(event.motion.x, event.motion.y);
                     break;
-                case SDL_KEYUP:
-                    onKeyboardUp(event.key.keysym.sym);
-                    break;
                 case SDL_KEYDOWN:
                     onKeyboardDown(event.key.keysym.sym);
                     break;
@@ -131,6 +128,7 @@ const SDL_Rect& WindowManager::getMousePosition() const{
 }
 
 void WindowManager::screenShot() const{
+    blitTexture();
     long currentTime = getCurrentTime();
     std::string fileName = std::to_string(currentTime);
     fileName = "screenshot/" + fileName + ".bmp";

@@ -1,7 +1,7 @@
 #ifndef DEF_MENU
 #define DEF_MENU
 #define MINSPIN 10
-#define MAXSPIN 500
+#define MAXSPIN 10000
 
 #include <gtkmm.h>
 #include <gdk/gdk.h>

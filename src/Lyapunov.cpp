@@ -71,57 +71,6 @@ void Lyapunov::setPixelRGB(std::vector<Uint32>& pixels, unsigned int index,
     pixels[index] = (r << 16u) + (g << 8u) + b;
 }
 
-
-
-// Définie la couleur d'un pixel dans l'espace colorimétrique HSV
-// Algorithme de conversion: https://fr.wikipedia.org/wiki/Teinte_Saturation_Valeur#Conversion_de_TSV_vers_RVB
-// Utilisée surtout pour faire le défilement des couleurs en mode arc-en-ciel
-
-void Lyapunov::setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int h, double s, double v){
-    h %= 360;
-    int hi = (int) (h / 60) % 6;
-    switch(hi){
-        case 0:
-            setPixelRGB(pixels, index,
-                        (int) (v * 255), //v
-                        (int) (v * (1 - (1 - (h / 60.0 - (double) hi)) * s) * 255), //n
-                        (int) (v * (1 - s) * 255)); //l
-            break;
-        case 1:
-            setPixelRGB(pixels, index,
-                        (int) (v * (1 - (h / 60.0 - (double) hi) * s) * 255), //m
-                        (int) (v * 255), //v
-                        (int) (v * (1 - s) * 255)); //l
-            break;
-        case 2:
-            setPixelRGB(pixels, index,
-                        (int) (v * (1 - s) * 255), //l
-                        (int) (v * 255), //v
-                        (int) (v * (1 - (1 - (h / 60.0 - (double) hi)) * s) * 255)); //n
-            break;
-        case 3:
-            setPixelRGB(pixels, index,
-                        (int) (v * (1 - s) * 255), //l
-                        (int) (v * (1 - (h / 60.0 - (double) hi) * s) * 255), //m
-                        (int) (v * 255)); //v
-            break;
-        case 4:
-            setPixelRGB(pixels, index,
-                        (int) (v * (1 - (1 - (h / 60.0 - (double) hi)) * s) * 255), //n
-                        (int) (v * (1 - s) * 255), //l
-                        (int) (v * 255)); //v
-            break;
-        case 5:
-            setPixelRGB(pixels, index,
-                        (int) (v * 255), //v
-                        (int) (v * (1 - s) * 255), //l
-                        (int) (v * (1 - (h / 60.0 - (double) hi) * s) * 255)); //m
-            break;
-        default:
-            break;
-    }
-}
-
 // Met dans trois cases de colorScale l'intervalle entre deux couleurs
 // et 6 cases plus loin, les valeurs sur lesquelles doivent être appliqués les variations
 void Lyapunov::setColorScale(int tab, Uint32 max, Uint32 min){
@@ -264,11 +213,13 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
     double bStart = m_currentRegion.getFromY();
     double scaleOfA = ((m_currentRegion.getToX() - aStart) / (double) width);
     double scaleOfB = ((m_currentRegion.getToY() - bStart) / (double) height);
+    double expo;
     // Eviter un appel trop important de log2 : LOG2 (MN) = LOG2(M) + LOG2(N)
     unsigned int numberOfProducts;
     for(y = yStart; y < yEnd; ++y){
         yPos = y * width;
         for(x = xStart; x < xEnd; ++x){
+            i = 0;
             index = yPos + x;
             // Calcul la position de X/Y dans A/B
             a = aStart + x * scaleOfA;
@@ -276,17 +227,19 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
             expoLyap = 0;
 
             xn = X0;
-            numberOfProducts = m_precision / 10;
-            std::vector<double> product(numberOfProducts);
-            for(i = 0; i < numberOfProducts; ++i){
-                product[i] = 1;
-                for(j = i * numberOfProducts; j < (i + 1) * numberOfProducts; ++j){
-                    rn = m_sequence[j] == 'A' ? a : b;
+            while(i < m_precision){
+                expo = 1;
+                while(expo < 1e100){
+                    rn = m_sequence[i] == 'A' ? a : b;
                     xn = rn * xn * (1 - xn);
-                    product[i] *= (fabs(rn * (1 - 2 * xn)));
+                    expo *= (fabs(rn * (1 - 2 * xn)));
+                    ++i;
+                    if(i >= m_precision){
+                        break;
+                    }
                 }
-                product[i] = log2(product[i]);
-                expoLyap += product[i];
+                expo = log2(expo);
+                expoLyap += expo;
             }
             expoLyap = expoLyap / m_precision;
             if(expoLyap < -30){
@@ -367,15 +320,11 @@ void Lyapunov::onMouseWheel(int amount){
     m_zoomPrecision += amount * 10;
     //Limites
     if(m_zoomPrecision < 5){
-        m_zoomPrecision = 10;
+        m_zoomPrecision = 5;
     } else if(m_zoomPrecision > max){
         m_zoomPrecision = max;
     }
     drawZoom();
-}
-
-// Gère les différents évenements liés au clavier
-void Lyapunov::onKeyboardUp(int c){
 }
 
 void Lyapunov::onKeyboardDown(int c){

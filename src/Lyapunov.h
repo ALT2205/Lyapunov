@@ -48,8 +48,6 @@ public:
 
     void setPixelRGB(std::vector<Uint32>& pixels, unsigned int index, unsigned int r, unsigned int g, unsigned int b);
 
-    void setPixelHSV(std::vector<Uint32>& pixels, unsigned int index, int h, double s, double v);
-
     void setColorScale(int tab, Uint32 max, Uint32 min);
 
     void drawZoom();
@@ -67,8 +65,6 @@ public:
     void onMouseMove(int x, int y) override;
 
     void onMouseWheel(int amount) override;
-
-    void onKeyboardUp(int c) override;
 
     void onKeyboardDown(int c) override;
 

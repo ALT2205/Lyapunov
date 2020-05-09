@@ -16,7 +16,7 @@
 
 \usepackage{hyperref}
 \hypersetup{pdfstartview=XYZ}
- 
+
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -65,6 +65,11 @@
     On peut ainsi afficher la fractale facilement sans avoir à se préoccuper du fonctionnement au niveau de la SDL.
     La SDL fonctionne avec une boucle d'évènement, et pour chaque évènement qui nous intéresse, on peut le traiter avec une fonction évènementielle en dehors de la classe.
 
+    \subsection*{Les fractales}
+
+    Pour afficher les fractales à l'écran, on calcule les exposants de Lyapunov, puis séparement, on attribue une couleur à chaque exposant afin de pouvoir changer les couleurs à la volée.
+    Les couleurs sont affichés en RGB.
+
     \subsection*{Interactions avec l'utilisateur}
 
     Afin de pouvoir interagir avec la fractale, on a besoin de pouvoir convertir les coordonnées écrans en coordonnées de Lyapunov.
@@ -76,24 +81,40 @@
     Le zoom est représenté par un carré blanc réglable avec la molette de la souris.
     En cliquant, on récupère la région en convertissant les coordonnées écrans, et on calcule la zone à afficher avec cette région.
     Pour dézoomer, on conserve chaque région avant de zoomer que l'on place dans une pile.
-    À chaque clic droit, on récupère cette région et on recalcule pour ré-afficher la fractale
+    À chaque clic droit, on récupère cette région et on recalcule pour ré-afficher l'ancienne fractale
 
     \subsubsection*{Le déplacement}
 
-
-
-\subsection*{Le Menu}
-Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment. Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement. Nous avons donc opté pour cette libraire afin d'implémenter le menu car elle dispose de nombreux widgets comme des selecteurs de couleurs, ou bien encore des zones de saisie de texte afin de permettre à l'utilisateur de pouvoir choisir la séquence et les couleurs entre autres . Le menu fait principalement appel à plusieurs petites fonctions qui lui permettent de compléter plus facilement le fichier de configuration. Nous avons décidé d'écrire les différents choix de l'utilisateur dans un ficher de configuration afin de pouvoir récuperer facilement et rapidement les valeurs entre les différentes classes sans avoir à passer par un Getter par exemple. Le menu est capable d'écrire les différentes couleurs sous la forme (255 255 255), la séquence saisie et aussi la précision souhaitée par l'utilisateur dans le fichier de configuration. 
+    \subsection*{Le Menu}
+    Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment.
+    Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement.
+    Nous avons donc opté pour cette libraire afin d'implémenter le menu car elle dispose de nombreux widgets comme des selecteurs de couleurs, ou bien encore des zones de saisie de texte afin de permettre à l'utilisateur de pouvoir choisir la séquence et les couleurs entre autres.
+    Le menu fait principalement appel à plusieurs petites fonctions qui lui permettent de compléter plus facilement le fichier de configuration.
+    Nous avons décidé d'écrire les différents choix de l'utilisateur dans un ficher de configuration afin de pouvoir récuperer facilement et rapidement les valeurs entre les différentes classes sans avoir à passer par un Getter par exemple.
+    Le menu est capable d'écrire les différentes couleurs sous la forme (255 255 255), la séquence saisie et aussi la précision souhaitée par l'utilisateur dans le fichier de configuration.
 
 \section* {Partie 2 - Les choix}
 OUI
 
 \section* {Partie 3 - Les difficultés rencontrées}
 \subsection*{Le menu}
-Le menu a été une source de quelques difficultés. Nous avons décidé de nous orienter vers GTKmm, la version de GTK+ pour le C++. GTKmm dispose de nombreux widgets, comme des boutons ou des saisies de texte afin de permettre la création de menu plus facilement qu'en SDL, où l'on doit tout créer. La première et principale difficulté que nous avons rencontrée lors de la création du menu était d'apprendre le fonctionnement des librairies de GTK. Il a fallu apprendre l'utilisation et les normes de GTKmm qui sont très différentes de la SDL que nous connaissions déjà. La création du menu n'a requis que les bases de GTKmm réduisant ainsi la durée d'apprentissage. Le menu a également posé des problèmes de mise en forme. En effet, la première version du menu utilisait des box afin de contenir les différents widgets de GTK comme les boutons ou les labels. Mais, il n'etait pas possible de placer précisement les éléments à l'intérieur du conteneur. On a alors décidé de s'orienter vers une "grid", un conteneur qui permet lui de séparer la fenêtre du menu en plusieurs compartiments. Il était alors beaucoup plus facile de pouvoir positionner les différents éléments qui composent le menu. Mais, un autre problème était source de difficultés : l'affichage des textes à côté des boutons. GTKmm dispose de "labels" qui sont censés permettre à l'utilisateur d'écrire du texte. Mais, il suffisait juste de remplacer les "labels" par une de ses sous classes "AccelLabel".
+Le menu a été une source de quelques difficultés.
+Nous avons décidé de nous orienter vers GTKmm, la version de GTK+ pour le C++.
+GTKmm dispose de nombreux widgets, comme des boutons ou des saisies de texte afin de permettre la création de menu plus facilement qu'en SDL, où l'on doit tout créer.
+La première et principale difficulté que nous avons rencontrée lors de la création du menu était d'apprendre le fonctionnement des librairies de GTK. Il a fallu apprendre l'utilisation et les normes de GTKmm qui sont très différentes de la SDL que nous connaissions déjà.
+La création du menu n'a requis que les bases de GTKmm réduisant ainsi la durée d'apprentissage.
+Le menu a également posé des problèmes de mise en forme.
+En effet, la première version du menu utilisait des box afin de contenir les différents widgets de GTK comme les boutons ou les labels.
+Mais, il n'etait pas possible de placer précisement les éléments à l'intérieur du conteneur.
+On a alors décidé de s'orienter vers une "grid", un conteneur qui permet lui de séparer la fenêtre du menu en plusieurs compartiments.
+Il était alors beaucoup plus facile de pouvoir positionner les différents éléments qui composent le menu.
+Mais, un autre problème était source de difficultés : l'affichage des textes à côté des boutons.
+GTKmm dispose de "labels" qui sont censés permettre à l'utilisateur d'écrire du texte.
+Mais, il suffisait juste de remplacer les "labels" par une de ses sous classes "AccelLabel".
 
 \subsection*{Le Multi Threading}
-La difficulté principale du multi-threading / parallélisation était de comprendre les différents concepts du multi-threading. Une fois, les notions comprises, l'implémentation a été réalisée dans la foulée sans grande difficulté supplémentaire en "découpant" la génération en plusieurs parties. 
+La difficulté principale du multi-threading / parallélisation était de comprendre les différents concepts du multi-threading.
+Une fois, les notions comprises, l'implémentation a été réalisée dans la foulée sans grande difficulté supplémentaire en "découpant" la génération en plusieurs parties.
 
 
 \end {document}
