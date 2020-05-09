@@ -368,7 +368,7 @@ void Lyapunov::onKeyboardDown(int c){
         case SDLK_ESCAPE:{
             std::string seq = m_sequence;
             int precis = m_precision;
-            Menu k = Menu();
+            Menu k = Menu(m_precision);
             k.setColorButton();
             Gtk::Main::run(k);
             updateSettings();

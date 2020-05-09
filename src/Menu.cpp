@@ -2,7 +2,7 @@
 
 
 // Constructeur de la classe Menu : crée les différents boutons nécessaires à la séléction des couleurs.
-Menu::Menu() : menu_write(){
+Menu::Menu(int precision) : menu_write(){
 
     // Créer une fenêtre centrée de taille 450 * 300
     Menu::set_position(Gtk::WIN_POS_CENTER);
@@ -93,7 +93,7 @@ Menu::Menu() : menu_write(){
     label_precision.set_xalign(0.1);
 
     // Création des limites pour le Spin Button : Valeur initiale, valeur minimale/maximale, pas
-    Glib::RefPtr <Gtk::Adjustment> limits = Gtk::Adjustment::create(100, MINSPIN, MAXSPIN, 1);
+    Glib::RefPtr <Gtk::Adjustment> limits = Gtk::Adjustment::create(precision, MINSPIN, MAXSPIN, 1);
     // Définie la limite du bouton
     m_select_precision.set_adjustment(limits);
     // Seulement des nombres peuvent être rentrés
