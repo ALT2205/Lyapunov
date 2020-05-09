@@ -85,6 +85,29 @@
 
     \subsubsection*{Le déplacement}
 
+    \subsection*{La génération}
+Les fractales de Lyapunov sont une certaine représentation d'une suite chaotique calculée à partir des exposants de Lyapunov.
+ L'algorithme de génération des fractales de Lyapunov en 2D dans le plan $[0;4] \times [0,4]$ est séparée en plusieurs étapes. Tout d'abord, on choisit une séquence de A et B.
+ On construit ensuite une séquence Sn suffisament longue constitué d'une répétiton de la séquence de A et B.
+ On choisit un point de coordonées x,y dans le plan de depart.
+ On définit ensuite la fonction $R_n = a$ si $ S_n = A $ et $R_n = b$ sinon.
+On construit ensuite une suite$x_n$ noté $x_{{n+1}}=r_{n}x_{n}(1-x_{n})$ en prenant comme origine $x_0 = 0.5$.
+On calcule ensuite l'exposant de Lyapunov noté $\lambda$ grâce à cette formule :
+
+$$
+\lambda = \lim_{N \to +\infty} \frac{1}{N} \sum_{n=1}^{N} \log | r_n(1-2x_n) |
+$$
+On colore ensuite le pixel correpsondant de la couleur qui lui correspond en fonction de la valeur de l'exposant de Lyapunov associé.
+On répète l'opération pour tous les points du plan.
+
+\subsection*{Le Multi-Threading}
+Afin d'améliorer la vitesse de calcul et d'affichage des fractales de Lyapunov, on utilise la parallélisation. On récupère le nombre de threads du processeur et on découpe ensuite la génération à partir d'un bloc en plusieurs blocs correspondant à chacun une région de la fractale.
+Nousa vons décidé de séparer les différentes régions de la fractale à partir du nombre de "lignes" dans notre tableau.
+ Pour cela, on utilise la librairie <thread> native, qui est assez simple d'utilisatin dans notre cas.
+En effet, en séparant les calculs des exposants, il est possible de gagner un temps assez conséquent lors du calcul de la fractale.
+
+\subsection*{Le Menu}
+Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment. Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement. Nous avons donc opté pour cette libraire afin d'implémenter le menu car elle dispose de nombreux widgets comme des selecteurs de couleurs, ou bien encore des zones de saisie de texte afin de permettre à l'utilisateur de pouvoir choisir la séquence et les couleurs entre autres . Le menu fait principalement appel à plusieurs petites fonctions qui lui permettent de compléter plus facilement le fichier de configuration. Nous avons décidé d'écrire les différents choix de l'utilisateur dans un ficher de configuration afin de pouvoir récuperer facilement et rapidement les valeurs entre les différentes classes sans avoir à passer par un Getter par exemple. Le menu est capable d'écrire les différentes couleurs sous la forme (255 255 255), la séquence saisie et aussi la précision souhaitée par l'utilisateur dans le fichier de configuration. 
     \subsection*{Le Menu}
     Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment.
     Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement.
