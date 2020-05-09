@@ -7,6 +7,7 @@ Lyapunov::Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight)
           m_lastPosition{}{
     // Ouverture en mode lecture du fichier de configuration
     updateSettings();
+    generateSequence();
     m_size.w = (int) lyapunovWidth;
     m_size.h = (int) lyapunovHeight;
     initRender(m_size);
@@ -39,7 +40,6 @@ void Lyapunov::updateSettings(){
     file >> str >> seq;
     m_sequence = seq;
     std::cout << m_sequence << std::endl;
-    generateSequence();
 }
 
 // Renvoie la région sur le plan Lyapunov (entre 0 et 4)
@@ -423,7 +423,10 @@ void Lyapunov::onKeyboardDown(int c){
             k.setColorButton();
             Gtk::Main::run(k);
             updateSettings();
-
+            if (m_sequence.length() == 0){
+                m_sequence = seq;
+            }
+            generateSequence();
             if(seq.compare(m_sequence) != 0 || precis != m_precision){
                 generate();
             }
