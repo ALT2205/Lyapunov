@@ -46,7 +46,7 @@ public:
 
     virtual void onMouseClick(int x, int y, int button) = 0;
 
-    virtual void onMouseMove(int x, int y) = 0;
+    virtual void onMouseMove() = 0;
 
     virtual void onMouseWheel(int amount) = 0;
 

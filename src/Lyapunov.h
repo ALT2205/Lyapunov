@@ -26,11 +26,11 @@ class Lyapunov : WindowManager {
     SDL_Rect m_size;                    // Taille de la fractale de Lyapunov
     Region m_currentRegion{0, 4, 0, 4};  // Correspond à la région d'affichage de la fractale
     int m_precision{100};               // Longueur de la séquence nécessaire au calcul de l'exposant
-    double maxExpo, minExpo;            // variables pour étirer les couleurs de la texture
+    double maxExpo{}, minExpo{};            // variables pour étirer les couleurs de la texture
     long m_lastMove{getCurrentTime()};  // Temps depuis
     std::stack<Region> m_lastPosition;  // Pile qui contient les régions zoomées
-    Uint32 m_colorLyap[4];              // bornes de couleurs dans le même ordre que sur le menu
-    int colorScale[12];                 /* Tableau contenant les variations de couleurs et
+    Uint32 m_colorLyap[4]{};              // bornes de couleurs dans le même ordre que sur le menu
+    int colorScale[12]{};                 /* Tableau contenant les variations de couleurs et
                                            les couleurs sur lesquelles l'appliquer */
     int m_zoomPrecision = 400;
 
@@ -42,13 +42,13 @@ public:
 
     void generate(Region region = {0, 4, 0, 4});
 
-    void generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd);
+    void generatePart(int xStart, int yStart, int xEnd, int yEnd);
 
     Region getRegion(int fromX, int toX, int fromY, int toY);
 
     void setPixelRGB(std::vector<Uint32>& pixels, unsigned int index, unsigned int r, unsigned int g, unsigned int b);
 
-    void setColorScale(int tab, Uint32 max, Uint32 min);
+    void setColorScale(int tab, int max, int min);
 
     void drawZoom();
 
@@ -62,7 +62,7 @@ public:
 
     void onMouseClick(int mouseX, int mouseY, int button) override;
 
-    void onMouseMove(int x, int y) override;
+    void onMouseMove() override;
 
     void onMouseWheel(int amount) override;
 
