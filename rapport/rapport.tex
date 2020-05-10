@@ -83,7 +83,19 @@
     Pour dézoomer, on conserve chaque région avant de zoomer que l'on place dans une pile.
     À chaque clic droit, on récupère cette région et on recalcule pour ré-afficher l'ancienne fractale
 
+
     \subsubsection*{Le déplacement}
+
+    Dans le but de faciliter l'exploration de la fractale, les flêches directionnelles permettent un déplacement d'un demi écran.
+    Dans le cas d'un risque de dépacement de la région {0;4;0;4}, la nouvelle région devient à l'extrémité.
+    
+    \subsubsection*{Le Menu}
+    
+    Echap fait réapparaitre le menu pour changer de fractale. Si seule la couleur est inchangée le programme ne recalcule pas les valeurs et met à jour seulement le tableau de couleurs.
+    
+    \subsubsection*{Capture}
+
+    Le bouton Entrée génère une image au format bmp à partir de la surface du renderer. Cette image est ensuite stockée dans le dossier screenshot.
 
     \subsection*{La génération}
 Les fractales de Lyapunov sont une certaine représentation d'une suite chaotique calculée à partir des exposants de Lyapunov.
@@ -107,14 +119,13 @@ Nousa vons décidé de séparer les différentes régions de la fractale à part
 En effet, en séparant les calculs des exposants, il est possible de gagner un temps assez conséquent lors du calcul de la fractale.
 
 \subsection*{Le Menu}
-Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment. Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement. Nous avons donc opté pour cette libraire afin d'implémenter le menu car elle dispose de nombreux widgets comme des selecteurs de couleurs, ou bien encore des zones de saisie de texte afin de permettre à l'utilisateur de pouvoir choisir la séquence et les couleurs entre autres . Le menu fait principalement appel à plusieurs petites fonctions qui lui permettent de compléter plus facilement le fichier de configuration. Nous avons décidé d'écrire les différents choix de l'utilisateur dans un ficher de configuration afin de pouvoir récuperer facilement et rapidement les valeurs entre les différentes classes sans avoir à passer par un Getter par exemple. Le menu est capable d'écrire les différentes couleurs sous la forme (255 255 255), la séquence saisie et aussi la précision souhaitée par l'utilisateur dans le fichier de configuration. 
-    \subsection*{Le Menu}
-    Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment.
-    Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement.
-    Nous avons donc opté pour cette libraire afin d'implémenter le menu car elle dispose de nombreux widgets comme des selecteurs de couleurs, ou bien encore des zones de saisie de texte afin de permettre à l'utilisateur de pouvoir choisir la séquence et les couleurs entre autres.
-    Le menu fait principalement appel à plusieurs petites fonctions qui lui permettent de compléter plus facilement le fichier de configuration.
-    Nous avons décidé d'écrire les différents choix de l'utilisateur dans un ficher de configuration afin de pouvoir récuperer facilement et rapidement les valeurs entre les différentes classes sans avoir à passer par un Getter par exemple.
-    Le menu est capable d'écrire les différentes couleurs sous la forme (255 255 255), la séquence saisie et aussi la précision souhaitée par l'utilisateur dans le fichier de configuration.
+Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment. Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement. Nous avons donc opté pour cette libraire afin d'implémenter le menu car elle dispose de nombreux widgets comme des selecteurs de couleurs, ou bien encore des zones de saisie de texte afin de permettre à l'utilisateur de pouvoir choisir la séquence et les couleurs entre autres . Le menu fait principalement appel à plusieurs petites fonctions qui lui permettent de compléter plus facilement le fichier de configuration. Nous avons décidé d'écrire les différents choix de l'utilisateur dans un ficher de configuration afin de pouvoir récuperer facilement et rapidement les valeurs entre les différentes classes sans avoir à passer par un Getter par exemple. Le menu est capable d'écrire les différentes couleurs sous la forme (255 255 255), la séquence saisie et aussi la précision souhaitée par l'utilisateur dans le fichier de configuration.
+
+\subsection*{Les Couleurs}
+
+Les couleurs sont obtenues depuis le fichier configuration, ensuite, on stocke dans un tableau et répartis selon les composantes rouges, vertes, et bleues, les différences entre la couleur maximale et minimale suivant le signe de l'exposant, puis la couleur à qui cette différence a été imputée.
+Les valeurs maximale et minimale de l'exposant de la région  calculée sont stockées, pour créer une échelle de couleurs suivant le signe.
+Pour chaque composante de couleur, la différence de couleur est multipliée par la division de l'exposant par la borne adaptée et enfin ajoutée à la couleur stockée.
 
 \section* {Partie 2 - Les choix}
 OUI
@@ -138,6 +149,11 @@ Mais, il suffisait juste de remplacer les "labels" par une de ses sous classes "
 \subsection*{Le Multi Threading}
 La difficulté principale du multi-threading / parallélisation était de comprendre les différents concepts du multi-threading.
 Une fois, les notions comprises, l'implémentation a été réalisée dans la foulée sans grande difficulté supplémentaire en "découpant" la génération en plusieurs parties.
+
+\subsection*{Effets d'image}
+
+Originellement, nous avions prévu d'octroyer à l'utilisateur la possibilité de tourner la texture de 90° ou de la renverser à volonté. Cependant, ce n'était pas compatible avec la fonction de zoom, ces effets ont donc été supprimées du programme final.
+
 
 
 \end {document}
