@@ -1,6 +1,5 @@
 #include "Lyapunov.h"
 
-
 // Constructeur de la classe Lyapunov
 Lyapunov::Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight)
         : WindowManager(), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
@@ -13,33 +12,25 @@ Lyapunov::Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight)
     initRender(m_size);
 }
 
-
 void Lyapunov::updateSettings(){
     std::ifstream file("config.txt");
     std::string str;
     int r, g, b, i = 0, precis;
-
     // On recupère d'abord les couleurs stockées dans un  tableau de Pixels(Uint32)
     while(i < 4 && file >> str >> r >> g >> b){
-        m_colorLyap[i] = (r << 16u) + (g << 8u) + b;
-        std::cout << r << " " << g << " " << b << std::endl;
+        m_colorLyap[i] = ((unsigned int)r << 16u) + ((unsigned int)g << 8u) + b;
         i++;
     }
-
     // Création des tableaux contenant les variations de couleurs en fonction des bornes
     setColorScale(0, m_colorLyap[1], m_colorLyap[0]); //Neg
     setColorScale(3, m_colorLyap[3], m_colorLyap[2]); //Pos
-
     // On recupère ensite la précision souhaitée
     file >> str >> precis;
     m_precision = precis;
-    std::cout << m_precision << std::endl;
-
     // On récupère finalement la sequence
     std::string seq;
     file >> str >> seq;
     m_sequence = seq;
-    std::cout << m_sequence << std::endl;
 }
 
 // Renvoie la région sur le plan Lyapunov (entre 0 et 4)
@@ -51,16 +42,22 @@ Region Lyapunov::getRegion(int fromX, int toX, int fromY, int toY){
             //Ensuite on divise par la largeur de la texture, on multiplie par la largeur actuelle du plan de Lyapunov
             //Et on ajoute l'origine
             (double) (fromX < texturePosition.x ? 0 : fromX > texturePosition.x + texturePosition.w ? texturePosition.w
-            : fromX - texturePosition.x) / (double) texturePosition.w * (m_currentRegion.getToX() - m_currentRegion.getFromX()) +
+                                                                                                    : fromX -
+                                                                                                      texturePosition.x) /
+            (double) texturePosition.w * (m_currentRegion.getToX() - m_currentRegion.getFromX()) +
             m_currentRegion.getFromX(),
             (double) (toX < texturePosition.x ? 0 : toX > texturePosition.x + texturePosition.w ? texturePosition.w :
-            toX - texturePosition.x) / (double) texturePosition.w *(m_currentRegion.getToX() - m_currentRegion.getFromX()) +
+                                                    toX - texturePosition.x) / (double) texturePosition.w *
+            (m_currentRegion.getToX() - m_currentRegion.getFromX()) +
             m_currentRegion.getFromX(),
             (double) (fromY < texturePosition.y ? 0 : fromY > texturePosition.y + texturePosition.h ? texturePosition.h
-            : fromY - texturePosition.y) / (double) texturePosition.h * (m_currentRegion.getToY() - m_currentRegion.getFromY()) +
+                                                                                                    : fromY -
+                                                                                                      texturePosition.y) /
+            (double) texturePosition.h * (m_currentRegion.getToY() - m_currentRegion.getFromY()) +
             m_currentRegion.getFromY(),
             (double) (toY < texturePosition.y ? 0 : toY > texturePosition.y + texturePosition.h ? texturePosition.h :
-            toY - texturePosition.y) / (double) texturePosition.h * (m_currentRegion.getToY() - m_currentRegion.getFromY()) +
+                                                    toY - texturePosition.y) / (double) texturePosition.h *
+            (m_currentRegion.getToY() - m_currentRegion.getFromY()) +
             m_currentRegion.getFromY()};
     return region;
 }
@@ -73,10 +70,8 @@ void Lyapunov::setPixelRGB(std::vector<Uint32>& pixels, unsigned int index,
 
 // Met dans trois cases de colorScale l'intervalle entre deux couleurs
 // et 6 cases plus loin, les valeurs sur lesquelles doivent être appliqués les variations
-void Lyapunov::setColorScale(int tab, Uint32 max, Uint32 min){
-    int currMax = max;
-    int currMin = min;
-    //std::cout  << std::endl << "begin " << max << " " << min << std::endl;
+void Lyapunov::setColorScale(int tab, int max, int min){
+    int currMax, currMin;
     for(int i = 2; i >= 0; i--){
         currMax = max % 256;
         currMin = min % 256;
@@ -119,7 +114,6 @@ void Lyapunov::updatePixels(){
 void Lyapunov::generateSequence(){
     std::string sequence;
     bool error = false;
-    std::cout << m_sequence.length() << std::endl;
     for(char i : m_sequence){
         switch(i){
             case 'A' :
@@ -139,7 +133,7 @@ void Lyapunov::generateSequence(){
     }
     sequence = m_sequence;
     //La séquence est multiplié autant de fois que nécesaire par rapport à la précision
-    while((int) m_sequence.length() < m_precision){
+    while((int)m_sequence.length() < m_precision){
         m_sequence += sequence;
     }
 }
@@ -149,24 +143,21 @@ void Lyapunov::generateSequence(){
 void Lyapunov::generate(Region region){
     //Si la région est en dehors des limites, on l'ajuste
     if(region.getFromX() < 0 || region.getToX() > 4 || region.getFromY() < 0 || region.getToY() > 4){
-        double fx = region.getFromX();
-        double tx = region.getToX();
-        double fy = region.getFromY();
-        double ty = region.getToY();
-        double longueur = tx - fx;
+        double fx = region.getFromX(), tx = region.getToX(), fy = region.getFromY(), ty = region.getToY(), length =
+                tx - fx;
         if(fx < 0){
             fx = 0;
-            tx = 0 + longueur;
+            tx = length;
         } else if(tx > 4){
             tx = 4;
-            fx = 4 - longueur;
+            fx = 4 - length;
         }
         if(fy < 0){
             fy = 0;
-            ty = 0 + longueur;
+            ty = length;
         } else if(ty > 4){
             ty = 4;
-            fy = 4 - longueur;
+            fy = 4 - length;
         }
         m_currentRegion = Region(fx, tx, fy, ty);
     } else {
@@ -194,7 +185,6 @@ void Lyapunov::generate(Region region){
         th.join();
     }
     updatePixels();
-    SDL_Rect mousePos = getMousePosition();
     // Tracer du rectangle affichant la zone Zoomée
     drawZoom();
 }
@@ -202,20 +192,19 @@ void Lyapunov::generate(Region region){
 // Permet de générer une partie de la fractale de Lyapunov
 // Entre différentes coordonnées. Utile pour le multi-threading
 // Calcul de l'exposant de Lyapunov : https://en.wikipedia.org/wiki/Lyapunov_fractal#Algorithm_for_generating_Lyapunov_fractals
-void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned int xEnd, unsigned int yEnd){
+void Lyapunov::generatePart(int xStart, int yStart, int xEnd, int yEnd){
     //Utilisation de variable local pour améliorer la performance
-    unsigned int width = m_size.w, height = m_size.h, x, y, yPos, index, i, j;
+    int width = m_size.w, height = m_size.h, x, y, yPos, index, i;
     double a, b, expoLyap, xn, rn;
     minExpo = 0;
     maxExpo = 0;
     // Echelle d'espacement entre chaque a/b pour x/y
-    double aStart = m_currentRegion.getFromX();
-    double bStart = m_currentRegion.getFromY();
-    double scaleOfA = ((m_currentRegion.getToX() - aStart) / (double) width);
-    double scaleOfB = ((m_currentRegion.getToY() - bStart) / (double) height);
-    double expo;
+    double aStart = m_currentRegion.getFromX(),
+            bStart = m_currentRegion.getFromY(),
+            scaleOfA = ((m_currentRegion.getToX() - aStart) / (double) width),
+            scaleOfB = ((m_currentRegion.getToY() - bStart) / (double) height),
+            expo;
     // Eviter un appel trop important de log2 : LOG2 (MN) = LOG2(M) + LOG2(N)
-    unsigned int numberOfProducts;
     for(y = yStart; y < yEnd; ++y){
         yPos = y * width;
         for(x = xStart; x < xEnd; ++x){
@@ -241,7 +230,7 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
                 expo = log2(expo);
                 expoLyap += expo;
             }
-            expoLyap = expoLyap / m_precision;
+            expoLyap /= m_precision;
             if(expoLyap < -30){
                 expoLyap = minExpo;
             } else if(expoLyap > 30){
@@ -252,7 +241,6 @@ void Lyapunov::generatePart(unsigned int xStart, unsigned int yStart, unsigned i
             maxExpo = (expoLyap > maxExpo) ? expoLyap : maxExpo;
         }
     }
-//    std::cout<< "min " << minExpo << " max " << maxExpo << std::endl;
 }
 
 // Permet de modifier la taille de la fractale de Lyapunov
@@ -263,8 +251,6 @@ void Lyapunov::onResized(unsigned int newWidth, unsigned int newHeight){
     newPos.x = (int) ((newWidth >> 1u) - ((unsigned int) newPos.w >> 1u));
     newPos.y = (int) ((newHeight >> 1u) - ((unsigned int) newPos.h >> 1u));
     setTexturePosition(newPos);
-    //blitTexture();
-    //updateScreen();
 }
 
 // Permet de gérer les différents évenements liés à la souris
@@ -299,7 +285,7 @@ void Lyapunov::onMouseClick(int mouseX, int mouseY, int button){
 
 // Appelée au moment où le pointeur de la souris est en mouvement
 // Affiche la région de la fractale dans lzquelle on zoome
-void Lyapunov::onMouseMove(int x, int y){
+void Lyapunov::onMouseMove(){
     long time = getCurrentTime();
     //60 fps
     if(time - m_lastMove < 16){
@@ -372,12 +358,12 @@ void Lyapunov::onKeyboardDown(int c){
             k.setColorButton();
             Gtk::Main::run(k);
             updateSettings();
-            if (m_sequence.length() == 0){
+            if(m_sequence.length() == 0){
                 m_sequence = seq;
             }
             generateSequence();
-            if(seq.compare(m_sequence) != 0 || precis != m_precision){
-                generate();
+            if(seq != m_sequence || precis != m_precision){
+                generate(m_currentRegion);
             }
             updatePixels();
             blitTexture();
@@ -394,7 +380,7 @@ void Lyapunov::onKeyboardDown(int c){
 
 void Lyapunov::drawZoom(){
     SDL_Rect mouse = getMousePosition();
-    int shift = m_zoomPrecision >> 1;
+    int shift = (int)((unsigned int)m_zoomPrecision >> 1u);
     int x = mouse.x - shift, y = mouse.y - shift, w = m_zoomPrecision, h = w;
     validateRegion(x, y, w, h);
     blitTexture();
