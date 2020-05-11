@@ -55,8 +55,12 @@ tabsize=3,
 \begin {document}
 	\vspace*{-2pt}
 	{\let\newpage\relax\maketitle} \thispagestyle{fancy}
-
-	\section{Fonctionnement générale}
+	\vspace{-2cm}
+	\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.3]{zircon}
+	\end{figure}
+	\section{Fonctionnement général}
 	\subsection{Gérer la SDL}
 	Pour afficher la fractale, il a fallu travailler avec la SDL, qui est une librairie écrite en C, et donc l'adapter en C++ avec un wrapper, qui est la classe Window Manager.
 	Le but de cette classe est ainsi de pouvoir travailler avec la SDL en évitant les pointeurs, et permettre un découplage entre la SDL et notre programme.
@@ -140,6 +144,7 @@ tabsize=3,
     \subsection{La librairie graphique}
     Nous avons utilisé la SDL car c'est une librairie que nous connaissons, et bien qu'elle fut créée pour le C, il est possible de l'utiliser pour le C++.
     Nous avons étudié d'autres libraries mais elles semblaient moins adapté pour de l'affichage pixel par pixel.
+	Nous avons également utilisé GTKmm pour la création d'un menu grâce à sa facilité d'utilisation et de création d'interfaces graphiques.
 
 	\section{Les difficultés rencontrées}
 
@@ -170,5 +175,12 @@ tabsize=3,
     \section{Ressentis personnels}
 
 	\section{Installation}
+	Deux librairies sont à installer :
+	\subsection* {Debian-based : Debian, Ubuntu,...}
+		apt-get install libgtkmm-3.0-dev
+		apt-get install libsdl2-dev
+	\subsection* {RedHat-like : Fedora, CentOS, ...}
+		yum install libgtkmm-3.0-dev
+		yum install libsdl2-dev
 
 \end {document}
