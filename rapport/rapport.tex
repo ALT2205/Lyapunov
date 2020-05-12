@@ -29,14 +29,14 @@
 \textbf{Page \thepage/\pageref{LastPage}}}
 \fancyfoot[R]{15/05/2020}
 
-\definecolor{darkWhite}{rgb}{0.92,0.92,0.92}
-
+\definecolor{lightgray}{rgb}{0.92, 0.92, 0.92}
+\newcommand\code[1]{ \colorbox{lightgray}{\texttt{#1}}}
 
 \lstset{frame=tb,
 language=C,
 showstringspaces=false,
 columns=flexible,
-backgroundcolor=\color{darkWhite},
+backgroundcolor=\color{lightGray},
 basicstyle={\small\ttfamily},
 numbers=left,
 numberstyle=\tiny\color{black},
@@ -49,9 +49,11 @@ breaklines=true,
 breakatwhitespace=true,
 tabsize=3,
 }
+
 \title{Rapport de projet : Lyapunov}
 \date{}
 \AtEndDocument{\label{LastPage}}
+
 \begin {document}
 	\vspace*{-2pt}
 	{\let\newpage\relax\maketitle} \thispagestyle{fancy}
@@ -176,11 +178,16 @@ tabsize=3,
 
 	\section{Installation}
 	Deux librairies sont à installer :
-	\subsection* {Debian-based : Debian, Ubuntu,...}
-		apt-get install libgtkmm-3.0-dev
-		apt-get install libsdl2-dev
+	\subsection* {Debian-based : Debian, Ubuntu, ...}
+		\code{apt-get install libgtkmm-3.0-dev} \newline
+		\code{apt-get install libsdl2-dev}
 	\subsection* {RedHat-like : Fedora, CentOS, ...}
-		yum install libgtkmm-3.0-dev
-		yum install libsdl2-dev
+		\code{yum install libgtkmm-3.0-dev} \newline
+		\code{yum install libsdl2-dev}
+	\subsection* {Compiler - Executer}
+		Se placer dans le dossier Lyapunov et executer la commande dans un terminal: \newline
+		\code{make} \newline
+		Executer ensuite la commande :\newline
+		\code{./lyapunov}
 
 \end {document}
