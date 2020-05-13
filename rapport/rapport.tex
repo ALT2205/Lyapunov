@@ -12,6 +12,7 @@
 \usepackage{microtype}
 \usepackage{pdfpages}
 \usepackage{listings}
+\usepackage{enumitem}
 \usepackage{color}
 
 \usepackage{hyperref}
@@ -22,7 +23,7 @@
 \pagestyle{fancy}
 \usepackage{lastpage}
 \renewcommand\headrulewidth{0.4pt}
-\fancyhead[L]{Vallet - Lefebvre - Casteleiro}
+\fancyhead[L]{Casteleiro - Lefebvre - Vallet}
 \fancyhead[R]{Prep'ISIMA}
 \renewcommand\footrulewidth{0.4pt}
 \fancyfoot[C]{
@@ -30,24 +31,14 @@
 \fancyfoot[R]{15/05/2020}
 
 \definecolor{lightgray}{rgb}{0.92, 0.92, 0.92}
-\newcommand\code[1]{ \colorbox{lightgray}{\texttt{#1}}}
 
-\lstset{frame=tb,
-language=C,
+\lstset{frame=single,
+backgroundcolor=\color{lightgray},
+language=bash,
 showstringspaces=false,
-columns=flexible,
-backgroundcolor=\color{lightGray},
 basicstyle={\small\ttfamily},
-numbers=left,
-numberstyle=\tiny\color{black},
-framexleftmargin=16pt,
-framexrightmargin=-10pt,
-keywordstyle=\color{blue},
-commentstyle=\color{white},
-stringstyle=\color{violet},
-breaklines=true,
-breakatwhitespace=true,
-tabsize=3,
+numbers=none,
+tabsize=2,
 }
 
 \title{Rapport de projet : Lyapunov}
@@ -59,9 +50,10 @@ tabsize=3,
 	{\let\newpage\relax\maketitle} \thispagestyle{fancy}
 	\vspace{-2cm}
 	\begin{figure}[!h]
-	\centering
-	\includegraphics[scale=0.3]{zircon}
+		\centering
+		\includegraphics[scale=0.3]{zircon}
 	\end{figure}
+	\tableofcontents
 	\section{Fonctionnement général}
 	\subsection{Gérer la SDL}
 	Pour afficher la fractale, il a fallu travailler avec la SDL, qui est une librairie écrite en C, et donc l'adapter en C++ avec un wrapper, qui est la classe Window Manager.
@@ -73,7 +65,7 @@ tabsize=3,
 	\subsection{Génération et affichage}
 	Les fractales de Lyapunov sont une certaine représentation d'une suite chaotique calculée à partir des exposants de Lyapunov.
 	L'algorithme de génération des fractales de Lyapunov en 2D dans le plan $[0,4] \times [0,4]$ est séparée en plusieurs étapes.
-    Tout d'abord, on choisit une séquence de A et B.
+	Tout d'abord, on choisit une séquence de A et B.
 	On construit ensuite une séquence Sn suffisament longue constitué d'une répétiton de la séquence de A et B.
 	On choisit un point de coordonées x,y dans le plan de depart.
 	On définit ensuite la fonction $R_n = a$ si $ S_n = A $ et $R_n = b$ sinon.
@@ -82,70 +74,70 @@ tabsize=3,
 	\[
 		\lambda = \lim_{N \to +\infty} \frac{1}{N} \sum_{n=1}^{N} \log | r_n(1-2x_n) |
 	\]
-    Ensuite, pour afficher les fractales à l'écran, on attribue une couleur à chaque exposant afin de pouvoir changer les couleurs à la volée, qui sont représentées en RGB.
-    Nous avons essayé beaucoup de couleurs différentes, ainsi qu'une représentation arc-en-ciel en mouvement.
+	Ensuite, pour afficher les fractales à l'écran, on attribue une couleur à chaque exposant afin de pouvoir changer les couleurs à la volée, qui sont représentées en RGB.
+	Nous avons essayé beaucoup de couleurs différentes, ainsi qu'une représentation arc-en-ciel en mouvement.
 
 	\subsection{Optimisation et Multi-Threading}
 
-    L'opération la plus coûteuse dans le calcul de l'exposant est le logarithme, mais puisqu'on réalise des sommes de logarithmes, on peut alors utiliser la propriété $\log{a} + \log{b} = \log{a * b}$.
-    Lorsqu'on atteint une certaine limite ($1^{100}$), on prend le logarithme du produit que l'on ajoute au résultat final.
-    Ainsi, on a moins de logarithme à calculer et on gagne en temps de calcul.
+	L'opération la plus coûteuse dans le calcul de l'exposant est le logarithme, mais puisqu'on réalise des sommes de logarithmes, on peut alors utiliser la propriété $\log{a} + \log{b} = \log{a * b}$.
+	Lorsqu'on atteint une certaine limite ($1^{100}$), on prend le logarithme du produit que l'on ajoute au résultat final.
+	Ainsi, on a moins de logarithme à calculer et on gagne en temps de calcul.
 	Afin d'améliorer la vitesse de calcul et d'affichage des fractales de Lyapunov, on utilise aussi la parallélisation.
-    On récupère le nombre de threads du processeur et on découpe ensuite la génération à partir d'un bloc en plusieurs blocs correspondant à chacun une région de la fractale.
+	On récupère le nombre de threads du processeur et on découpe ensuite la génération à partir d'un bloc en plusieurs blocs correspondant à chacun une région de la fractale.
 	Nous avons décidé de séparer les différentes régions de la fractale à partir du nombre de "lignes" dans notre tableau.
 	Pour cela, on utilise la librairie <thread> native, qui est assez simple d'utilisation dans notre cas.
 	En effet, en séparant les calculs des exposants, il est possible de gagner un temps assez conséquent lors du calcul de la fractale.
 
-    \subsection{Les Couleurs}
+	\subsection{Les Couleurs}
 
-    Les couleurs sont obtenues depuis le fichier configuration, ensuite, on stocke dans un tableau et répartis selon les composantes rouges, vertes, et bleues, les différences entre la couleur maximale et minimale suivant le signe de l'exposant, puis la couleur à qui cette différence a été imputée.
-    Les valeurs maximale et minimale de l'exposant de la région calculée sont stockées, pour créer une échelle de couleurs suivant le signe.
-    Pour chaque composante de couleur, la différence de couleur est multipliée par la division de l'exposant par la borne adaptée et enfin ajoutée à la couleur stockée.
+	Les couleurs sont obtenues depuis le fichier configuration, ensuite, on stocke dans un tableau et répartis selon les composantes rouges, vertes, et bleues, les différences entre la couleur maximale et minimale suivant le signe de l'exposant, puis la couleur à qui cette différence a été imputée.
+	Les valeurs maximale et minimale de l'exposant de la région calculée sont stockées, pour créer une échelle de couleurs suivant le signe.
+	Pour chaque composante de couleur, la différence de couleur est multipliée par la division de l'exposant par la borne adaptée et enfin ajoutée à la couleur stockée.
 
-    \subsection{Interactions avec l'utilisateur}
+	\subsection{Interactions avec l'utilisateur}
 
-    Afin de pouvoir interagir avec la fractale, on a besoin de pouvoir convertir les coordonnées écrans en coordonnées de Lyapunov.
-    Avec cela, on utilise une région, qui définit les coordonnées de départ et d'arrivée sur les deux axe.
-    Pour convertir, on divise, pour chaque coordonnées, la différence entre le nouveau et l'ancien point par la largeur de la texture, puis on pultiplie par la largeur actuelle et on ajoute l'origine.
+	Afin de pouvoir interagir avec la fractale, on a besoin de pouvoir convertir les coordonnées écrans en coordonnées de Lyapunov.
+	Avec cela, on utilise une région, qui définit les coordonnées de départ et d'arrivée sur les deux axe.
+	Pour convertir, on divise, pour chaque coordonnées, la différence entre le nouveau et l'ancien point par la largeur de la texture, puis on pultiplie par la largeur actuelle et on ajoute l'origine.
 
-    \subsubsection{Le zoom}
+	\subsubsection{Le zoom}
 
-    Le zoom est représenté par un carré blanc réglable avec la molette de la souris.
-    En cliquant, on récupère la région en convertissant les coordonnées écrans, et on calcule la zone à afficher avec cette région.
-    Pour dézoomer, on conserve chaque région avant de zoomer que l'on place dans une pile.
-    À chaque clic droit, on récupère cette région et on recalcule pour ré-afficher l'ancienne fractale
+	Le zoom est représenté par un carré blanc réglable avec la molette de la souris.
+	En cliquant, on récupère la région en convertissant les coordonnées écrans, et on calcule la zone à afficher avec cette région.
+	Pour dézoomer, on conserve chaque région avant de zoomer que l'on place dans une pile.
+	À chaque clic droit, on récupère cette région et on recalcule pour ré-afficher l'ancienne fractale
 
-    \subsubsection{Le déplacement}
+	\subsubsection{Le déplacement}
 
-    Pour se déplacer, on utilise les flêches directionnelles qui permettent un déplacement d'un demi-écran.
-    Si on essaye de se déplacer en dehors de la bordure, la région reste collée à la bordure
+	Pour se déplacer, on utilise les flêches directionnelles qui permettent un déplacement d'un demi-écran.
+	Si on essaye de se déplacer en dehors de la bordure, la région reste collée à la bordure
 
-    \subsubsection{Le Menu}
+	\subsubsection{Le Menu}
 
-    La touche Echap fait réapparaitre le menu pour pouvoir changer les options des fractales.
-    On peut ainsi changer les couleurs, la précision et la séquence.
-    Si seule la couleur est inchangée le programme ne recalcule pas les valeurs et met à jour seulement les couleurs
+	La touche Echap fait réapparaitre le menu pour pouvoir changer les options des fractales.
+	On peut ainsi changer les couleurs, la précision et la séquence.
+	Si seule la couleur est inchangée le programme ne recalcule pas les valeurs et met à jour seulement les couleurs
 
-    \subsubsection{Capture}
+	\subsubsection{Capture}
 
-    Pour pouvoir exporter la représentation, on appuie sur la touche Entrée, qui génère une image BMP, stockée dans le dossier screenshot.
+	Pour pouvoir exporter la représentation, on appuie sur la touche Entrée, qui génère une image BMP, stockée dans le dossier screenshot.
 
-    \subsection{Le Menu}
+	\subsection{Le Menu}
 	Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment.
 	Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement.
 	Nous avons donc opté pour cette libraire afin d'implémenter le menu car elle dispose de nombreux widgets comme des selecteurs de couleurs, ou bien encore des zones de saisie de texte afin de permettre à l'utilisateur de pouvoir choisir la séquence et les couleurs entre autres .
 	Le menu fait principalement appel à plusieurs petites fonctions qui lui permettent de compléter plus facilement le fichier de configuration.
 	Nous avons décidé d'écrire les différents choix de l'utilisateur dans un ficher de configuration afin de pouvoir récuperer facilement et rapidement les valeurs entre les différentes classes sans avoir à passer par un Getter par exemple.
-    Le menu est capable d'écrire les différentes couleurs sous la forme (255 255 255), la séquence saisie et aussi la précision souhaitée par l'utilisateur dans le fichier de configuration.
+	Le menu est capable d'écrire les différentes couleurs sous la forme (255 255 255), la séquence saisie et aussi la précision souhaitée par l'utilisateur dans le fichier de configuration.
 
 	\section{Les choix}
 
-    \subsection{Le langage}
-    Nous avons décidé d'utiliser le langage C++ car c'est un langage nouveau pour nous, et intéressant de le maîtriser.
+	\subsection{Le langage}
+	Nous avons décidé d'utiliser le langage C++ car c'est un langage nouveau pour nous, et intéressant de le maîtriser.
 
-    \subsection{La librairie graphique}
-    Nous avons utilisé la SDL car c'est une librairie que nous connaissons, et bien qu'elle fut créée pour le C, il est possible de l'utiliser pour le C++.
-    Nous avons étudié d'autres libraries mais elles semblaient moins adapté pour de l'affichage pixel par pixel.
+	\subsection{La librairie graphique}
+	Nous avons utilisé la SDL car c'est une librairie que nous connaissons, et bien qu'elle fut créée pour le C, il est possible de l'utiliser pour le C++.
+	Nous avons étudié d'autres libraries mais elles semblaient moins adapté pour de l'affichage pixel par pixel.
 	Nous avons également utilisé GTKmm pour la création d'un menu grâce à sa facilité d'utilisation et de création d'interfaces graphiques.
 
 	\section{Les difficultés rencontrées}
@@ -172,22 +164,47 @@ tabsize=3,
 	\subsection{Effets d'image}
 
 	Originellement, nous avions prévu d'octroyer à l'utilisateur la possibilité de tourner la texture de 90° ou de la renverser à volonté.
-    Cependant, ce n'était pas compatible avec la fonction de zoom, ces effets ont donc été supprimées du programme final.
-
-    \section{Ressentis personnels}
+	Cependant, ce n'était pas compatible avec la fonction de zoom, ces effets ont donc été supprimées du programme final.
 
 	\section{Installation}
-	Deux librairies sont à installer :
-	\subsection* {Debian-based : Debian, Ubuntu, ...}
-		\code{apt-get install libgtkmm-3.0-dev} \newline
-		\code{apt-get install libsdl2-dev}
-	\subsection* {RedHat-like : Fedora, CentOS, ...}
-		\code{yum install libgtkmm-3.0-dev} \newline
-		\code{yum install libsdl2-dev}
-	\subsection* {Compiler - Executer}
-		Se placer dans le dossier Lyapunov et executer la commande dans un terminal: \newline
-		\code{make} \newline
-		Executer ensuite la commande :\newline
-		\code{./lyapunov}
+	\subsection{Bibliothèques}
+	\noindent Deux bibliothèques sont à installer:\\
+	- Debian-based (Debian, Ubuntu, \ldots)
+	\begin{lstlisting}
+		$ sudo apt-get install libsdl2-dev
+	\end{lstlisting}
+	\begin{lstlisting}
+		$ sudo apt-get install libgtkmm-3.0-dev
+	\end{lstlisting}
+	- RedHat-like (Fedora, CentOS, \ldots)
+	\begin{lstlisting}
+		$ sudo yum install libsdl2-dev
+	\end{lstlisting}
+	\begin{lstlisting}
+		$ sudo yum install libgtkmm-3.0-dev
+	\end{lstlisting}
+	\subsection{Téléchargemement}
+	\noindent Récupérer le dossier depuis le dépôt git:\\
+	- SSH
+	\begin{lstlisting}
+		$ git clone git@gitlab.isima.fr:anlefebvre1/lyapunov.git
+	\end{lstlisting}
+	- HTTPS
+	\begin{lstlisting}
+		$ git clone https://gitlab.isima.fr/anlefebvre1/lyapunov.git
+	\end{lstlisting}
+	\subsection{Compiler - Exécuter}
+	\noindent Se placer dans le dossier lyapunov
+	\begin{lstlisting}
+		$ cd lyapunov/
+	\end{lstlisting}
+	Exécuter la commande dans un terminal: \newline
+	\begin{lstlisting}
+		$ make
+	\end{lstlisting}
+	Exécuter ensuite la commande pour lancer l'exécutable:\newline
+	\begin{lstlisting}
+		$ ./lyapunov
+	\end{lstlisting}
 
 \end {document}
