@@ -1,7 +1,9 @@
 #include "Menu.h"
 
 
-// Constructeur de la classe Menu : crée les différents boutons nécessaires à la séléction des couleurs.
+/*
+ * Constructeur de la classe Menu : crée les différents boutons nécessaires à la séléction des couleurs.
+ */
 Menu::Menu(int precision) : menu_write(){
 
     // Créer une fenêtre centrée de taille 450 * 300
@@ -135,6 +137,10 @@ Menu::Menu(int precision) : menu_write(){
     add(grid);
 }
 
+/*
+ * Permet d'écrire dans le fichier de config et de quitter le menu.
+ */
+
 void Menu::validate(){
     writeFile();
     close();
@@ -157,31 +163,37 @@ void Menu::setColorButton(){
     m_color_button_pos_e.set_rgba(m_color[3]);
 }
 
-// Fonction appelée lors d'un changement de couleur sur le bouton de la borne minimale négative
+/*
+ * Fonction appelée lors d'un changement de couleur sur le bouton de la borne minimale négative
+ */
 void Menu::setColorMinNegExpo(){
     m_color[0] = m_color_button_neg_e.get_rgba();
-    // std::cout << m_color[0].to_string() << std::endl;
 }
 
-// Fonction appelée lors d'un changement de couleur sur le bouton de la borne maximale négative
+/*
+ * Fonction appelée lors d'un changement de couleur sur le bouton de la borne maximale négative
+ */
 void Menu::setColorMaxNegExpo(){
     m_color[1] = m_color_button_neg_s.get_rgba();
-    // std::cout << m_color[1].to_string() << std::endl;
 }
 
-// Fonction appelée lors d'un changement de couleur sur le bouton de la borne minimale positive
+/*
+ * Fonction appelée lors d'un changement de couleur sur le bouton de la borne minimale positive
+ */
 void Menu::setColorMinPosExpo(){
     m_color[2] = m_color_button_pos_s.get_rgba();
-    // std::cout << m_color[2].to_string() << std::endl;
 }
 
-// Fonction appelée lors d'un changement de couleur sur le bouton de la borne maximale positive
+/*
+ * Fonction appelée lors d'un changement de couleur sur le bouton de la borne maximale positive
+ */
 void Menu::setColorMaxPosExpo(){
     m_color[3] = m_color_button_pos_e.get_rgba();
-    // std::cout << m_color[3].to_string() << std::endl;
 }
 
-// Champ de saisie de la séquence
+/*
+ * Champ de saisie de la séquence
+ */
 void Menu::textArea(){
     sequence.set_activates_default(false);
     sequence.set_placeholder_text("Entrez la séquence voulue de A et B");
@@ -192,18 +204,24 @@ void Menu::textArea(){
     grid.attach(sequence, 4, 5, 6, 1);
 }
 
-// Ecriture de la séquence rentrée dans un fichier de config
+/*
+ * Ecriture de la séquence rentrée dans un fichier de config
+ */
 void Menu::getSequence(std::ofstream& file){
     std::string seq = sequence.get_text();
     file << "sequence= " + seq;
 }
 
-// Remplace l'ancienne valeur de la précision par la nouvelle
+/*
+ * Remplace l'ancienne valeur de la précision par la nouvelle
+ */
 void Menu::newPrecision(){
     m_select_precision.set_text(m_select_precision.get_text());
 }
 
-// Convertit une Gdk::RGBA en une chaine de caractères afin d'être exploitée plus tard
+/*
+ * Convertit une Gdk::RGBA en une chaine de caractères afin d'être exploitée plus tard
+ */
 std::string Menu::colorToString(Gdk::RGBA color){
     std::stringstream convertRed;
     std::stringstream convertGreen;
@@ -215,7 +233,9 @@ std::string Menu::colorToString(Gdk::RGBA color){
     return str;
 }
 
-// Ecriture dans le fichier de config des différentes couleurs de l'utilisateur
+/*
+ * Ecriture dans le fichier de config des différentes couleurs de l'utilisateur
+ */
 void Menu::getColor(std::ofstream& file){
     file << "color_neg_+= " + colorToString(m_color[0]) << std::endl;
     file << "color_neg_-= " + colorToString(m_color[1]) << std::endl;
@@ -223,7 +243,9 @@ void Menu::getColor(std::ofstream& file){
     file << "color_pos_+= " + colorToString(m_color[3]) << std::endl;
 }
 
-// Ecriture dans le fichier de config de la précision souhaitée
+/*
+ * Ecriture dans le fichier de config de la précision souhaitée
+ */
 void Menu::getPrecision(std::ofstream& file){
     std::stringstream precis;
     precis << m_select_precision.get_value();
@@ -231,6 +253,9 @@ void Menu::getPrecision(std::ofstream& file){
 }
 
 
+/*
+ * Ecriture des différents paramètres dans le fichier de configuration : couleurs / séquence / précision.
+ */
 void Menu::writeFile(){
     std::ofstream file("config.txt");
     if(!file.is_open()){

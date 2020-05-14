@@ -4,7 +4,6 @@
 Lyapunov::Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight)
         : WindowManager(), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
           m_lastPosition{}{
-    //Ouverture en mode lecture du fichier de configuration
     updateSettings();
     generateSequence();
     m_size.w = (int) lyapunovWidth;
@@ -12,7 +11,11 @@ Lyapunov::Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight)
     initRender(m_size);
 }
 
+/*
+ * Mis a jour des couleurs, de la séquence, et de la précision de la génération des fractales.
+ */
 void Lyapunov::updateSettings(){
+    //Ouverture en mode lecture du fichier de configuration
     std::ifstream file("config.txt");
     std::string str;
     int r, g, b, i = 0, precis;
@@ -324,7 +327,7 @@ void Lyapunov::onMouseWheel(int amount){
  */
 void Lyapunov::onKeyboardDown(int c){
     switch(c){
-        /* Différents déplacements (Pas optimisé) */
+        // Différents déplacements
         case SDLK_RIGHT:{
             double distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / 2;
             m_currentRegion = {m_currentRegion.getFromX() + distance,
@@ -361,16 +364,22 @@ void Lyapunov::onKeyboardDown(int c){
             screenShot();
             break;
         case SDLK_ESCAPE:{
+            /*
+             * On sauvegarde la séquence et la précision afin de détecter une différence avec les nouvelles entrées du menu.
+             */
             std::string seq = m_sequence;
             int precis = m_precision;
             Menu k = Menu(m_precision);
+            // On met à jour les couleurs avec les couleurs précedemment séléctionnées par l'utilisateur.
             k.setColorButton();
             Gtk::Main::run(k);
             updateSettings();
+            // Si la séquence saisie est vide, alors on réutilise l'ancienne.
             if(m_sequence.length() == 0){
                 m_sequence = seq;
             }
             generateSequence();
+            //Si les deux séquences une fois générées sont différentes, ou la précison a été modifiée, alors on regénère les fractales à la région actuelle.
             if(seq != m_sequence || precis != m_precision){
                 generate(m_currentRegion);
             }
@@ -426,7 +435,6 @@ int main(int argc, char* argv[]){
     Menu m = Menu();
     // Ouvre le menu m
     Gtk::Main::run(m);
-    m.writeFile();
     Lyapunov lyapunov(1000, 1000);
     lyapunov.generate();
     lyapunov.startLoop();
