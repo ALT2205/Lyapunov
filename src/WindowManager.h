@@ -21,7 +21,7 @@ class WindowManager {
     SDL_Window* m_window;               // Pointeur sur la fenêtre de la fractale
     SDL_Renderer* m_renderer;           // Renderer qui s'occupe de la génération des fractales
     SDL_Texture* m_texture;             // Texture de la fractale
-    SDL_Rect m_texturePosition;         // Position de la texture de la fractale
+    SDL_Rect m_texturePosition;         // Position de la texture. Utilisé pour éviter de recalculer le x et y
     int m_pitch;                        // Hauteur de la fractale
     SDL_Rect m_mousePosition;           // Position du pointeur de la souris
 

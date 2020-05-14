@@ -54,7 +54,62 @@ tabsize=2,
 		\includegraphics[scale=0.3]{zircon}
 	\end{figure}
 	\tableofcontents
-	\section{Fonctionnement général}
+
+	\section{Installation}
+	\subsection{Bibliothèques}
+	\noindent Deux bibliothèques sont à installer:\\
+	- Debian-based (Debian, Ubuntu, \ldots)
+	\begin{lstlisting}
+	$ sudo apt-get install libsdl2-dev
+	\end{lstlisting}
+	\begin{lstlisting}
+	$ sudo apt-get install libgtkmm-3.0-dev
+	\end{lstlisting}
+	- RedHat-like (Fedora, CentOS, \ldots)
+	\begin{lstlisting}
+	$ sudo yum install libsdl2-dev
+	\end{lstlisting}
+	\begin{lstlisting}
+	$ sudo yum install libgtkmm-3.0-dev
+	\end{lstlisting}
+	\subsection{Téléchargemement}
+	\noindent Récupérer le dossier depuis le dépôt git:\\
+	- SSH
+	\begin{lstlisting}
+	$ git clone git@gitlab.isima.fr:anlefebvre1/lyapunov.git
+	\end{lstlisting}
+	- HTTPS
+	\begin{lstlisting}
+	$ git clone https://gitlab.isima.fr/anlefebvre1/lyapunov.git
+	\end{lstlisting}
+	\subsection{Compiler - Exécuter}
+	\noindent Se placer dans le dossier lyapunov
+	\begin{lstlisting}
+	$ cd lyapunov/
+	\end{lstlisting}
+	Exécuter la commande dans un terminal: \newline
+	\begin{lstlisting}
+	$ make
+	\end{lstlisting}
+	Exécuter ensuite la commande pour lancer l'exécutable:\newline
+	\begin{lstlisting}
+	$ ./lyapunov
+	\end{lstlisting}
+
+	\section{Présentation du programme}
+	\subsection{Menu}
+	En lançant le programme, un menu est affiché afin de choisir les couleurs représentants les valeurs des exposants de Lyapunov, la précision voulu, c'est à dire le nombre d'itérations pour calculer un exposant, et la séquence qui sera utilisée.
+	En appuyant sur Valider, la génération est lancée et les fractales s'affichent.
+	Le menu peut être ré-ouvert en utilisant la touche Echap pour modifier les couleurs, ou changer la précision / séquence.
+	\subsection{Navigation}
+	La navigation se fait avec les flèches directionnelles (haut, bas, gauche, droit), permettant de se déplacer d'un demi-écran.
+	Le zoom se fait avec le clic gauche de la souris, et la zone où l'on va zoomer est représenté par un carré blanc autour de la souris.
+	Le dézoom s'effectue avec le clic droit, pour revenir à la zone avant le zoom.
+	Pour modifier la puissance du zoom, on utilise la molette de la souris.
+	\subsection{Exportation}
+	Pour exporter ce qui apparait à l'écran, on utilise la touche Entrée.
+	La capture d'écran se trouvera dans le dossier 'screenshot' au format bmp.
+	\section{Fonctionnement}
 	\subsection{Gérer la SDL}
 	Pour afficher la fractale, il a fallu travailler avec la SDL, qui est une librairie écrite en C, et donc l'adapter en C++ avec un wrapper, qui est la classe Window Manager.
 	Le but de cette classe est ainsi de pouvoir travailler avec la SDL en évitant les pointeurs, et permettre un découplage entre la SDL et notre programme.
@@ -102,25 +157,18 @@ tabsize=2,
 
 	\subsubsection{Le zoom}
 
-	Le zoom est représenté par un carré blanc réglable avec la molette de la souris.
-	En cliquant, on récupère la région en convertissant les coordonnées écrans, et on calcule la zone à afficher avec cette région.
-	Pour dézoomer, on conserve chaque région avant de zoomer que l'on place dans une pile.
+	En zoomant, on récupère la région en convertissant les coordonnées écrans, et on calcule la zone à afficher avec cette région.
+	Pour pouvoir dézoomer, on conserve chaque région avant de zoomer que l'on place dans une pile.
 	À chaque clic droit, on récupère cette région et on recalcule pour ré-afficher l'ancienne fractale
 
 	\subsubsection{Le déplacement}
 
-	Pour se déplacer, on utilise les flêches directionnelles qui permettent un déplacement d'un demi-écran.
-	Si on essaye de se déplacer en dehors de la bordure, la région reste collée à la bordure
+	La zone où l'on veut se déplacer est calculée selon la région actuelle en ajoutant le demi-écran.
+	Si on essaye de se déplacer en dehors de la bordure, la région reste collée à la bordure.
 
 	\subsubsection{Le Menu}
 
-	La touche Echap fait réapparaitre le menu pour pouvoir changer les options des fractales.
-	On peut ainsi changer les couleurs, la précision et la séquence.
-	Si seule la couleur est inchangée le programme ne recalcule pas les valeurs et met à jour seulement les couleurs
-
-	\subsubsection{Capture}
-
-	Pour pouvoir exporter la représentation, on appuie sur la touche Entrée, qui génère une image BMP, stockée dans le dossier screenshot.
+	Lors d'un changement de paramètre, si seule la couleur est changée, le programme ne recalcule pas les valeurs et met à jour seulement les couleurs
 
 	\subsection{Le Menu}
 	Le menu a été réalisé avec la libraire "GTKmm", la version en C++ de GTK+, la librairie graphique de GIMP notamment.
@@ -133,7 +181,7 @@ tabsize=2,
 	\section{Les choix}
 
 	\subsection{Le langage}
-	Nous avons décidé d'utiliser le langage C++ car c'est un langage nouveau pour nous, et intéressant de le maîtriser.
+	Nous avons décidé d'utiliser le langage C++ car c'est un langage nouveau pour nous, et il est intéressant de le maîtriser.
 
 	\subsection{La librairie graphique}
 	Nous avons utilisé la SDL car c'est une librairie que nous connaissons, et bien qu'elle fut créée pour le C, il est possible de l'utiliser pour le C++.
@@ -164,47 +212,8 @@ tabsize=2,
 	\subsection{Effets d'image}
 
 	Originellement, nous avions prévu d'octroyer à l'utilisateur la possibilité de tourner la texture de 90° ou de la renverser à volonté.
-	Cependant, ce n'était pas compatible avec la fonction de zoom, ces effets ont donc été supprimées du programme final.
-
-	\section{Installation}
-	\subsection{Bibliothèques}
-	\noindent Deux bibliothèques sont à installer:\\
-	- Debian-based (Debian, Ubuntu, \ldots)
-	\begin{lstlisting}
-		$ sudo apt-get install libsdl2-dev
-	\end{lstlisting}
-	\begin{lstlisting}
-		$ sudo apt-get install libgtkmm-3.0-dev
-	\end{lstlisting}
-	- RedHat-like (Fedora, CentOS, \ldots)
-	\begin{lstlisting}
-		$ sudo yum install libsdl2-dev
-	\end{lstlisting}
-	\begin{lstlisting}
-		$ sudo yum install libgtkmm-3.0-dev
-	\end{lstlisting}
-	\subsection{Téléchargemement}
-	\noindent Récupérer le dossier depuis le dépôt git:\\
-	- SSH
-	\begin{lstlisting}
-		$ git clone git@gitlab.isima.fr:anlefebvre1/lyapunov.git
-	\end{lstlisting}
-	- HTTPS
-	\begin{lstlisting}
-		$ git clone https://gitlab.isima.fr/anlefebvre1/lyapunov.git
-	\end{lstlisting}
-	\subsection{Compiler - Exécuter}
-	\noindent Se placer dans le dossier lyapunov
-	\begin{lstlisting}
-		$ cd lyapunov/
-	\end{lstlisting}
-	Exécuter la commande dans un terminal: \newline
-	\begin{lstlisting}
-		$ make
-	\end{lstlisting}
-	Exécuter ensuite la commande pour lancer l'exécutable:\newline
-	\begin{lstlisting}
-		$ ./lyapunov
-	\end{lstlisting}
+	Cependant, notre manière de récupérer la région cliqué n'était pas compatible avec le fait de pouvoir faire des rotations.
+	Une tentative a néanmoins été faite, nous permettant de faire une rotation et de zoomer correctement, mais cela ne marchait que pour le premier niveau de zoom.
+	Nous avons jugé que cette fonctionnalité n'était pas très importante, et que changer notre implémantation n'en aurait pas valu la peine, puisque la rotation peut se faire facilement par l'utilisateur à l'aide d'un éditeur d'image après exportation.
 
 \end {document}

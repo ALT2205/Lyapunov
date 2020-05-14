@@ -46,8 +46,6 @@ public:
 
     Region getRegion(int fromX, int toX, int fromY, int toY);
 
-    void setPixelRGB(std::vector<Uint32>& pixels, unsigned int index, unsigned int r, unsigned int g, unsigned int b);
-
     void setColorScale(int tab, int max, int min);
 
     void drawZoom();
