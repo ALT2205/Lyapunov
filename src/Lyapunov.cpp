@@ -66,14 +66,15 @@ Region Lyapunov::getRegion(int fromX, int toX, int fromY, int toY){
     return region;
 }
 
-// Met dans trois cases de colorScale l'intervalle entre deux couleurs
-// et 6 cases plus loin, les valeurs sur lesquelles doivent être appliqués les variations
+// Fonction pour extraire un dégradé RGB à partir de deux couleurs en Uint32
 void Lyapunov::setColorScale(int tab, int max, int min){
     int currMax, currMin;
-    for(int i = 2; i >= 0; i--){
+    for(int i = 2; i >= 0; i--){ // à chaque itération, une composante RGB différente 
         currMax = max % 256;
         currMin = min % 256;
+// Met dans trois cases de colorScale la différence entre deux couleurs
         colorScale[tab + i] = currMax - currMin;
+// et 6 cases plus loin, les valeurs sur lesquelles doivent être appliqués les variations
         colorScale[tab + 6 + i] = currMin;
         max = (max - currMax) / 256;
         min = (min - currMin) / 256;
@@ -91,13 +92,16 @@ void Lyapunov::updatePixels(){
     for(int i = 0, size = m_size.w * m_size.h; i < size; ++i){
         exponent = m_exponents[i];
         if(exponent > 0){
+            //Cas où l'exposant positif : on prend comme diviseur l'exposant maximal et le tableau de couleur adapté
             choixTab = 3;
             diviseur = maxExpo;
         } else {
+            //Cas où l'exposant négatif : on prend comme diviseur l'exposant minimal et le tableau de couleur adapté
             choixTab = 0;
             diviseur = minExpo;
         }
-        exponent /= diviseur;
+        // (exp/diviseur)* composante RGB qui varie + composante RGB sur laquelle agir
+        exponent /= diviseur; // cela permet de créer un intervalle de couleurs
         red = (int) (colorScale[choixTab] * exponent) + colorScale[choixTab + 6];
         green = (int) (colorScale[choixTab + 1] * exponent) + colorScale[choixTab + 7];
         blue = (int) (colorScale[choixTab + 2] * exponent) + colorScale[choixTab + 8];
@@ -233,7 +237,11 @@ void Lyapunov::generatePart(int xStart, int yStart, int xEnd, int yEnd){
                 }
                 expoLyap += log2(expo);
             }
+            /*Recherche des valeurs minimales et maximales pour fournir un intervalle d'exposants positifs et un négatifs
+            pour établir un intervalle de couleurs*/
             expoLyap /= m_precision;
+            /* Les valeurs négatives pouvant atteindre -infini, si une valeur est très importante négativement
+            elle prend comme nouvelle valeur le minimum actuel pour un meilleur dégradé*/
             if(expoLyap < -30){
                 expoLyap = minExpo;
             } else if(expoLyap > 30){
@@ -333,18 +341,24 @@ void Lyapunov::onMouseWheel(int amount){
 void Lyapunov::onKeyboardDown(int c){
     switch(c){
         // Différents déplacements
+        // Une pression fait une distance d'une moitié de largeur d'une région
         case SDLK_RIGHT:{
+            //Définition de la distance et du sens
             double distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / 2;
+            //Définition de la nouvelle région
             m_currentRegion = {m_currentRegion.getFromX() + distance,
-                               m_currentRegion.getToX() + distance, m_currentRegion.getFromY(),
+                               m_currentRegion.getToX() + distance,
+                               m_currentRegion.getFromY(),
                                m_currentRegion.getToY()};
+            //Génération et affichage de la nouvelle region
             generate(m_currentRegion);
         }
             break;
         case SDLK_LEFT:{
             double distance = (m_currentRegion.getToX() - m_currentRegion.getFromX()) / (-2);
             m_currentRegion = {m_currentRegion.getFromX() + distance,
-                               m_currentRegion.getToX() + distance, m_currentRegion.getFromY(),
+                               m_currentRegion.getToX() + distance, 
+                               m_currentRegion.getFromY(),
                                m_currentRegion.getToY()};
             generate(m_currentRegion);
         }
@@ -352,7 +366,8 @@ void Lyapunov::onKeyboardDown(int c){
         case SDLK_DOWN:{
             double distance = (m_currentRegion.getToY() - m_currentRegion.getFromY()) / 2;
             m_currentRegion = {m_currentRegion.getFromX(),
-                               m_currentRegion.getToX(), m_currentRegion.getFromY() + distance,
+                               m_currentRegion.getToX(), 
+                               m_currentRegion.getFromY() + distance,
                                m_currentRegion.getToY() + distance};
             generate(m_currentRegion);
         }
@@ -360,7 +375,8 @@ void Lyapunov::onKeyboardDown(int c){
         case SDLK_UP:{
             double distance = (m_currentRegion.getToY() - m_currentRegion.getFromY()) / (-2);
             m_currentRegion = {m_currentRegion.getFromX(),
-                               m_currentRegion.getToX(), m_currentRegion.getFromY() + distance,
+                               m_currentRegion.getToX(), 
+                               m_currentRegion.getFromY() + distance,
                                m_currentRegion.getToY() + distance};
             generate(m_currentRegion);
         }
