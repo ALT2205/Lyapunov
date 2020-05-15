@@ -25,8 +25,6 @@ public:
     double getFromY() const;
 
     double getToY() const;
-
-    void rotate(int degrees, double length);
 };
 
 

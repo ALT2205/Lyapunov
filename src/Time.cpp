@@ -4,7 +4,9 @@
 
 #include "Time.h"
 
-// Retourne le temps acutel depuis l'UTC
+/*
+ * Renvoie le timestamp actuel en milliseconde
+ */
 long getCurrentTime(){
     return std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
