@@ -12,7 +12,6 @@
 \usepackage{microtype}
 \usepackage{pdfpages}
 \usepackage{listings}
-\usepackage{enumitem}
 \usepackage{color}
 
 \usepackage{hyperref}
@@ -41,20 +40,23 @@ numbers=none,
 tabsize=2,
 }
 
+
 \title{Rapport de projet : Lyapunov}
 \date{}
+\author{Projet réalisé par : Adrien Casteleiro, Antoine Lefebvre et Baptiste Vallet}
 \AtEndDocument{\label{LastPage}}
 
 \begin {document}
 	\vspace*{-2pt}
 	{\let\newpage\relax\maketitle} \thispagestyle{fancy}
-	\vspace{-2cm}
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[scale=0.3]{zircon}
+		\caption{Zircon City - Projet Lyapunov}
 	\end{figure}
+\newpage
 	\tableofcontents
-
+	\newpage
 	\section{Installation}
 	\subsection{Bibliothèques}
 	\noindent Deux bibliothèques sont à installer:\\
@@ -100,6 +102,8 @@ tabsize=2,
 	\subsection{Menu}
 	En lançant le programme, un menu est affiché afin de choisir les couleurs représentants les valeurs des exposants de Lyapunov, la précision voulue, c'est à dire le nombre d'itérations pour calculer un exposant, et la séquence qui sera utilisée.
 	En appuyant sur Valider, la génération est lancée et les fractales s'affichent.
+	Si l'utilisateur ne rentre pas de séquence lors de la première ouverture du menu, alors une séquence est générée aléatoirement afin de permettre à l'utilisateur de découvrir de nouvelles fractales.
+	L'utilisateur peut récupérer la séquence aléatoire via la console.
 	Le menu peut être ré-ouvert en utilisant la touche Echap pour modifier les couleurs, ou changer la précision / séquence.
 	Si la séquence est laissée vide lors de la réouverture du menu, alors la dernière séquence sera prise en compte sans que l'utilisateur n'ait à entrer une nouvelle fois la séquence.
 
@@ -134,7 +138,7 @@ tabsize=2,
 	Ensuite, pour afficher les fractales à l'écran, on attribue une couleur à chaque exposant afin de pouvoir changer les couleurs à la volée, qui sont représentées en RGB.
 	Nous avons essayé beaucoup de représentations différentes, ainsi qu'une représentation arc-en-ciel en mouvement.
 
-	\subsection{Optimisation et Multi-Threading}
+	\subsection{Optimisation et multi-threading}
 
 	L'opération la plus coûteuse dans le calcul de l'exposant est le logarithme, mais puisqu'on réalise des sommes de logarithmes, on peut alors utiliser la propriété $\log(a) + \log(b) = \log(a \times b)$.
 	Lorsqu'on atteint une certaine limite (ici $1.10^{100}$: le type double nous permet d'atteindre ces valeurs suffisament élevées), on prend le logarithme du produit que l'on ajoute au résultat final.
@@ -145,7 +149,7 @@ tabsize=2,
 	Pour cela, on utilise la bibliothèque <thread> native, qui est assez simple d'utilisation dans notre cas.
 	En effet, en séparant les calculs des exposants sur différents threads, il est possible de gagner un temps assez conséquent lors du calcul de la fractale.
 
-	\subsection{Les Couleurs}
+	\subsection{Les couleurs}
 
 	Les couleurs sont obtenues depuis le fichier de configuration.
 	Ensuite, on stocke dans un tableau et répartis selon les composantes rouges, vertes, et bleues, les différences entre la couleur maximale et minimale suivant le signe de l'exposant, puis la couleur à qui cette différence a été imputée.
@@ -169,12 +173,8 @@ tabsize=2,
 	La zone où l'on veut se déplacer est calculée selon la région actuelle en ajoutant le demi-écran.
 	Si on essaye de se déplacer en dehors de la bordure, la région reste collée à la bordure.
 
-	\subsubsection{Le Menu}
 
-	Lors d'un changement de paramètre, si seule la couleur est changée, le programme ne recalcule pas les valeurs et met à jour seulement les couleurs.
-	Cela permet à l'utilisateur d'essayer différentes déclinaisons de couleurs sans qu'il ait besoin d'attendre une regénération.
-
-	\subsection{Le Menu}
+	\subsection{Le menu}
 	Le menu a été réalisé avec la bibliothèque <GTKmm>, la version en C++ de GTK+, la bibliothèque graphique de GIMP notamment.
 	Elle dispose de nombreuses classes afin de permettre à l'utilisateur de créer des interfaces graphiques et des menus de navigation très facilement.
 	Nous avons donc opté pour cette libraire afin d'implémenter le menu car elle dispose de nombreux widgets comme des selecteurs de couleurs, ou bien encore des zones de saisie de texte afin de permettre à l'utilisateur de pouvoir choisir la séquence et les couleurs entre autres .
@@ -209,7 +209,7 @@ tabsize=2,
 	GTKmm dispose de "labels" qui sont censés permettre à l'utilisateur d'écrire du texte.
 	Mais, il suffisait juste de remplacer les "labels" par une de ses sous classes "AccelLabel".
 
-	\subsection{Le Multi Threading}
+	\subsection{Le multi-threading}
 	La difficulté principale du multi-threading / parallélisation était de comprendre les différents concepts du multi-threading.
 	Une fois, les notions comprises, l'implémentation a été réalisée dans la foulée sans grande difficulté supplémentaire en "découpant" la génération en plusieurs parties.
 

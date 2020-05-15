@@ -125,10 +125,15 @@ void Lyapunov::generateSequence(){
         break;
     }
     if(m_sequence.empty() || error){
-        std::cout
-                << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. Default Sequence : AB"
-                << std::endl;
-        m_sequence = "AB";
+        std::cout << "An error in the construction of the sequence has been detected. Sequence must contains only A and B. "<< std::endl;
+        int lengthSequence = rand() % m_precision;
+        int charRand;
+        m_sequence="";
+        for(int i = 0; i < lengthSequence; ++i){
+            charRand = rand()%2;
+            m_sequence+= (charRand==0?"A":"B");
+        }
+        std::cout << "Sequence : " << m_sequence << std::endl;
     }
     sequence = m_sequence;
     //La séquence est multiplié autant de fois que nécesaire par rapport à la précision
@@ -429,6 +434,7 @@ void Lyapunov::validateRegion(int& x, int& y, int& w, int& h){
 }
 
 int main(int argc, char* argv[]){
+    srand(time(nullptr));
     (void) argc, (void) argv;
     // Nécessaire à l'utilisation d'une fenêtre gtk
     Gtk::Main app(argc, argv);
