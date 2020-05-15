@@ -1,6 +1,6 @@
-color_neg_+= 239 41 41
+color_neg_+= 255 255 0
 color_neg_-= 49 30 0
 color_pos_-= 0 192 255
 color_pos_+= 0 28 85
-precision= 1000
-sequence= 
+precision= 100
+sequence= AAAABBBB
