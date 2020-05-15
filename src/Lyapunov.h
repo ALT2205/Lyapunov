@@ -37,7 +37,7 @@ class Lyapunov : WindowManager {
 
 public:
 
-    Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight);
+    Lyapunov();
 
     void generate(Region region = {0, 4, 0, 4});
 

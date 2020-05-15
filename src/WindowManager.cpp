@@ -16,7 +16,7 @@ WindowManager::WindowManager()
         throw std::runtime_error(SDL_GetError());
     }
     m_window = SDL_CreateWindow("Fractales de Lyapunov", SDL_WINDOWPOS_UNDEFINED,
-                                SDL_WINDOWPOS_UNDEFINED, 500, 500, SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED);
+                                SDL_WINDOWPOS_UNDEFINED, 0, 0, SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED);
     if(m_window == nullptr){
         throw std::runtime_error(SDL_GetError());
     }
@@ -126,24 +126,20 @@ void WindowManager::setTexturePosition(SDL_Rect texturePosition){
 }
 
 /*
- * Desctructeur s'occupant de fermer la SDL correctement
- */
-WindowManager::~WindowManager(){
-    SDL_DestroyTexture(m_texture);
-    SDL_DestroyRenderer(m_renderer);
-    SDL_DestroyWindow(m_window);
-    SDL_Quit();
-}
-
-/*
  * Renvoie la position de la souris
  */
 const SDL_Rect& WindowManager::getMousePosition() const{
     return m_mousePosition;
 }
 
+int WindowManager::getMaxSize() const{
+    SDL_DisplayMode display;
+    SDL_GetCurrentDisplayMode(0, &display);
+    return display.w < display.h ? display.w : display.h;
+}
+
 /*
- * Fait une capture d'écran enregistré un BMP.
+ * Fait une capture d'écran enregistré en BMP.
  */
 void WindowManager::screenShot() const{
     //On colle la texture pour ne pas afficher le carré du zoom dans la capture
@@ -159,12 +155,12 @@ void WindowManager::screenShot() const{
     SDL_FreeSurface(screenShot);
 }
 
-
-
-
-
-
-
-
-
-
+/*
+ * Desctructeur s'occupant de fermer la SDL correctement
+ */
+WindowManager::~WindowManager(){
+    SDL_DestroyTexture(m_texture);
+    SDL_DestroyRenderer(m_renderer);
+    SDL_DestroyWindow(m_window);
+    SDL_Quit();
+}

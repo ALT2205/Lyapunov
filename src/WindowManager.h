@@ -42,6 +42,8 @@ public:
 
     const SDL_Rect& getMousePosition() const;
 
+    int getMaxSize() const;
+
     virtual void onResized(unsigned int newWidth, unsigned int newHeight) = 0;
 
     virtual void onMouseClick(int x, int y, int button) = 0;

@@ -1,13 +1,11 @@
 #include "Lyapunov.h"
 
 // Constructeur de la classe Lyapunov
-Lyapunov::Lyapunov(unsigned int lyapunovWidth, unsigned int lyapunovHeight)
-        : WindowManager(), m_exponents(lyapunovWidth * lyapunovHeight), m_size(),
-          m_lastPosition{}{
+Lyapunov::Lyapunov()
+        : WindowManager(), m_exponents(getMaxSize() * getMaxSize()), m_size(), m_lastPosition{}{
     updateSettings();
     generateSequence();
-    m_size.w = (int) lyapunovWidth;
-    m_size.h = (int) lyapunovHeight;
+    m_size.h = m_size.w = getMaxSize();
     initRender(m_size);
 }
 
@@ -73,7 +71,6 @@ void Lyapunov::setColorScale(int tab, int max, int min){
         min = (min - currMin) / 256;
     }
 }
-
 
 /*
  * Modifie la couleur des pixels selon les exposants
@@ -320,13 +317,6 @@ void Lyapunov::onMouseWheel(int amount){
 }
 
 /*
- * Lance la boucle d'évènement
- */
-void Lyapunov::startLoop(){
-    eventLoop();
-}
-
-/*
  * Appelée lors d'un appui sur le clavier
  * Utilisé pour les déplacements, le zoom, la capture d'écran et le menu
  */
@@ -409,6 +399,13 @@ void Lyapunov::onKeyboardDown(int c){
 }
 
 /*
+ * Lance la boucle d'évènement
+ */
+void Lyapunov::startLoop(){
+    eventLoop();
+}
+
+/*
  * Affiche un carré au blanc autour de la souris pour représenter le zoom effectif
  */
 void Lyapunov::drawZoom(){
@@ -448,7 +445,7 @@ int main(int argc, char* argv[]){
     Menu m = Menu();
     // Ouvre le menu m
     Gtk::Main::run(m);
-    Lyapunov lyapunov(1000, 1000);
+    Lyapunov lyapunov;
     lyapunov.generate();
     lyapunov.startLoop();
     return EXIT_SUCCESS;
